@@ -97,6 +97,21 @@ For each changed file, read the actual content to understand the context:
 - Focus on understanding the purpose and impact of changes
 - Identify patterns, new components, or modified logic
 
+### 5.5 Conversation Context Analysis
+If there's relevant conversation history in this session:
+- What task was the user working on?
+- What problem were they solving?
+- Any specific feature names or terminology mentioned?
+- User's original intent and requirements
+- Discussions about implementation approach
+
+### 5.6 Combined Analysis
+Synthesize all information from:
+- Commit messages (intent)
+- Git diff (code changes)
+- File content (context)
+- Conversation history (user's goals)
+
 ## Step 6: Generate PR Title
 
 Format: `<emoji> <type>: <description>`

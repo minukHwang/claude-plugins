@@ -42,19 +42,33 @@ git diff --staged --quiet
 If no staged changes exist, output this message and stop:
 "No staged changes found. Please use `git add <file>` to stage your changes first."
 
-## Step 2: Analyze Changes
+## Step 2: Deep Analysis of Changes
 
-Analyze the staged changes:
-
+### 2.1 Diff Analysis
 ```bash
 git diff --staged --stat
 git diff --staged
 ```
 
-Analyze:
+### 2.2 File Content Analysis
+For key changed files, read the actual content to understand context:
+- Use Read tool to examine important changed files
+- Understand the purpose and impact of changes
+- Identify patterns, new components, or modified logic
+
+### 2.3 Conversation Context Analysis
+If there's relevant conversation history in this session:
+- What task was the user working on?
+- What problem were they solving?
+- Any specific feature names or terminology mentioned?
+- User's intent behind the changes
+
+### 2.4 Combined Analysis
+Synthesize all information:
 - Number of changed files
 - Nature of changes (new feature, bug fix, refactoring, etc.)
 - Affected modules/components
+- User's original intent from conversation
 
 ## Step 3: Generate Commit Message
 
