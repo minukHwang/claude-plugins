@@ -35,6 +35,25 @@ git add <files>
 
 ---
 
+### `/git:commit-light` - Create Commit (Light Mode)
+
+Same as `/git:commit` but **saves tokens** by skipping deep analysis.
+
+| Feature | `/git:commit` | `/git:commit-light` |
+|---------|:-------------:|:-------------------:|
+| Git diff analysis | ✅ | ✅ |
+| Commitlint detection | ✅ | ✅ |
+| File content reading | ✅ | ❌ |
+| Conversation context | ✅ | ❌ |
+
+**Usage:**
+```bash
+git add <files>
+/git:commit-light
+```
+
+---
+
 ### `/git:branch` - Create Branch
 
 Creates a new branch with proper naming convention and checks it out.
@@ -92,6 +111,24 @@ Analyzes all changes and creates a comprehensive PR using `gh` CLI.
 
 Title: ✨ feat: Add emotion calendar with monthly navigation
 URL: https://github.com/user/repo/pull/123
+```
+
+---
+
+### `/git:pr-light` - Create Pull Request (Light Mode)
+
+Same as `/git:pr` but **saves tokens** by skipping deep analysis.
+
+| Feature | `/git:pr` | `/git:pr-light` |
+|---------|:---------:|:---------------:|
+| Commit messages | ✅ | ✅ |
+| Git diff analysis | ✅ | ✅ |
+| File content reading | ✅ | ❌ |
+| Conversation context | ✅ | ❌ |
+
+**Usage:**
+```bash
+/git:pr-light
 ```
 
 ## Requirements
