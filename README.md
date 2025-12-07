@@ -36,7 +36,7 @@ A Claude Code plugin marketplace for development workflow automation.
 
 ## Plugins
 
-### git 📄 [docs](./plugins/git/README.md)
+### git
 
 Git workflow automation with smart commits, PRs, and CI monitoring.
 
@@ -56,9 +56,11 @@ Git workflow automation with smart commits, PRs, and CI monitoring.
 - Generates conventional commit messages with gitmoji
 - Integrates with react, readme, notion plugins
 
+📄 [Full documentation](./plugins/git/README.md)
+
 ---
 
-### react 📄 [docs](./plugins/react/README.md)
+### react
 
 React/Next.js code comment automation following CLAUDE.md conventions.
 
@@ -69,9 +71,11 @@ React/Next.js code comment automation following CLAUDE.md conventions.
 
 **Supported files:** `*.tsx`, `*Context.tsx`, `*.service.ts`, `*.query.ts`, `*.dto.ts`, `*.utils.ts`
 
+📄 [Full documentation](./plugins/react/README.md)
+
 ---
 
-### readme 📄 [docs](./plugins/readme/README.md)
+### readme
 
 README auto-generation and updates based on project analysis.
 
@@ -86,9 +90,11 @@ README auto-generation and updates based on project analysis.
 - Placeholder support for early-stage projects
 - Triggered after `/git:pr`
 
+📄 [Full documentation](./plugins/readme/README.md)
+
 ---
 
-### notion 📄 [docs](./plugins/notion/README.md)
+### notion
 
 Notion workspace automation tools.
 
@@ -103,6 +109,8 @@ Notion workspace automation tools.
 - Triggered after `/git:commit`
 
 ⚠️ Requires [Notion MCP setup](#notion-mcp-setup)
+
+📄 [Full documentation](./plugins/notion/README.md)
 
 ---
 
