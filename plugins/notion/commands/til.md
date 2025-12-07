@@ -29,37 +29,37 @@ MCP Guide: https://docs.anthropic.com/en/docs/claude-code/mcp
 
 ## Step 1: Analysis Target Selection (Standalone Mode)
 
-**Ask user:**
+**Ask user (AskUserQuestion):**
 "What would you like to record?"
 
 | Option | Description |
 |--------|-------------|
-| 1 | Analyze recent commits |
-| 2 | Enter specific commit hash |
-| 3 | Describe manually |
+| Recent commits | Analyze recent commits |
+| Specific commit | Enter specific commit hash |
+| Describe manually | Describe the work done |
 
 ※ When triggered from `/git:commit`: Auto-analyze the commit just made (reuse conversation context)
 
-### Option 1: Recent Commit
+### If "Recent commits" selected:
 
 ```bash
 git log -5 --oneline
 ```
 
-**Ask user:**
+**Ask user (AskUserQuestion):**
 "How many commits to analyze?"
 
 | Option | Description |
 |--------|-------------|
-| 1 | Last 1 commit |
-| 2 | Last 3 commits |
-| 3 | Last 5 commits |
+| Last 1 | Analyze only the most recent commit |
+| Last 3 | Analyze the last 3 commits |
+| Last 5 | Analyze the last 5 commits |
 
-### Option 2: Specific Commit
+### If "Specific commit" selected:
 
 User enters commit hash
 
-### Option 3: Manual Description
+### If "Describe manually" selected:
 
 User describes the work done
 
@@ -123,23 +123,23 @@ query: "[Claude] TIL"
 
 #### Case B: Multiple results found
 
-**Ask user:**
+**Ask user (AskUserQuestion):**
 "Multiple TIL databases found. Which one to use?"
 
-Show list of found databases → User selects one
+Show list of found databases as options → User selects one
 
 #### Case C: No results found
 
-**Ask user:**
+**Ask user (AskUserQuestion):**
 "Where should the TIL database be created?"
 
 | Option | Description |
 |--------|-------------|
-| 1 | Search and select a page |
-| 2 | Enter page URL/name directly |
-| 3 | Create at workspace root |
+| Search and select | Search for a page and select it |
+| Enter directly | Enter page URL or name directly |
+| Workspace root | Create at workspace root level |
 
-**Option 1: Search and Select**
+**If "Search and select":**
 ```
 mcp__notion__notion-search
 query: [user's search term]
@@ -147,7 +147,7 @@ query: [user's search term]
 → Show results → User selects parent page
 → Create DB under selected page
 
-**Option 2: Direct Input**
+**If "Enter directly":**
 User enters page URL or name
 ```
 mcp__notion__notion-fetch
@@ -156,7 +156,7 @@ id: [user input]
 → Verify page exists
 → Create DB under that page
 
-**Option 3: Workspace Root**
+**If "Workspace root":**
 ```
 mcp__notion__notion-create-database
 (no parent specified)

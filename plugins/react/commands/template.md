@@ -8,18 +8,28 @@ Display comment template for a specific file type (reference only, no file creat
 
 ## Step 1: Select File Type
 
-**Ask user:**
+### Round 1 - Common Types
+
+**Ask user (AskUserQuestion):**
 "Which file type template do you need?"
 
-| Option | Type |
-|--------|------|
-| 1 | Component |
-| 2 | Context |
-| 3 | Service |
-| 4 | Query |
-| 5 | DTO |
-| 6 | Utils |
-| Other | Enter custom type |
+| Option | Description |
+|--------|-------------|
+| Component | React component with hooks structure |
+| Context | Context + Provider + custom hook |
+| Service | API service with methods |
+| More types | Show Query, DTO, Utils templates |
+
+### Round 2 - If "More types" selected
+
+**Ask user (AskUserQuestion):**
+"Select additional type:"
+
+| Option | Description |
+|--------|-------------|
+| Query | React Query hooks |
+| DTO | Request/Response type definitions |
+| Utils | Utility helper functions |
 
 ## Step 2: Output Template
 

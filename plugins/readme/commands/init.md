@@ -77,7 +77,7 @@ ls screenshots/ 2>/dev/null || ls docs/images/ 2>/dev/null
 
 ### 3.3 Status Confirmation
 
-**Ask user:**
+**Ask user (AskUserQuestion):**
 "Project status: [In Development/Production]. Is this correct?"
 
 | Option | Description |
@@ -99,15 +99,15 @@ ls screenshots/ 2>/dev/null || ls docs/images/ 2>/dev/null
 
 ### Type Confirmation
 
-**Ask user:**
+**Ask user (AskUserQuestion):**
 "Project type: [Type]. Is this correct?"
 
 | Option | Description |
 |--------|-------------|
-| 1 | Frontend |
-| 2 | Backend |
-| 3 | Full-stack |
-| 4 | Other (auto-generate) |
+| Frontend | Frontend project |
+| Backend | Backend project |
+| Full-stack | Full-stack project |
+| Other | Auto-generate based on analysis |
 
 ## Step 5: Generate README
 

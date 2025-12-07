@@ -73,17 +73,17 @@ Show current configuration status and ask user:
   - prepare-commit-msg: ✓ exists
 ```
 
-**Ask user:** "How would you like to proceed?"
+**Ask user (AskUserQuestion):** "How would you like to proceed?"
 
 | Option | Description |
 |--------|-------------|
-| 1 | Skip - Cancel and keep existing config |
-| 2 | Merge - Add missing parts only (safe) |
-| 3 | Overwrite - Replace all config (destructive) |
+| Skip | Cancel and keep existing config |
+| Merge | Add missing parts only (safe) |
+| Overwrite | Replace all config (destructive) |
 
-#### If Skip: Exit with message "Keeping existing configuration."
-#### If Merge: Only add hooks/config that don't exist
-#### If Overwrite: Replace everything
+#### If "Skip": Exit with message "Keeping existing configuration."
+#### If "Merge": Only add hooks/config that don't exist
+#### If "Overwrite": Replace everything
 
 ## Step 2: Check Package Manager
 
@@ -96,14 +96,15 @@ ls yarn.lock 2>/dev/null && echo "yarn"
 ls package-lock.json 2>/dev/null && echo "npm"
 ```
 
-If no lock file found, ask user:
-"Which package manager do you use?"
+If no lock file found:
 
-| Option | Package Manager |
-|--------|-----------------|
-| 1 | pnpm |
-| 2 | npm |
-| 3 | yarn |
+**Ask user (AskUserQuestion):** "Which package manager do you use?"
+
+| Option | Description |
+|--------|-------------|
+| pnpm | Use pnpm |
+| npm | Use npm |
+| yarn | Use yarn |
 
 ## Step 3: Install Dependencies
 
@@ -246,22 +247,23 @@ Show what was detected and ask:
   - lint-staged: ✗
 ```
 
-**Ask user:** "Add pre-commit hook with available tools?"
+**Ask user (AskUserQuestion):** "Add pre-commit hook with available tools?"
 
 | Option | Description |
 |--------|-------------|
-| 1 | Yes, add with detected tools |
-| 2 | No, skip pre-commit hook |
+| Yes | Add with detected tools |
+| No | Skip pre-commit hook |
 
 ### Case C: No tools found
-**Ask user:** "No linting tools detected. Add pre-commit hook?"
+
+**Ask user (AskUserQuestion):** "No linting tools detected. Add pre-commit hook?"
 
 | Option | Description |
 |--------|-------------|
-| 1 | Yes, I'll configure it manually |
-| 2 | No, skip pre-commit hook |
+| Yes, manual | I'll configure it manually |
+| No | Skip pre-commit hook |
 
-If Option 1: Create empty pre-commit hook template:
+If "Yes, manual": Create empty pre-commit hook template:
 ```bash
 # .husky/pre-commit
 # Add your pre-commit commands here

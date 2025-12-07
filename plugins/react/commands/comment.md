@@ -8,30 +8,29 @@ Apply CLAUDE.md comment conventions to React/Next.js files.
 
 ## Step 0: Select Target Files
 
-**Ask user:**
+**Ask user (AskUserQuestion):**
 "Which files should I add comments to?"
 
 | Option | Description |
 |--------|-------------|
-| 1 | All files (all `.tsx`, `.ts` in project) |
-| 2 | Changed files (`git diff` - all modified files) |
-| 3 | Staged files (`git diff --staged` - staged files only) |
-| 4 | Other (enter file path or describe context) |
+| All files | All `.tsx`, `.ts` files in project |
+| Changed files | Modified files from `git diff` |
+| Staged files | Staged files from `git diff --staged` |
 
 ### Get file list:
 
 ```bash
-# Option 1: All files
+# All files
 find src -type f \( -name "*.tsx" -o -name "*.ts" \) | head -50
 
-# Option 2: Changed files
+# Changed files
 git diff --name-only | grep -E '\.(tsx?|ts)$'
 
-# Option 3: Staged files
+# Staged files
 git diff --staged --name-only | grep -E '\.(tsx?|ts)$'
 ```
 
-### Option 4 handling:
+User can also enter custom input via "Other" option:
 - **File path**: `src/components/Button.tsx` → process that file
 - **Context description**: "calendar related" → search and list matching files, confirm with user
 
@@ -66,14 +65,14 @@ Check existing comments:
 
 ## Step 3: Select Comment Mode
 
-**Ask user:**
+**Ask user (AskUserQuestion):**
 "How should I handle comments?"
 
 | Option | Description |
 |--------|-------------|
-| 1 | Add missing (only add where missing) |
-| 2 | Full reformat (reorganize everything) |
-| 3 | Section only (only add section separators) |
+| Add missing | Only add comments where missing |
+| Full reformat | Reorganize all comments |
+| Section only | Only add section separators |
 
 ## Step 4: Apply Comments by File Type
 

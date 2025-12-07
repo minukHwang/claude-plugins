@@ -97,28 +97,29 @@ gh run view <run-id> --log-failed
 
 ## Step 4: Offer Actions
 
-After showing status, ask:
+After showing status:
 
+**Ask user (AskUserQuestion):**
 "What would you like to do?"
 
-| Option | Action |
-|--------|--------|
-| 1 | View detailed logs |
-| 2 | Re-run failed checks |
-| 3 | Fix the issues (if failures found) |
-| 4 | Done |
+| Option | Description |
+|--------|-------------|
+| View logs | View detailed logs |
+| Re-run | Re-run failed checks |
+| Fix issues | Fix the issues (if failures found) |
+| Done | Exit |
 
-### If "View detailed logs" selected:
+### If "View logs" selected:
 ```bash
 gh run view <run-id> --log
 ```
 
-### If "Re-run failed checks" selected:
+### If "Re-run" selected:
 ```bash
 gh run rerun <run-id> --failed
 ```
 
-### If "Fix the issues" selected:
+### If "Fix issues" selected:
 - Read the relevant files mentioned in the error
 - Analyze the code and propose fixes
 - Apply fixes with user confirmation

@@ -23,35 +23,40 @@ Create a new branch following the naming convention and automatically checkout.
 Use cascading selection to show all branch types:
 
 ### Round 1 - Common Types
+
+**Ask user (AskUserQuestion):**
 "Select the branch type:"
 
-| Option | Type | Description |
-|--------|------|-------------|
-| 1 | feature | Adding a new feature or capability |
-| 2 | bugfix | Fixing a bug or issue |
-| 3 | hotfix | Urgent fix for production |
-| 4 | Other | Show more options... |
+| Option | Description |
+|--------|-------------|
+| feature | Adding a new feature or capability |
+| bugfix | Fixing a bug or issue |
+| hotfix | Urgent fix for production |
+| More types | Show more options... |
 
-### Round 2 - If "Other" selected
+### Round 2 - If "More types" selected
+
+**Ask user (AskUserQuestion):**
 "Select the branch type:"
 
-| Option | Type | Description |
-|--------|------|-------------|
-| 1 | release | Release preparation |
-| 2 | docs | Documentation changes |
-| 3 | refactor | Code restructuring |
-| 4 | Other | Show more options... |
+| Option | Description |
+|--------|-------------|
+| release | Release preparation |
+| docs | Documentation changes |
+| refactor | Code restructuring |
+| More types | Show remaining options... |
 
-### Round 3 - If "Other" selected again
-"Select the branch type, or enter a custom type:"
+### Round 3 - If "More types" selected again
 
-| Option | Type | Description |
-|--------|------|-------------|
-| 1 | test | Testing related changes |
-| 2 | chore | Routine maintenance tasks |
+**Ask user (AskUserQuestion):**
+"Select the branch type:"
 
-Also allow direct text input for custom type names (kebab-case).
-User can either select from options OR type a custom name directly.
+| Option | Description |
+|--------|-------------|
+| test | Testing related changes |
+| chore | Routine maintenance tasks |
+
+User can also enter custom type via "Other" option (kebab-case).
 
 ## Step 2: Ask for Description
 

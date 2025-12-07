@@ -13,7 +13,8 @@ ls README.md 2>/dev/null
 ```
 
 If README.md doesn't exist:
-**Ask user:**
+
+**Ask user (AskUserQuestion):**
 "README.md not found. Create one?"
 
 | Option | Description |
@@ -23,14 +24,14 @@ If README.md doesn't exist:
 
 ## Step 1: Analysis Target Selection (Standalone Mode)
 
-**Ask user:**
+**Ask user (AskUserQuestion):**
 "What changes to reflect?"
 
 | Option | Description |
 |--------|-------------|
-| 1 | Full project scan |
-| 2 | PR changes (main..HEAD) |
-| 3 | Describe manually |
+| Full scan | Scan entire project |
+| PR changes | Analyze PR changes (main..HEAD) |
+| Describe | Describe manually |
 
 ※ When triggered from `/git:pr`: Auto-analyze PR changes (reuse conversation context)
 
@@ -115,21 +116,27 @@ Check if content now exists for these sections.
 
 Based on analysis, suggest specific updates:
 
-**Ask user:**
-"Update these sections?"
+### Round 1 - Content Updates
 
-| Section | Suggested Change |
-|---------|------------------|
-| Features | "Add: User authentication with OAuth" |
-| Tech Stack | "Add: React Query for server state" |
-| Technical Challenges | "Add: Session refresh handling" |
-| Screenshots | "Add: 3 new screenshots" |
-| Status | "Remove 'In Development' warning" |
+**Ask user (AskUserQuestion, multiSelect: true):**
+"Which sections to update?"
 
-User can:
-- Select all
-- Select specific sections
-- Skip
+| Option | Description |
+|--------|-------------|
+| Features | Add: [detected features] |
+| Tech Stack | Add: [detected tech] |
+| Technical Challenges | Add: [detected challenges] |
+| More options | Show Screenshots, Status options |
+
+### Round 2 - If "More options" selected
+
+**Ask user (AskUserQuestion, multiSelect: true):**
+"Additional updates:"
+
+| Option | Description |
+|--------|-------------|
+| Screenshots | Add: [detected images] |
+| Status | Remove 'In Development' warning |
 
 ## Step 6: Execute Updates
 

@@ -38,38 +38,42 @@ git branch -r | grep -v HEAD | sed 's/origin\///' | grep -v "^  $(git branch --s
 ```
 
 ### Round 1 - Common Target Branches
+
+**Ask user (AskUserQuestion):**
 "Select target branch:"
 
-| Option | Branch |
-|--------|--------|
-| 1 | main (or master if main doesn't exist) |
-| 2 | develop (if exists) |
-| 3 | Other | Show more branches... |
+| Option | Description |
+|--------|-------------|
+| main | Default branch (or master if main doesn't exist) |
+| develop | Development branch (if exists) |
+| Other | Show more branches... |
 
 ### Round 2+ - If "Other" selected
 Show remaining branches in groups of 3:
 
+**Ask user (AskUserQuestion):**
 "Select target branch:"
 
-| Option | Branch |
-|--------|--------|
+| Option | Description |
+|--------|-------------|
 | 1 | {branch-1} |
 | 2 | {branch-2} |
 | 3 | {branch-3} |
-| 4 | Other | Show more... |
+| 4 | Other - Show more... |
 
 ### Final Round
-When remaining branches are 2 or fewer:
+When remaining branches are 3 or fewer:
 
-"Select target branch, or enter a custom branch name:"
+**Ask user (AskUserQuestion):**
+"Select target branch:"
 
-| Option | Branch |
-|--------|--------|
+| Option | Description |
+|--------|-------------|
 | 1 | {remaining-branch-1} |
 | 2 | {remaining-branch-2} |
+| 3 | {remaining-branch-3} (if exists) |
 
-Also allow direct text input for custom branch names.
-User can either select from options OR type a branch name directly.
+User can also enter custom branch name via "Other" option.
 
 ### Verification
 Verify selected target branch exists:

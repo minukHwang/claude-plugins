@@ -59,41 +59,41 @@ Show what's currently staged and ask for confirmation:
   ?? src/new-file.ts
 ```
 
-**Ask user:** "Proceed with only the staged files above?"
+**Ask user (AskUserQuestion):** "Proceed with only the staged files above?"
 
 | Option | Description |
 |--------|-------------|
-| 1 | Yes, commit only staged files |
-| 2 | Add all remaining changes too |
-| 3 | Select specific files to add |
+| Yes, staged only | Commit only staged files |
+| Add all | Add all remaining changes too |
+| Select files | Let me specify files to add |
 
-#### If Option 1: Proceed to Step 2
-#### If Option 2: Run `git add .` then proceed
-#### If Option 3: Let user specify files, run `git add`, then proceed
+#### If "Yes, staged only": Proceed to Step 2
+#### If "Add all": Run `git add .` then proceed
+#### If "Select files": Let user specify files, run `git add`, then proceed
 
 ### Case C: Nothing staged (all files unstaged)
 Show unstaged files and ask user to add:
 
-**Ask user:** "No staged changes. What would you like to add?"
+**Ask user (AskUserQuestion):** "No staged changes. What would you like to add?"
 
 | Option | Description |
 |--------|-------------|
-| 1 | Add all changes (`git add .`) |
-| 2 | Enter file path or pattern (e.g., `src/components/*.tsx`) |
-| 3 | Describe what to add (e.g., "button related files") |
+| Add all | Add all changes (`git add .`) |
+| Enter path | Enter file path or pattern |
+| Describe | Describe what to add contextually |
 
-#### If Option 1 selected:
+#### If "Add all" selected:
 ```bash
 git add .
 ```
 
-#### If Option 2 selected:
+#### If "Enter path" selected:
 User enters file path/pattern, then:
 ```bash
 git add <user-input>
 ```
 
-#### If Option 3 selected:
+#### If "Describe" selected:
 User describes files contextually (e.g., "calendar related", "auth changes").
 - Analyze `git status` output
 - Match files based on description
