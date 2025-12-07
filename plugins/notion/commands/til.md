@@ -15,15 +15,15 @@ mcp__notion__notion-get-self
 
 If MCP not available:
 ```
-⚠️ Notion MCP가 연결되어 있지 않습니다.
+⚠️ Notion MCP is not connected.
 
-설정 방법:
+Setup:
 1. claude mcp add notion -- npx -y @anthropic-ai/notion-mcp
-2. Notion Integration 토큰 설정 (https://www.notion.so/my-integrations)
-3. Claude Code 재시작
-4. 다시 /notion:til 실행
+2. Set Notion Integration token (https://www.notion.so/my-integrations)
+3. Restart Claude Code
+4. Run /notion:til again
 
-자세한 설정 가이드: https://docs.anthropic.com/en/docs/claude-code/mcp
+MCP Guide: https://docs.anthropic.com/en/docs/claude-code/mcp
 ```
 → Stop
 
@@ -197,11 +197,11 @@ git rev-parse HEAD
 
 | Property | Value |
 |----------|-------|
-| 제목 | 작업 요약 (한글, 분석 기반) |
-| 날짜 | 오늘 날짜 |
-| 타입 | feat/fix/docs/etc. (커밋에서 추출) |
-| 영역 | Frontend/Backend/etc. (분석 기반) |
-| 기술 스택 | 해당 커밋에서 다룬 기술만 |
+| 제목 | Work summary (Korean, based on analysis) |
+| 날짜 | Today's date |
+| 타입 | feat/fix/docs/etc. (from commit) |
+| 영역 | Frontend/Backend/etc. (based on analysis) |
+| 기술 스택 | Only tech used in this commit |
 | 프로젝트 | `https://github.com/{owner}/{repo}` |
 | 커밋 | `https://github.com/{owner}/{repo}/commit/{hash}` |
 
@@ -245,18 +245,18 @@ pages: [{
 
 ### On Success:
 ```
-✓ TIL 기록 완료!
+✓ TIL recorded!
 
-제목: [TIL 제목]
-영역: [Frontend/Backend/etc.]
-기술 스택: [React, TypeScript, ...]
+Title: [TIL title]
+Area: [Frontend/Backend/etc.]
+Tech Stack: [React, TypeScript, ...]
 
-Notion에서 보기: [page URL]
+View in Notion: [page URL]
 ```
 
 ### On Failure:
 ```
-✗ TIL 기록 실패: <error message>
+✗ Failed to record TIL: <error message>
 ```
 
 ## Constraints
