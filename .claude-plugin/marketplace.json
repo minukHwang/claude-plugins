@@ -1,0 +1,27 @@
+{
+  "name": "minukHwang-plugins",
+  "owner": {
+    "name": "Minuk Hwang",
+    "email": "minuk.lucas.hwang@gmail.com"
+  },
+  "metadata": {
+    "description": "Claude Code plugins by Minuk Hwang",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "git",
+      "source": "./plugins/git",
+      "description": "GitHub commit, PR, and branch automation for Claude Code",
+      "version": "1.0.0",
+      "author": {
+        "name": "Minuk Hwang"
+      },
+      "homepage": "https://github.com/minukHwang/claude-plugins",
+      "repository": "https://github.com/minukHwang/claude-plugins",
+      "license": "MIT",
+      "keywords": ["git", "github", "commit", "pr", "branch", "workflow"],
+      "category": "version-control"
+    }
+  ]
+}
