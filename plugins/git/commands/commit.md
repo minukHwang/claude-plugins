@@ -31,16 +31,81 @@ Also check `package.json` for a `commitlint` field.
 - 100 characters max
 - Standard commit types
 
-## Step 1: Check Staged Changes
+## Step 1: Check and Stage Changes
 
-First, verify there are staged changes:
+First, check the staging status:
 
 ```bash
-git diff --staged --quiet
+git status --short
 ```
 
-If no staged changes exist, output this message and stop:
-"No staged changes found. Please use `git add <file>` to stage your changes first."
+Parse the output to determine:
+- Staged files (lines starting with `M `, `A `, `D `, `R `)
+- Unstaged files (lines starting with ` M`, ` D`, `??`)
+
+### Case A: All changes are staged (no unstaged files)
+Proceed to Step 2 without asking.
+
+### Case B: Some files staged, some unstaged (partial staging)
+Show what's currently staged and ask for confirmation:
+
+```
+📋 Currently staged:
+  M src/components/Button.tsx
+  A src/utils/helpers.ts
+
+⚠️ Not staged:
+  M src/App.tsx
+  ?? src/new-file.ts
+```
+
+**Ask user:** "Proceed with only the staged files above?"
+
+| Option | Description |
+|--------|-------------|
+| 1 | Yes, commit only staged files |
+| 2 | Add all remaining changes too |
+| 3 | Select specific files to add |
+
+#### If Option 1: Proceed to Step 2
+#### If Option 2: Run `git add .` then proceed
+#### If Option 3: Let user specify files, run `git add`, then proceed
+
+### Case C: Nothing staged (all files unstaged)
+Show unstaged files and ask user to add:
+
+**Ask user:** "No staged changes. What would you like to add?"
+
+| Option | Description |
+|--------|-------------|
+| 1 | Add all changes (`git add .`) |
+| 2 | Enter file path or pattern (e.g., `src/components/*.tsx`) |
+| 3 | Describe what to add (e.g., "button related files") |
+
+#### If Option 1 selected:
+```bash
+git add .
+```
+
+#### If Option 2 selected:
+User enters file path/pattern, then:
+```bash
+git add <user-input>
+```
+
+#### If Option 3 selected:
+User describes files contextually (e.g., "calendar related", "auth changes").
+- Analyze `git status` output
+- Match files based on description
+- Show matched files and confirm with user
+- Run `git add` for confirmed files
+
+After adding, show what was staged:
+```bash
+git diff --staged --stat
+```
+
+If still no staged changes after add attempt, show error and stop.
 
 ## Step 2: Deep Analysis of Changes
 
@@ -165,6 +230,6 @@ git commit -m "<emoji> <type>: <description>" -m "- Detail 1
 
 1. **NEVER include**: "Generated with Claude Code"
 2. **NEVER include**: "Co-Authored-By"
-3. **DO NOT run git add**: Only commit already staged changes
-4. **English only**: All text must be in English
-5. **Always include emoji**: Add the appropriate gitmoji at the start of the message
+3. **English only**: All text must be in English
+4. **Always include emoji**: Add the appropriate gitmoji at the start of the message
+5. **Confirm before add**: Always show what will be staged before running git add
