@@ -19,13 +19,27 @@ ls .husky 2>/dev/null
 ls commitlint.config.* .commitlintrc* 2>/dev/null
 ```
 
-If already set up, ask user:
-"Husky/commitlint already configured. Overwrite?"
+### If already set up:
+Show current configuration status and ask user:
+
+```
+⚠️ Existing setup detected:
+  - .husky/ directory: ✓ exists
+  - commitlint config: ✓ exists
+  - prepare-commit-msg: ✓ exists
+```
+
+**Ask user:** "How would you like to proceed?"
 
 | Option | Description |
 |--------|-------------|
-| 1 | Yes, overwrite existing config |
-| 2 | No, cancel |
+| 1 | Skip - Cancel and keep existing config |
+| 2 | Merge - Add missing parts only (safe) |
+| 3 | Overwrite - Replace all config (destructive) |
+
+#### If Skip: Exit with message "Keeping existing configuration."
+#### If Merge: Only add hooks/config that don't exist
+#### If Overwrite: Replace everything
 
 ## Step 1: Check Package Manager
 
@@ -149,7 +163,68 @@ Make hooks executable:
 chmod +x .husky/commit-msg .husky/prepare-commit-msg
 ```
 
-## Step 6: Create Commitlint Config
+## Step 6: Setup Pre-commit Hook (Auto-detect)
+
+Check package.json for linting/type-checking tools:
+
+```bash
+# Check for TypeScript
+grep -q '"typescript"' package.json && echo "typescript"
+
+# Check for ESLint
+grep -q '"eslint"' package.json && echo "eslint"
+
+# Check for lint-staged
+grep -q '"lint-staged"' package.json && echo "lint-staged"
+```
+
+### Case A: TypeScript + ESLint + lint-staged found
+Automatically create pre-commit hook:
+
+```bash
+# .husky/pre-commit
+echo "🔍 Running type check..."
+pnpm type-check  # or npm run type-check / yarn type-check
+
+echo "🧹 Running lint-staged..."
+pnpm lint-staged
+```
+
+Show message: "✅ Pre-commit hook added (type-check + lint-staged)"
+
+### Case B: Some tools found (partial)
+Show what was detected and ask:
+
+```
+📦 Detected tools:
+  - TypeScript: ✓
+  - ESLint: ✓
+  - lint-staged: ✗
+```
+
+**Ask user:** "Add pre-commit hook with available tools?"
+
+| Option | Description |
+|--------|-------------|
+| 1 | Yes, add with detected tools |
+| 2 | No, skip pre-commit hook |
+
+### Case C: No tools found
+**Ask user:** "No linting tools detected. Add pre-commit hook?"
+
+| Option | Description |
+|--------|-------------|
+| 1 | Yes, I'll configure it manually |
+| 2 | No, skip pre-commit hook |
+
+If Option 1: Create empty pre-commit hook template:
+```bash
+# .husky/pre-commit
+# Add your pre-commit commands here
+# Example: pnpm lint && pnpm test
+```
+
+## Step 7: Create Commitlint Config
 
 Create `commitlint.config.cjs`:
 
@@ -183,7 +258,7 @@ module.exports = {
 };
 ```
 
-## Step 7: Update .gitignore
+## Step 8: Update .gitignore
 
 Check if `.gitignore` includes `node_modules/`. If not, add:
 
@@ -203,10 +278,15 @@ Installed:
   - commitlint (commit message linting)
   - gitmoji (automatic emoji prefixes)
 
+Hooks configured:
+  - prepare-commit-msg: Auto-add gitmoji ✓
+  - commit-msg: Validate commit format ✓
+  - pre-commit: Type-check + lint-staged ✓  (if detected)
+
 Your commits will now:
-  1. Auto-add gitmoji based on commit type
-  2. Validate commit message format
-  3. Follow conventional commits
+  1. Run pre-commit checks (if configured)
+  2. Auto-add gitmoji based on commit type
+  3. Validate commit message format
 
 Example:
   git commit -m "feat: Add new feature"
