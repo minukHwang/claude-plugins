@@ -69,6 +69,10 @@ React/Next.js code comment automation following CLAUDE.md conventions.
 | `/react:comment` | Add/reformat comments to React files |
 | `/react:template` | Show comment template for file type |
 
+| Skill | Description |
+|-------|-------------|
+| `react-conventions` | Auto-referenced for `.tsx`/`.ts` files |
+
 **Supported files:** `*.tsx`, `*Context.tsx`, `*.service.ts`, `*.query.ts`, `*.dto.ts`, `*.utils.ts`
 
 📄 [Full documentation](./plugins/react/README.md)
