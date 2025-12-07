@@ -1,6 +1,6 @@
 # git
 
-GitHub commit, PR, and branch automation plugin for Claude Code.
+GitHub commit, PR, branch, and CI automation plugin for Claude Code.
 
 ## Features
 
@@ -9,11 +9,19 @@ GitHub commit, PR, and branch automation plugin for Claude Code.
 Analyzes staged changes and generates a conventional commit message.
 
 **Features:**
+- **Integrated git add** - If no staged changes, prompts to add files
 - **Auto-detects commitlint config** - If found, merges with plugin rules
 - Analyzes `git diff --staged` to understand changes
 - Generates conventional commit format (`✨ type: description`)
 - Automatically chooses single-line or bullet-point format based on complexity
 - Always includes gitmoji prefix (works with or without commitlint)
+
+**Smart staging:**
+| Situation | Behavior |
+|-----------|----------|
+| All staged | Proceed without asking |
+| Partial staged | Confirm: "Proceed with only staged files?" |
+| Nothing staged | Ask what to add (all / path / describe) |
 
 **Auto-detection:**
 ```
@@ -23,8 +31,8 @@ commitlint not found → Uses defaults (emoji + 100 chars + standard types)
 
 **Usage:**
 ```bash
-git add <files>
 /git:commit
+# If no staged changes, will prompt to add files
 ```
 
 **Example output:**
@@ -41,6 +49,7 @@ Same as `/git:commit` but **saves tokens** by skipping deep analysis.
 
 | Feature | `/git:commit` | `/git:commit-light` |
 |---------|:-------------:|:-------------------:|
+| Integrated git add | ✅ | ✅ |
 | Git diff analysis | ✅ | ✅ |
 | Commitlint detection | ✅ | ✅ |
 | File content reading | ✅ | ❌ |
@@ -48,7 +57,6 @@ Same as `/git:commit` but **saves tokens** by skipping deep analysis.
 
 **Usage:**
 ```bash
-git add <files>
 /git:commit-light
 ```
 
@@ -133,6 +141,52 @@ Same as `/git:pr` but **saves tokens** by skipping deep analysis.
 /git:pr-light
 ```
 
+---
+
+### `/git:ci` - Monitor CI Status
+
+Checks GitHub Actions CI status and analyzes failures.
+
+**Features:**
+- Shows CI check status (pass/fail/pending)
+- Analyzes failed logs automatically
+- Provides actionable fix suggestions
+- Offers to re-run failed checks
+- Watch mode for pending checks
+
+**Usage:**
+```bash
+/git:ci
+```
+
+**Example output (passing):**
+```
+✅ All CI checks passed!
+
+| Check | Status | Duration |
+|-------|--------|----------|
+| build | ✓ Pass | 2m 30s |
+| test  | ✓ Pass | 3m 15s |
+| lint  | ✓ Pass | 45s |
+
+Ready to merge! 🎉
+```
+
+**Example output (failing):**
+```
+❌ CI checks failed
+
+| Check | Status | Duration |
+|-------|--------|----------|
+| build | ✓ Pass | 2m 30s |
+| test  | ✗ Fail | 1m 45s |
+
+📍 Error: src/utils/calc.test.ts:25
+   Expected: 10, Received: 9
+
+💡 The calculation in `add()` might be off by one.
+```
+
 ## Requirements
 
 - Git 2.0+
@@ -159,12 +213,15 @@ Same as `/git:pr` but **saves tokens** by skipping deep analysis.
 
 # 2. Make your changes...
 
-# 3. Stage and commit
-git add .
+# 3. Commit (will prompt to add files if needed)
 /git:commit
 
 # 4. Create PR when ready
 /git:pr
+
+# 5. Monitor CI status
+/git:ci
+# If failed: analyze errors and fix
 ```
 
 ## Commit Types
