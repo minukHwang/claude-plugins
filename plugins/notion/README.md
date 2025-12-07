@@ -53,7 +53,7 @@ Records a TIL (Today I Learned) entry to a Notion database.
 - **Deep Analysis**: Reads actual file content, not just diffs
 - **Auto Tech Stack**: Extracts tech stack from changed files only
 - **Korean Content**: TIL content written in Korean
-- **Git Links**: Includes project and commit URLs
+- **Git Links**: Repo name with link + commit URL
 
 ### TIL Database
 
@@ -66,7 +66,7 @@ Records a TIL (Today I Learned) entry to a Notion database.
 | 타입 | Select | feat/fix/docs/refactor/etc. |
 | 영역 | Select | Frontend/Backend/DevOps/Infra/Full-stack |
 | 기술 스택 | Multi-select | Tech used in THIS work only |
-| 프로젝트 | URL | GitHub repository link |
+| 프로젝트 | Text | Repo name as clickable link |
 | 커밋 | URL | Commit or PR link |
 
 ### TIL Page Content (Korean)
