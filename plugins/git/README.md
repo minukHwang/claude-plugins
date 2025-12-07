@@ -187,11 +187,34 @@ Ready to merge! 🎉
 💡 The calculation in `add()` might be off by one.
 ```
 
+---
+
+### `/git:init` - Initialize Commit Tooling
+
+Sets up husky, commitlint, and gitmoji for conventional commits.
+
+**What it installs:**
+- **husky** - Git hooks manager
+- **commitlint** - Commit message linting
+- **gitmoji** - Automatic emoji prefixes
+
+**Usage:**
+```bash
+/git:init
+```
+
+**After setup, commits automatically get emoji:**
+```
+git commit -m "feat: Add new feature"
+→ :sparkles: feat: Add new feature
+```
+
 ## Requirements
 
 - Git 2.0+
 - GitHub CLI (`gh`) installed and authenticated
 - macOS or Linux
+- Node.js + pnpm/npm/yarn (for `/git:init`)
 
 ## Installation
 

@@ -26,6 +26,7 @@ GitHub commit, PR, branch, and CI automation.
 | `/git:pr` | Create PR with deep analysis (file reading + conversation context) |
 | `/git:pr-light` | Create PR with git commands only (saves tokens) |
 | `/git:ci` | Monitor GitHub Actions CI status and analyze failures |
+| `/git:init` | Initialize husky, commitlint, and gitmoji |
 
 **Install:**
 ```bash
@@ -50,7 +51,8 @@ claude-plugins/
 │       │   ├── branch.md        # /git:branch
 │       │   ├── pr.md            # /git:pr (deep)
 │       │   ├── pr-light.md      # /git:pr-light
-│       │   └── ci.md            # /git:ci
+│       │   ├── ci.md            # /git:ci
+│       │   └── init.md          # /git:init
 │       └── README.md
 └── README.md
 ```

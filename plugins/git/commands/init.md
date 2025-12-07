@@ -1,0 +1,250 @@
+---
+description: Initialize husky, commitlint, and gitmoji for conventional commits
+---
+
+# Initialize Git Commit Tooling
+
+Set up husky, commitlint, and gitmoji for conventional commits with automatic emoji prefixes.
+
+## Step 0: Check Existing Setup
+
+```bash
+# Check if package.json exists
+ls package.json 2>/dev/null
+
+# Check if husky is already installed
+ls .husky 2>/dev/null
+
+# Check if commitlint config exists
+ls commitlint.config.* .commitlintrc* 2>/dev/null
+```
+
+If already set up, ask user:
+"Husky/commitlint already configured. Overwrite?"
+
+| Option | Description |
+|--------|-------------|
+| 1 | Yes, overwrite existing config |
+| 2 | No, cancel |
+
+## Step 1: Check Package Manager
+
+Detect which package manager is being used:
+
+```bash
+# Check for lock files
+ls pnpm-lock.yaml 2>/dev/null && echo "pnpm"
+ls yarn.lock 2>/dev/null && echo "yarn"
+ls package-lock.json 2>/dev/null && echo "npm"
+```
+
+If no lock file found, ask user:
+"Which package manager do you use?"
+
+| Option | Package Manager |
+|--------|-----------------|
+| 1 | pnpm |
+| 2 | npm |
+| 3 | yarn |
+
+## Step 2: Install Dependencies
+
+Based on package manager, install required dependencies:
+
+### pnpm:
+```bash
+pnpm add -D husky @commitlint/cli @commitlint/config-conventional commitlint commitlint-config-gitmoji gitmoji-cli
+```
+
+### npm:
+```bash
+npm install -D husky @commitlint/cli @commitlint/config-conventional commitlint commitlint-config-gitmoji gitmoji-cli
+```
+
+### yarn:
+```bash
+yarn add -D husky @commitlint/cli @commitlint/config-conventional commitlint commitlint-config-gitmoji gitmoji-cli
+```
+
+## Step 3: Add Prepare Script
+
+Check if `package.json` has a `prepare` script. If not, add it:
+
+```json
+{
+  "scripts": {
+    "prepare": "husky"
+  }
+}
+```
+
+If `prepare` script already exists, append husky:
+```json
+{
+  "scripts": {
+    "prepare": "existing-command && husky"
+  }
+}
+```
+
+## Step 4: Initialize Husky
+
+```bash
+# Create .husky directory
+mkdir -p .husky
+
+# Run prepare script to initialize husky
+pnpm prepare  # or npm/yarn based on package manager
+```
+
+## Step 5: Create Husky Hooks
+
+### Create commit-msg hook:
+```bash
+# .husky/commit-msg
+pnpm commitlint --edit "$1"
+```
+
+For npm: `npx commitlint --edit "$1"`
+For yarn: `yarn commitlint --edit "$1"`
+
+### Create prepare-commit-msg hook:
+```bash
+# .husky/prepare-commit-msg
+MSG_FILE=$1
+MSG=$(cat "$MSG_FILE")
+
+# Skip if gitmoji code already exists
+if ! echo "$MSG" | grep -qE '^:[a-z_]+:'; then
+  if echo "$MSG" | grep -q '^feat'; then
+    sed -i '' '1s/^/:sparkles: /' "$MSG_FILE"
+  elif echo "$MSG" | grep -q '^fix'; then
+    sed -i '' '1s/^/:bug: /' "$MSG_FILE"
+  elif echo "$MSG" | grep -q '^docs'; then
+    sed -i '' '1s/^/:page_facing_up: /' "$MSG_FILE"
+  elif echo "$MSG" | grep -q '^style'; then
+    sed -i '' '1s/^/:art: /' "$MSG_FILE"
+  elif echo "$MSG" | grep -q '^refactor'; then
+    sed -i '' '1s/^/:package: /' "$MSG_FILE"
+  elif echo "$MSG" | grep -q '^perf'; then
+    sed -i '' '1s/^/:rocket: /' "$MSG_FILE"
+  elif echo "$MSG" | grep -q '^test'; then
+    sed -i '' '1s/^/:rotating_light: /' "$MSG_FILE"
+  elif echo "$MSG" | grep -q '^build'; then
+    sed -i '' '1s/^/:hammer: /' "$MSG_FILE"
+  elif echo "$MSG" | grep -q '^ci'; then
+    sed -i '' '1s/^/:wrench: /' "$MSG_FILE"
+  elif echo "$MSG" | grep -q '^chore'; then
+    sed -i '' '1s/^/:memo: /' "$MSG_FILE"
+  elif echo "$MSG" | grep -q '^revert'; then
+    sed -i '' '1s/^/:wastebasket: /' "$MSG_FILE"
+  elif echo "$MSG" | grep -q '^init'; then
+    sed -i '' '1s/^/:tada: /' "$MSG_FILE"
+  fi
+fi
+```
+
+Make hooks executable:
+```bash
+chmod +x .husky/commit-msg .husky/prepare-commit-msg
+```
+
+## Step 6: Create Commitlint Config
+
+Create `commitlint.config.cjs`:
+
+```javascript
+module.exports = {
+  extends: ['@commitlint/config-conventional', 'gitmoji'],
+  rules: {
+    'type-enum': [
+      2,
+      'always',
+      [
+        'feat',
+        'fix',
+        'docs',
+        'style',
+        'refactor',
+        'perf',
+        'test',
+        'build',
+        'ci',
+        'chore',
+        'revert',
+        'init',
+      ],
+    ],
+    'subject-case': [0],
+    'subject-empty': [0],
+    'type-empty': [0],
+    'start-with-gitmoji': [2, 'always'],
+  },
+};
+```
+
+## Step 7: Update .gitignore
+
+Check if `.gitignore` includes `node_modules/`. If not, add:
+
+```
+# Dependencies
+node_modules/
+```
+
+## Output Format
+
+### On Success:
+```
+✅ Git commit tooling initialized!
+
+Installed:
+  - husky (git hooks)
+  - commitlint (commit message linting)
+  - gitmoji (automatic emoji prefixes)
+
+Your commits will now:
+  1. Auto-add gitmoji based on commit type
+  2. Validate commit message format
+  3. Follow conventional commits
+
+Example:
+  git commit -m "feat: Add new feature"
+  → :sparkles: feat: Add new feature
+
+Try it with /git:commit!
+```
+
+### On Failure:
+```
+❌ Setup failed: <error message>
+
+Please check:
+  - package.json exists
+  - Git repository is initialized
+  - Write permissions in project directory
+```
+
+## Commit Type to Emoji Mapping
+
+| Type | Gitmoji Code | Emoji |
+|------|--------------|-------|
+| feat | :sparkles: | ✨ |
+| fix | :bug: | 🐛 |
+| docs | :page_facing_up: | 📄 |
+| style | :art: | 🎨 |
+| refactor | :package: | 📦 |
+| perf | :rocket: | 🚀 |
+| test | :rotating_light: | 🚨 |
+| build | :hammer: | 🔨 |
+| ci | :wrench: | 🔧 |
+| chore | :memo: | 📝 |
+| revert | :wastebasket: | 🗑 |
+| init | :tada: | 🎉 |
+
+## Constraints
+
+1. **Preserve existing scripts**: Don't overwrite existing prepare script, append to it
+2. **Respect package manager**: Use the same package manager as the project
+3. **macOS compatible**: sed commands use macOS syntax (`sed -i ''`)
+4. **Non-destructive**: Ask before overwriting existing config
