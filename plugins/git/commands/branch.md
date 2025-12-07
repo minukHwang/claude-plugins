@@ -18,22 +18,40 @@ Create a new branch following the naming convention and automatically checkout.
 <accountName>/<type>/<description>
 ```
 
-## Step 1: Ask for Branch Type
+## Step 1: Ask for Branch Type (Cascading Selection)
 
-Ask the user to select a branch type:
+Use cascading selection to show all branch types:
 
+### Round 1 - Common Types
 "Select the branch type:"
 
-| Type | Description |
-|------|-------------|
-| feature | Adding a new feature or capability |
-| bugfix | Fixing a bug or issue |
-| hotfix | Urgent fix for production |
-| docs | Documentation changes |
-| refactor | Code restructuring |
-| build | Build configuration changes |
-| ci | CI/CD configuration changes |
-| chore | Routine maintenance tasks |
+| Option | Type | Description |
+|--------|------|-------------|
+| 1 | feature | Adding a new feature or capability |
+| 2 | bugfix | Fixing a bug or issue |
+| 3 | hotfix | Urgent fix for production |
+| 4 | Other | Show more options... |
+
+### Round 2 - If "Other" selected
+"Select the branch type:"
+
+| Option | Type | Description |
+|--------|------|-------------|
+| 1 | release | Release preparation |
+| 2 | docs | Documentation changes |
+| 3 | refactor | Code restructuring |
+| 4 | Other | Show more options... |
+
+### Round 3 - If "Other" selected again
+"Select the branch type, or enter a custom type:"
+
+| Option | Type | Description |
+|--------|------|-------------|
+| 1 | test | Testing related changes |
+| 2 | chore | Routine maintenance tasks |
+
+Also allow direct text input for custom type names (kebab-case).
+User can either select from options OR type a custom name directly.
 
 ## Step 2: Ask for Description
 

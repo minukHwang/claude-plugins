@@ -62,17 +62,18 @@ Creates a new branch with proper naming convention and checks it out.
 - Personal: `<type>/<description>`
 - Team: `<accountName>/<type>/<description>`
 
-**Branch types:**
+**Branch types (cascading selection):**
 | Type | Description |
 |------|-------------|
 | feature | New feature |
 | bugfix | Bug fix |
 | hotfix | Urgent production fix |
+| release | Release preparation |
 | docs | Documentation |
 | refactor | Code restructuring |
-| build | Build changes |
-| ci | CI/CD changes |
+| test | Testing changes |
 | chore | Maintenance |
+| Custom | Enter your own type |
 
 **Usage:**
 ```bash
