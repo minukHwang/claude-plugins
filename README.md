@@ -143,12 +143,15 @@ Notion workspace automation tools.
 
 ```bash
 /readme:init         # Generate new README
+/readme:update       # Update existing README
 
 # Or after PR:
 /git:pr
 # → "📄 Update README?"
-# → Yes
+# → Yes (README exists)
 /readme:update
+# → Yes (no README)
+/readme:init
 ```
 
 ### Notion Workflow
