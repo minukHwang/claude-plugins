@@ -1,3 +1,7 @@
+# Dependencies
+node_modules/
+pnpm-lock.yaml
+
 # OS
 .DS_Store
 Thumbs.db
