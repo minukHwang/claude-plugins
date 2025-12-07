@@ -77,15 +77,8 @@ Analyzes all changes and creates a comprehensive PR using `gh` CLI.
 3. **File content** - Context and impact
 
 **PR format:**
-- Title: `<emoji> <type>: <description>`
+- Title: `<emoji> <type>: <description>` (same gitmoji as commits)
 - Body: Overview, Key Changes, Technical Details, Review Points, Testing checklist
-
-**Priority emojis:**
-| Emoji | Priority | When to use |
-|-------|----------|-------------|
-| 🔴 | High | Architecture, security, breaking changes |
-| 🟠 | Medium | New features, API changes |
-| 🟢 | Low | Docs, styling, typos |
 
 **Usage:**
 ```bash
@@ -97,7 +90,7 @@ Analyzes all changes and creates a comprehensive PR using `gh` CLI.
 ✓ Branch pushed to origin
 ✓ Pull Request created successfully!
 
-Title: 🟠 feat: Add emotion calendar with monthly navigation
+Title: ✨ feat: Add emotion calendar with monthly navigation
 URL: https://github.com/user/repo/pull/123
 ```
 

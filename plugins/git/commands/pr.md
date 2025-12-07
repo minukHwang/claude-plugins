@@ -30,12 +30,28 @@ If on `main` or `master`: "You are on the main branch. Please checkout a feature
 
 ## Step 3: Determine Target Branch
 
-Ask the user:
-"Enter the target branch for this PR (default: main):"
+Get all remote branches (excluding current branch):
 
-Default to `main` if no input.
+```bash
+git branch -r | grep -v HEAD | sed 's/origin\///' | grep -v "^  $(git branch --show-current)$"
+```
 
-Verify target branch exists:
+Present branches as numbered options to user:
+
+```
+Select target branch:
+1. main
+2. develop
+3. feature/other-feature
+...
+N. Custom (enter branch name)
+```
+
+- Exclude current branch from the list
+- Always add "Custom" as the last option
+- Default: `main` or `master` (whichever exists)
+
+Verify selected target branch exists:
 ```bash
 git rev-parse --verify origin/<TARGET_BRANCH>
 ```
@@ -85,38 +101,36 @@ For each changed file, read the actual content to understand the context:
 
 Format: `<emoji> <type>: <description>`
 
-### Priority/Importance Emoji
+### Commit Type and Emoji Mapping (Same as commits)
 
-| Emoji | Priority | Criteria |
-|-------|----------|----------|
-| `🔴` | High | Architecture changes, breaking changes, security, DB schema |
-| `🟠` | Medium | New features, API changes, major logic modifications |
-| `🟢` | Low | Text changes, UI styling, docs, typos |
-
-**Default**: `🟠` (Medium) if unclear
+| Type | Emoji | Description |
+|------|-------|-------------|
+| feat | ✨ | Adding a new feature or capability |
+| fix | 🐛 | Resolving a bug or issue |
+| docs | 📄 | Updating documentation or comments |
+| style | 🎨 | Formatting code without changing functionality |
+| refactor | 📦 | Restructuring existing code |
+| perf | 🚀 | Optimizing performance |
+| test | 🚨 | Adding or modifying tests |
+| build | 🔨 | Modifying build tools or dependencies |
+| ci | 🔧 | Updating CI/CD configuration |
+| chore | 📝 | Routine maintenance tasks |
+| revert | 🗑 | Undoing a previous commit |
+| init | 🎉 | Initial project setup |
 
 ### Type Selection
-Choose the dominant type from commits:
-- `feat` - New feature
-- `fix` - Bug fix
-- `docs` - Documentation
-- `refactor` - Code restructuring
-- `perf` - Performance improvement
-- `test` - Test changes
-- `build` - Build/dependency changes
-- `ci` - CI/CD changes
-- `chore` - Maintenance
+Choose the **dominant type** from all commits in this PR.
 
 ### Title Rules
-- **50 characters max**
-- Use **emoji only** (no High/Medium/Low text)
+- **100 characters max**
+- Use **gitmoji + type** format (same as commits)
 - **Single dominant type**
 - **English, concise**
 
 ### Examples
-- `🔴 refactor: Restructure authentication system architecture`
-- `🟠 feat: Add emotion calendar with monthly navigation`
-- `🟢 docs: Update README installation guide`
+- `✨ feat: Add emotion calendar with monthly navigation`
+- `🐛 fix: Resolve NextAuth session refresh on token expiration`
+- `📄 docs: Update README installation guide`
 
 ## Step 7: Generate PR Body
 
