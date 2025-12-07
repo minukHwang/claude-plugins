@@ -22,7 +22,7 @@ Create a new branch following the naming convention and automatically checkout.
 
 Use cascading selection to show all branch types:
 
-**Available types:** `feature` `bugfix` `hotfix` `release` `docs` `refactor` `test` `chore`
+**Available types:** `feature` `bugfix` `hotfix` `release` `docs` `style` `refactor` `test` `chore`
 
 ### Round 1 - Common Types
 
@@ -55,6 +55,7 @@ Use cascading selection to show all branch types:
 
 | Option | Description |
 |--------|-------------|
+| style | Code style/formatting changes |
 | test | Testing related changes |
 | chore | Routine maintenance tasks |
 
