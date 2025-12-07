@@ -9,10 +9,10 @@ A Claude Code plugin marketplace for development workflow automation.
 
 - [Quick Start](#quick-start)
 - [Plugins](#plugins)
-  - [git](#git-plugin) - Git workflow automation
-  - [react](#react-plugin) - React/Next.js development
-  - [readme](#readme-plugin) - Documentation generation
-  - [notion](#notion-plugin) - Notion TIL recording
+  - [git](#git) - Git workflow automation
+  - [react](#react) - React/Next.js development
+  - [readme](#readme) - Documentation generation
+  - [notion](#notion) - Notion workspace automation
 - [Workflow Examples](#workflow-examples)
 - [Requirements](#requirements)
 - [Contributing](#contributing)
@@ -36,7 +36,7 @@ A Claude Code plugin marketplace for development workflow automation.
 
 ## Plugins
 
-### git plugin
+### [git](./plugins/git/README.md)
 
 Git workflow automation with smart commits, PRs, and CI monitoring.
 
@@ -56,11 +56,9 @@ Git workflow automation with smart commits, PRs, and CI monitoring.
 - Generates conventional commit messages with gitmoji
 - Integrates with react, readme, notion plugins
 
-📄 [Full documentation](./plugins/git/README.md)
-
 ---
 
-### react plugin
+### [react](./plugins/react/README.md)
 
 React/Next.js code comment automation following CLAUDE.md conventions.
 
@@ -71,11 +69,9 @@ React/Next.js code comment automation following CLAUDE.md conventions.
 
 **Supported files:** `*.tsx`, `*Context.tsx`, `*.service.ts`, `*.query.ts`, `*.dto.ts`, `*.utils.ts`
 
-📄 [Full documentation](./plugins/react/README.md)
-
 ---
 
-### readme plugin
+### [readme](./plugins/readme/README.md)
 
 README auto-generation and updates based on project analysis.
 
@@ -90,13 +86,11 @@ README auto-generation and updates based on project analysis.
 - Placeholder support for early-stage projects
 - Triggered after `/git:pr`
 
-📄 [Full documentation](./plugins/readme/README.md)
-
 ---
 
-### notion plugin
+### [notion](./plugins/notion/README.md)
 
-Record TIL (Today I Learned) entries to Notion database.
+Notion workspace automation tools.
 
 | Command | Description |
 |---------|-------------|
@@ -109,8 +103,6 @@ Record TIL (Today I Learned) entries to Notion database.
 - Triggered after `/git:commit`
 
 ⚠️ Requires [Notion MCP setup](#notion-mcp-setup)
-
-📄 [Full documentation](./plugins/notion/README.md)
 
 ---
 
@@ -171,7 +163,7 @@ claude mcp add notion -- npx -y @anthropic-ai/notion-mcp
 # 3. Restart Claude Code
 ```
 
-📄 [MCP Guide](https://github.com/anthropics/claude-code/blob/main/docs/mcp.md)
+📄 [MCP Guide](https://docs.anthropic.com/en/docs/claude-code/mcp)
 
 ---
 
