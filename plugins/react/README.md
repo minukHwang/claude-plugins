@@ -9,6 +9,12 @@ React/Next.js development automation tools for Claude Code.
 | `/react:comment` | Add/reformat comments following CLAUDE.md conventions |
 | `/react:template` | Show comment template for specific file type |
 
+## Skills
+
+| Skill | Description |
+|-------|-------------|
+| `react-conventions` | Component structure & comment conventions (auto-referenced for `.tsx`/`.ts` files) |
+
 ## Supported File Types
 
 | Pattern | Type |
