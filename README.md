@@ -20,9 +20,11 @@ GitHub commit, PR, and branch automation.
 
 | Command | Description |
 |---------|-------------|
-| `/git:commit` | Generate conventional commit message and commit |
+| `/git:commit` | Generate commit with deep analysis (file reading + conversation context) |
+| `/git:commit-light` | Generate commit with git diff only (saves tokens) |
 | `/git:branch` | Create branch with proper naming convention |
-| `/git:pr` | Create PR with deep analysis of changes |
+| `/git:pr` | Create PR with deep analysis (file reading + conversation context) |
+| `/git:pr-light` | Create PR with git commands only (saves tokens) |
 
 **Install:**
 ```bash
@@ -42,9 +44,11 @@ claude-plugins/
 │       ├── .claude-plugin/
 │       │   └── plugin.json
 │       ├── commands/
-│       │   ├── commit.md
-│       │   ├── branch.md
-│       │   └── pr.md
+│       │   ├── commit.md        # /git:commit (deep)
+│       │   ├── commit-light.md  # /git:commit-light
+│       │   ├── branch.md        # /git:branch
+│       │   ├── pr.md            # /git:pr (deep)
+│       │   └── pr-light.md      # /git:pr-light
 │       └── README.md
 └── README.md
 ```

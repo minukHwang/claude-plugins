@@ -94,6 +94,7 @@ Analyzes all changes and creates a comprehensive PR using `gh` CLI.
 1. **Commit messages** - Understanding intent
 2. **Git diff** - What code changed
 3. **File content** - Context and impact
+4. **Conversation context** - User's goals from session
 
 **PR format:**
 - Title: `<emoji> <type>: <description>` (same gitmoji as commits)
