@@ -126,6 +126,18 @@ Notion workspace automation tools.
 /git:ci              # Monitor CI status
 ```
 
+### React Workflow
+
+```bash
+/react:comment       # Add comments to React files
+/react:template      # Show comment template
+
+# Or after commit:
+/git:commit
+# → "📝 React files detected. Add comments?"
+# → Yes → adds comments
+```
+
 ### Documentation Workflow
 
 ```bash
