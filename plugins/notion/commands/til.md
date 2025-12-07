@@ -174,7 +174,7 @@ properties:
   - 타입 (select): feat, fix, docs, style, refactor, perf, test, build, ci, chore
   - 영역 (select): Frontend, Backend, DevOps, Infra, Full-stack
   - 기술 스택 (multi_select): React, Next.js, TypeScript, Spring Boot, etc.
-  - 프로젝트 (url)
+  - 프로젝트 (rich_text): Repo name with link
   - 커밋 (url)
 ```
 
@@ -202,7 +202,7 @@ git rev-parse HEAD
 | 타입 | feat/fix/docs/etc. (from commit) |
 | 영역 | Frontend/Backend/etc. (based on analysis) |
 | 기술 스택 | Only tech used in this commit |
-| 프로젝트 | `https://github.com/{owner}/{repo}` |
+| 프로젝트 | `[{repo}](https://github.com/{owner}/{repo})` (repo name as link) |
 | 커밋 | `https://github.com/{owner}/{repo}/commit/{hash}` |
 
 ### Page Content (Korean)
@@ -234,7 +234,7 @@ pages: [{
     타입: "feat",
     영역: "Frontend",
     기술 스택: "React, TypeScript",
-    프로젝트: "https://github.com/...",
+    프로젝트: "[repo-name](https://github.com/{owner}/{repo})",
     커밋: "https://github.com/.../commit/..."
   },
   content: "## 🔍 문제\n..."
