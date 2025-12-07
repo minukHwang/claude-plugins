@@ -36,7 +36,7 @@ A Claude Code plugin marketplace for development workflow automation.
 
 ## Plugins
 
-### [git](./plugins/git/README.md)
+### git 📄 [docs](./plugins/git/README.md)
 
 Git workflow automation with smart commits, PRs, and CI monitoring.
 
@@ -58,7 +58,7 @@ Git workflow automation with smart commits, PRs, and CI monitoring.
 
 ---
 
-### [react](./plugins/react/README.md)
+### react 📄 [docs](./plugins/react/README.md)
 
 React/Next.js code comment automation following CLAUDE.md conventions.
 
@@ -71,7 +71,7 @@ React/Next.js code comment automation following CLAUDE.md conventions.
 
 ---
 
-### [readme](./plugins/readme/README.md)
+### readme 📄 [docs](./plugins/readme/README.md)
 
 README auto-generation and updates based on project analysis.
 
@@ -88,7 +88,7 @@ README auto-generation and updates based on project analysis.
 
 ---
 
-### [notion](./plugins/notion/README.md)
+### notion 📄 [docs](./plugins/notion/README.md)
 
 Notion workspace automation tools.
 
@@ -98,7 +98,7 @@ Notion workspace automation tools.
 
 **Features:**
 - Deep analysis of code changes
-- Korean content with structured format (문제/해결/배운점)
+- Korean content with structured format (Problem/Solution/Lesson)
 - Auto tech stack detection from changed files
 - Triggered after `/git:commit`
 
