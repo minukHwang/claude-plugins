@@ -107,6 +107,35 @@ git diff --staged --stat
 
 If still no staged changes after add attempt, show error and stop.
 
+## Step 1.5: React File Detection (Optional)
+
+Check if staged files include React/TypeScript files:
+
+```bash
+git diff --staged --name-only | grep -E '\.(tsx)$'
+```
+
+### If `.tsx` files are found:
+
+**Ask user:**
+"📝 React files detected. Would you like to organize comments first?"
+
+| Option | Description |
+|--------|-------------|
+| 1 | Yes (run `/react:comment` then continue) |
+| 2 | No (proceed with commit) |
+
+#### If Yes:
+1. Run `/react:comment` with staged `.tsx` files
+2. Re-stage modified files: `git add <modified-files>`
+3. Continue to Step 2
+
+#### If No:
+Continue to Step 2
+
+### If no `.tsx` files:
+Skip to Step 2
+
 ## Step 2: Deep Analysis of Changes
 
 ### 2.1 Diff Analysis

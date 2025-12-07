@@ -3,15 +3,21 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-Plugin-blueviolet)](https://claude.ai/code)
 
-A Claude Code plugin marketplace for Git workflow automation. Streamline your commit, PR, branch, and CI workflows with AI-powered commands.
+A Claude Code plugin marketplace for development workflow automation. Streamline your Git workflow, React/Next.js development, and more with AI-powered commands.
 
 ## Features
 
+### Git Plugin
 - **Smart Commits** - Auto-stage files, generate conventional commit messages with gitmoji
 - **PR Automation** - Create comprehensive PRs with deep code analysis
 - **Branch Management** - Create branches with consistent naming conventions
 - **CI Monitoring** - Check GitHub Actions status and analyze failures
 - **Project Setup** - Initialize husky, commitlint, and gitmoji in one command
+
+### React Plugin
+- **Code Comments** - Add/reformat comments following CLAUDE.md conventions
+- **File Templates** - Show comment templates for React file types
+- **git:commit Integration** - Prompts to organize comments before committing
 
 ## Quick Start
 
@@ -19,16 +25,18 @@ A Claude Code plugin marketplace for Git workflow automation. Streamline your co
 # 1. Add marketplace
 /plugin marketplace add minukHwang/claude-plugins
 
-# 2. Install git plugin
+# 2. Install plugins
 /plugin install git@minukHwang-plugins
+/plugin install react@minukHwang-plugins
 
 # 3. Start using!
 /git:commit
+/react:comment
 ```
 
 ## Commands Overview
 
-### git plugin
+### git plugin ([docs](./plugins/git/README.md))
 
 | Command | Description |
 |---------|-------------|
@@ -39,6 +47,15 @@ A Claude Code plugin marketplace for Git workflow automation. Streamline your co
 | `/git:pr-light` | Create PR with minimal analysis (saves tokens) |
 | `/git:ci` | Monitor GitHub Actions, analyze failures |
 | `/git:init` | Setup husky + commitlint + gitmoji |
+
+### react plugin ([docs](./plugins/react/README.md))
+
+| Command | Description |
+|---------|-------------|
+| `/react:comment` | Add/reformat comments following CLAUDE.md conventions |
+| `/react:template` | Show comment template for specific file type |
+
+> 📄 See [React Plugin README](./plugins/react/README.md) for full template examples
 
 ## Workflow Example
 
@@ -65,6 +82,27 @@ A Claude Code plugin marketplace for Git workflow automation. Streamline your co
 /git:ci
 # → Shows pass/fail status for all checks
 # → If failed: analyzes logs and suggests fixes
+```
+
+### React Workflow
+
+```bash
+# 1. View template for a new component
+/react:template
+# → Select: Component
+# → Shows full component structure with sections
+
+# 2. Add comments to existing files
+/react:comment
+# → Select: Staged files
+# → Detects file type, adds appropriate comments
+# ✓ Added: file-level JSDoc, 3 sections, 5 function descriptions
+
+# 3. Integrated with git commit
+/git:commit
+# → "📝 React files detected. Organize comments first?"
+# → Yes → runs /react:comment automatically
+# → Continues with commit
 ```
 
 ## Smart Features
@@ -115,6 +153,39 @@ Use **light mode** when you want faster responses and lower token usage.
 | revert | 🗑 | Revert changes |
 | init | 🎉 | Initial setup |
 
+## React Comment Conventions
+
+### Supported File Types
+
+| Pattern | Type | Sections |
+|---------|------|----------|
+| `*.tsx` | Component | Constants → Type Definitions → Component (11 internal) |
+| `*Context.tsx` | Context | Type Definitions → Context → Provider → Custom Hook |
+| `*.service.ts` | Service | File JSDoc only (no sections) |
+| `*.query.ts` | Query | Query Keys → Hooks |
+| `*.dto.ts` | DTO | File JSDoc + interface JSDoc |
+| `*.utils.ts` | Utils | File JSDoc + @param/@returns |
+
+### Comment Styles
+
+| Location | Style | Example |
+|----------|-------|---------|
+| Top-level sections | `/** ==== */` | Type Definitions |
+| Component sections | `/** ---- */` + number | 1. External Hooks |
+| Function/variable | `/** */` | Build URL with date |
+| Inline annotation | `//` | `// YYYY-MM-DD format` |
+
+### Component Section Order
+
+```
+1. External Hooks     6. Derived Values
+2. States             7. Callbacks
+3. Query Hooks        8. Helper Functions
+4. Custom Hooks       9. Event Handlers
+5. Computed Values   10. Effects
+                     11. Return
+```
+
 ## Requirements
 
 - **Git** 2.0+
@@ -149,18 +220,23 @@ claude-plugins/
 ├── .claude-plugin/
 │   └── marketplace.json
 ├── plugins/
-│   └── git/
+│   ├── git/
+│   │   ├── .claude-plugin/
+│   │   │   └── plugin.json
+│   │   └── commands/
+│   │       ├── commit.md
+│   │       ├── commit-light.md
+│   │       ├── branch.md
+│   │       ├── pr.md
+│   │       ├── pr-light.md
+│   │       ├── ci.md
+│   │       └── init.md
+│   └── react/
 │       ├── .claude-plugin/
 │       │   └── plugin.json
-│       ├── commands/
-│       │   ├── commit.md
-│       │   ├── commit-light.md
-│       │   ├── branch.md
-│       │   ├── pr.md
-│       │   ├── pr-light.md
-│       │   ├── ci.md
-│       │   └── init.md
-│       └── README.md
+│       └── commands/
+│           ├── comment.md
+│           └── template.md
 └── README.md
 ```
 

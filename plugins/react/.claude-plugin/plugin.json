@@ -1,7 +1,7 @@
 {
-  "name": "git",
+  "name": "react",
   "version": "1.0.0",
-  "description": "Git workflow automation tools",
+  "description": "React/Next.js development automation tools",
   "author": {
     "name": "Minuk Hwang",
     "email": "minuk.lucas.hwang@gmail.com"
