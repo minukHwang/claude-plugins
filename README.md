@@ -131,39 +131,36 @@ Notion workspace automation tools.
 ```bash
 /react:comment       # Add comments to React files
 /react:template      # Show comment template
-```
 
-Or after commit:
-```bash
+# Or after commit:
 /git:commit
 # → "📝 React files detected. Add comments?"
-# → Yes → runs /react:comment
+# → Yes
+/react:comment
 ```
 
 ### README Workflow
 
 ```bash
 /readme:init         # Generate new README
-```
 
-Or after PR:
-```bash
+# Or after PR:
 /git:pr
 # → "📄 Update README?"
-# → Yes → runs /readme:update
+# → Yes
+/readme:update
 ```
 
 ### Notion Workflow
 
 ```bash
 /notion:til          # Record TIL to Notion
-```
 
-Or after commit:
-```bash
+# Or after commit:
 /git:commit
 # → "📝 Record TIL to Notion?"
-# → Yes → runs /notion:til
+# → Yes
+/notion:til
 ```
 
 ---
