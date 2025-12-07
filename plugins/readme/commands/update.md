@@ -116,12 +116,12 @@ Check if content now exists for these sections.
 
 Based on analysis, suggest specific updates:
 
-**Available sections:** `Features` `Tech Stack` `Technical Challenges` `Screenshots` `Status`
-
 ### Round 1 - Content Updates
 
 **Ask user (AskUserQuestion, multiSelect: true):**
-"Which sections to update?"
+"Which sections to update?
+
+Available: Features, Tech Stack, Technical Challenges, Screenshots, Status"
 
 | Option | Description |
 |--------|-------------|

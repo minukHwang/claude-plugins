@@ -8,12 +8,12 @@ Display comment template for a specific file type (reference only, no file creat
 
 ## Step 1: Select File Type
 
-**Available types:** `Component` `Context` `Service` `Query` `DTO` `Utils`
-
 ### Round 1 - Common Types
 
 **Ask user (AskUserQuestion):**
-"Which file type template do you need?"
+"Which file type template do you need?
+
+Available: Component, Context, Service, Query, DTO, Utils"
 
 | Option | Description |
 |--------|-------------|

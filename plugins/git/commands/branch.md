@@ -22,12 +22,12 @@ Create a new branch following the naming convention and automatically checkout.
 
 Use cascading selection to show all branch types:
 
-**Available types:** `feature` `bugfix` `hotfix` `release` `docs` `refactor` `style` `test` `chore`
-
 ### Round 1 - Common Types
 
 **Ask user (AskUserQuestion):**
-"Select the branch type:"
+"Select the branch type:
+
+Available: feature, bugfix, hotfix, release, docs, refactor, style, test, chore"
 
 | Option | Description |
 |--------|-------------|
