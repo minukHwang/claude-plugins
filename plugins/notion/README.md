@@ -30,7 +30,7 @@ claude mcp add notion -- npx -y @anthropic-ai/notion-mcp
 /notion:til
 ```
 
-For detailed MCP setup: [Claude Code MCP Guide](https://github.com/anthropics/claude-code/blob/main/docs/mcp.md)
+For detailed MCP setup: [Claude Code MCP Guide](https://docs.anthropic.com/en/docs/claude-code/mcp)
 
 ## /notion:til
 

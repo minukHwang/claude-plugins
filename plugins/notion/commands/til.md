@@ -23,7 +23,7 @@ If MCP not available:
 3. Claude Code 재시작
 4. 다시 /notion:til 실행
 
-자세한 설정 가이드: https://github.com/anthropics/claude-code/blob/main/docs/mcp.md
+자세한 설정 가이드: https://docs.anthropic.com/en/docs/claude-code/mcp
 ```
 → Stop
 
