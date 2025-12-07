@@ -28,7 +28,7 @@ If detached HEAD: "No branch checked out. Please checkout a branch first." and s
 
 If on `main` or `master`: "You are on the main branch. Please checkout a feature branch first." and stop.
 
-## Step 3: Determine Target Branch
+## Step 3: Determine Target Branch (Cascading Selection)
 
 Get all remote branches (excluding current branch):
 
@@ -36,21 +36,41 @@ Get all remote branches (excluding current branch):
 git branch -r | grep -v HEAD | sed 's/origin\///' | grep -v "^  $(git branch --show-current)$"
 ```
 
-Present branches as numbered options to user:
+### Round 1 - Common Target Branches
+"Select target branch:"
 
-```
-Select target branch:
-1. main
-2. develop
-3. feature/other-feature
-...
-N. Custom (enter branch name)
-```
+| Option | Branch |
+|--------|--------|
+| 1 | main (or master if main doesn't exist) |
+| 2 | develop (if exists) |
+| 3 | Other | Show more branches... |
 
-- Exclude current branch from the list
-- Always add "Custom" as the last option
-- Default: `main` or `master` (whichever exists)
+### Round 2+ - If "Other" selected
+Show remaining branches in groups of 3:
 
+"Select target branch:"
+
+| Option | Branch |
+|--------|--------|
+| 1 | {branch-1} |
+| 2 | {branch-2} |
+| 3 | {branch-3} |
+| 4 | Other | Show more... |
+
+### Final Round
+When remaining branches are 2 or fewer:
+
+"Select target branch, or enter a custom branch name:"
+
+| Option | Branch |
+|--------|--------|
+| 1 | {remaining-branch-1} |
+| 2 | {remaining-branch-2} |
+
+Also allow direct text input for custom branch names.
+User can either select from options OR type a branch name directly.
+
+### Verification
 Verify selected target branch exists:
 ```bash
 git rev-parse --verify origin/<TARGET_BRANCH>
