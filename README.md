@@ -135,30 +135,25 @@ Notion workspace automation tools.
 # Or after commit:
 /git:commit
 # → "📝 React files detected. Add comments?"
-# → Yes → adds comments
+# → Yes → /react:comment
 ```
 
 ### Documentation Workflow
 
 ```bash
-/readme:init         # Generate README.md
+# Generate new README
+/readme:init
 
+# After creating PR
 /git:pr
 # → "📄 Update README?"
-# → Yes → updates README
+# → Yes → /readme:update
 
+# After committing
 /git:commit
 # → "📝 Record TIL to Notion?"
-# → Yes → records TIL
+# → Yes → /notion:til
 ```
-
-### Plugin Integrations
-
-| After | Prompt | Action |
-|-------|--------|--------|
-| `/git:commit` | "📝 Record TIL to Notion?" | `/notion:til` |
-| `/git:commit` | "📝 React files detected..." | `/react:comment` |
-| `/git:pr` | "📄 Update README?" | `/readme:update` |
 
 ---
 
