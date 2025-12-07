@@ -229,6 +229,27 @@ EOF
 )" --base <TARGET_BRANCH>
 ```
 
+## Step 9: README Update Suggestion (Optional)
+
+After successful PR creation:
+
+**Ask user:**
+"📄 Update README?"
+
+| Option | Description |
+|--------|-------------|
+| 1 | Yes |
+| 2 | No |
+
+### If Yes:
+Run `/readme:update` command.
+- Reuse the analysis context from this PR (saves tokens)
+- Auto-select "PR changes" mode
+- The update will reflect all changes in this PR
+
+### If No:
+Proceed to output
+
 ## Output Format
 
 ### On Success:

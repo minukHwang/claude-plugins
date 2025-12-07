@@ -36,6 +36,34 @@
       "license": "MIT",
       "keywords": ["react", "nextjs", "typescript", "comment", "documentation"],
       "category": "development"
+    },
+    {
+      "name": "readme",
+      "source": "./plugins/readme",
+      "description": "Documentation automation tools for project files",
+      "version": "1.0.0",
+      "author": {
+        "name": "Minuk Hwang"
+      },
+      "homepage": "https://github.com/minukHwang/claude-plugins",
+      "repository": "https://github.com/minukHwang/claude-plugins",
+      "license": "MIT",
+      "keywords": ["readme", "documentation", "markdown", "auto-generate"],
+      "category": "documentation"
+    },
+    {
+      "name": "notion",
+      "source": "./plugins/notion",
+      "description": "Notion workspace automation tools",
+      "version": "1.0.0",
+      "author": {
+        "name": "Minuk Hwang"
+      },
+      "homepage": "https://github.com/minukHwang/claude-plugins",
+      "repository": "https://github.com/minukHwang/claude-plugins",
+      "license": "MIT",
+      "keywords": ["notion", "til", "database", "mcp", "automation"],
+      "category": "productivity"
     }
   ]
 }

@@ -1,0 +1,11 @@
+{
+  "name": "readme",
+  "version": "1.0.0",
+  "description": "Documentation automation tools for project files",
+  "author": {
+    "name": "Minuk Hwang",
+    "email": "minuk.lucas.hwang@gmail.com"
+  },
+  "homepage": "https://github.com/minukHwang/claude-plugins",
+  "license": "MIT"
+}

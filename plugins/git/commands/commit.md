@@ -242,6 +242,26 @@ git commit -m "<emoji> <type>: <description>" -m "- Detail 1
 - Detail 3"
 ```
 
+## Step 5: TIL Suggestion (Optional)
+
+After successful commit:
+
+**Ask user:**
+"📝 Record TIL to Notion?"
+
+| Option | Description |
+|--------|-------------|
+| 1 | Yes |
+| 2 | No |
+
+### If Yes:
+Run `/notion:til` command.
+- Reuse the analysis context from this commit (saves tokens)
+- The TIL will be based on the commit just made
+
+### If No:
+Proceed to output
+
 ## Output Format
 
 ### On Success:

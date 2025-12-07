@@ -3,21 +3,21 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-Plugin-blueviolet)](https://claude.ai/code)
 
-A Claude Code plugin marketplace for development workflow automation. Streamline your Git workflow, React/Next.js development, and more with AI-powered commands.
+A Claude Code plugin marketplace for development workflow automation.
 
-## Features
+## Table of Contents
 
-### Git Plugin
-- **Smart Commits** - Auto-stage files, generate conventional commit messages with gitmoji
-- **PR Automation** - Create comprehensive PRs with deep code analysis
-- **Branch Management** - Create branches with consistent naming conventions
-- **CI Monitoring** - Check GitHub Actions status and analyze failures
-- **Project Setup** - Initialize husky, commitlint, and gitmoji in one command
+- [Quick Start](#quick-start)
+- [Plugins](#plugins)
+  - [git](#git-plugin) - Git workflow automation
+  - [react](#react-plugin) - React/Next.js development
+  - [readme](#readme-plugin) - Documentation generation
+  - [notion](#notion-plugin) - Notion TIL recording
+- [Workflow Examples](#workflow-examples)
+- [Requirements](#requirements)
+- [Contributing](#contributing)
 
-### React Plugin
-- **Code Comments** - Add/reformat comments following CLAUDE.md conventions
-- **File Templates** - Show comment templates for React file types
-- **git:commit Integration** - Prompts to organize comments before committing
+---
 
 ## Quick Start
 
@@ -25,224 +25,159 @@ A Claude Code plugin marketplace for development workflow automation. Streamline
 # 1. Add marketplace
 /plugin marketplace add minukHwang/claude-plugins
 
-# 2. Install plugins
+# 2. Install plugins you need
 /plugin install git@minukHwang-plugins
 /plugin install react@minukHwang-plugins
-
-# 3. Start using!
-/git:commit
-/react:comment
+/plugin install readme@minukHwang-plugins
+/plugin install notion@minukHwang-plugins
 ```
 
-## Commands Overview
+---
 
-### git plugin ([docs](./plugins/git/README.md))
+## Plugins
+
+### git plugin
+
+Git workflow automation with smart commits, PRs, and CI monitoring.
 
 | Command | Description |
 |---------|-------------|
-| `/git:commit` | Smart staging + conventional commit with deep analysis |
-| `/git:commit-light` | Same as above, but saves tokens (git diff only) |
+| `/git:commit` | Smart staging + conventional commit with gitmoji |
+| `/git:commit-light` | Same as above, saves tokens |
 | `/git:branch` | Create branch with `type/description` naming |
 | `/git:pr` | Create PR with full code analysis |
-| `/git:pr-light` | Create PR with minimal analysis (saves tokens) |
+| `/git:pr-light` | Create PR, saves tokens |
 | `/git:ci` | Monitor GitHub Actions, analyze failures |
 | `/git:init` | Setup husky + commitlint + gitmoji |
 
-### react plugin ([docs](./plugins/react/README.md))
+**Features:**
+- Auto-detects staged/unstaged files
+- Deep analysis reads actual file content
+- Generates conventional commit messages with gitmoji
+- Integrates with react, readme, notion plugins
+
+📄 [Full documentation](./plugins/git/README.md)
+
+---
+
+### react plugin
+
+React/Next.js code comment automation following CLAUDE.md conventions.
 
 | Command | Description |
 |---------|-------------|
-| `/react:comment` | Add/reformat comments following CLAUDE.md conventions |
-| `/react:template` | Show comment template for specific file type |
+| `/react:comment` | Add/reformat comments to React files |
+| `/react:template` | Show comment template for file type |
 
-> 📄 See [React Plugin README](./plugins/react/README.md) for full template examples
+**Supported files:** `*.tsx`, `*Context.tsx`, `*.service.ts`, `*.query.ts`, `*.dto.ts`, `*.utils.ts`
 
-## Workflow Example
+📄 [Full documentation](./plugins/react/README.md)
+
+---
+
+### readme plugin
+
+README auto-generation and updates based on project analysis.
+
+| Command | Description |
+|---------|-------------|
+| `/readme:init` | Generate README based on project type |
+| `/readme:update` | Update README with project changes |
+
+**Features:**
+- Detects project type (Frontend/Backend/Full-stack)
+- Version-based status detection (< 1.0.0 = In Development)
+- Placeholder support for early-stage projects
+- Triggered after `/git:pr`
+
+📄 [Full documentation](./plugins/readme/README.md)
+
+---
+
+### notion plugin
+
+Record TIL (Today I Learned) entries to Notion database.
+
+| Command | Description |
+|---------|-------------|
+| `/notion:til` | Record TIL to Notion (requires MCP) |
+
+**Features:**
+- Deep analysis of code changes
+- Korean content with structured format (문제/해결/배운점)
+- Auto tech stack detection from changed files
+- Triggered after `/git:commit`
+
+⚠️ Requires [Notion MCP setup](#notion-mcp-setup)
+
+📄 [Full documentation](./plugins/notion/README.md)
+
+---
+
+## Workflow Examples
+
+### Git Workflow
 
 ```bash
-# 1. Create a feature branch
-/git:branch
-# → Select: feature
-# → Enter: user-authentication
-# ✓ Branch created: feature/user-authentication
+/git:branch          # Create feature/user-auth
+# ... make changes ...
+/git:commit          # ✨ feat: Add user authentication
+/git:pr              # Create PR with analysis
+/git:ci              # Monitor CI status
+```
 
-# 2. Make your changes, then commit
-/git:commit
-# → Auto-detects staged/unstaged files
-# → Generates: ✨ feat: Add user authentication with JWT
-# ✓ Commit created: a1b2c3d
+### Documentation Workflow
 
-# 3. Create a pull request
+```bash
+/readme:init         # Generate README.md
+
 /git:pr
-# → Analyzes all commits and changes
-# → Creates PR with summary, key changes, review points
-# ✓ PR created: https://github.com/user/repo/pull/123
+# → "📄 Update README?"
+# → Yes → updates README
 
-# 4. Monitor CI status
-/git:ci
-# → Shows pass/fail status for all checks
-# → If failed: analyzes logs and suggests fixes
-```
-
-### React Workflow
-
-```bash
-# 1. View template for a new component
-/react:template
-# → Select: Component
-# → Shows full component structure with sections
-
-# 2. Add comments to existing files
-/react:comment
-# → Select: Staged files
-# → Detects file type, adds appropriate comments
-# ✓ Added: file-level JSDoc, 3 sections, 5 function descriptions
-
-# 3. Integrated with git commit
 /git:commit
-# → "📝 React files detected. Organize comments first?"
-# → Yes → runs /react:comment automatically
-# → Continues with commit
+# → "📝 Record TIL to Notion?"
+# → Yes → records TIL
 ```
 
-## Smart Features
+### Plugin Integrations
 
-### Intelligent Staging (`/git:commit`)
+| After | Prompt | Action |
+|-------|--------|--------|
+| `/git:commit` | "📝 Record TIL to Notion?" | `/notion:til` |
+| `/git:commit` | "📝 React files detected..." | `/react:comment` |
+| `/git:pr` | "📄 Update README?" | `/readme:update` |
 
-| Situation | Behavior |
-|-----------|----------|
-| All files staged | Proceeds without asking |
-| Partial staging | Confirms: "Commit only these files?" |
-| Nothing staged | Asks what to add (all / path / describe) |
-
-### Cascading Selection (`/git:branch`)
-
-For options with 4+ choices, uses cascading menus:
-
-```
-Round 1: feature / bugfix / hotfix / Other →
-Round 2: release / docs / refactor / Other →
-Round 3: test / chore / [custom input]
-```
-
-### Deep vs Light Mode
-
-| Feature | Deep (`/git:commit`) | Light (`/git:commit-light`) |
-|---------|:--------------------:|:---------------------------:|
-| Git diff analysis | ✅ | ✅ |
-| File content reading | ✅ | ❌ |
-| Conversation context | ✅ | ❌ |
-| Token usage | Higher | Lower |
-
-Use **light mode** when you want faster responses and lower token usage.
-
-## Commit Types & Gitmoji
-
-| Type | Emoji | Description |
-|------|:-----:|-------------|
-| feat | ✨ | New feature |
-| fix | 🐛 | Bug fix |
-| docs | 📄 | Documentation |
-| style | 🎨 | Code style/formatting |
-| refactor | 📦 | Code restructuring |
-| perf | 🚀 | Performance improvement |
-| test | 🚨 | Tests |
-| build | 🔨 | Build/dependencies |
-| ci | 🔧 | CI/CD configuration |
-| chore | 📝 | Maintenance |
-| revert | 🗑 | Revert changes |
-| init | 🎉 | Initial setup |
-
-## React Comment Conventions
-
-### Supported File Types
-
-| Pattern | Type | Sections |
-|---------|------|----------|
-| `*.tsx` | Component | Constants → Type Definitions → Component (11 internal) |
-| `*Context.tsx` | Context | Type Definitions → Context → Provider → Custom Hook |
-| `*.service.ts` | Service | File JSDoc only (no sections) |
-| `*.query.ts` | Query | Query Keys → Hooks |
-| `*.dto.ts` | DTO | File JSDoc + interface JSDoc |
-| `*.utils.ts` | Utils | File JSDoc + @param/@returns |
-
-### Comment Styles
-
-| Location | Style | Example |
-|----------|-------|---------|
-| Top-level sections | `/** ==== */` | Type Definitions |
-| Component sections | `/** ---- */` + number | 1. External Hooks |
-| Function/variable | `/** */` | Build URL with date |
-| Inline annotation | `//` | `// YYYY-MM-DD format` |
-
-### Component Section Order
-
-```
-1. External Hooks     6. Derived Values
-2. States             7. Callbacks
-3. Query Hooks        8. Helper Functions
-4. Custom Hooks       9. Event Handlers
-5. Computed Values   10. Effects
-                     11. Return
-```
+---
 
 ## Requirements
 
-- **Git** 2.0+
-- **GitHub CLI** (`gh`) - for PR and CI commands
-- **Node.js** - for `/git:init` (husky setup)
-- **macOS or Linux**
+| Requirement | For |
+|-------------|-----|
+| Git 2.0+ | All plugins |
+| GitHub CLI (`gh`) | `/git:pr`, `/git:ci` |
+| Node.js | `/git:init` |
+| macOS or Linux | All plugins |
+| Notion MCP | `/notion:til` |
 
-## Project Setup (`/git:init`)
-
-Automatically sets up commit tooling for your project:
+### Notion MCP Setup
 
 ```bash
-/git:init
+# 1. Add Notion MCP
+claude mcp add notion -- npx -y @anthropic-ai/notion-mcp
+
+# 2. Create integration at https://www.notion.so/my-integrations
+
+# 3. Restart Claude Code
 ```
 
-**What it does:**
-1. Detects package manager (pnpm/npm/yarn)
-2. Installs husky, commitlint, gitmoji
-3. Creates git hooks (prepare-commit-msg, commit-msg, pre-commit)
-4. Auto-detects linting tools for pre-commit
+📄 [MCP Guide](https://github.com/anthropics/claude-code/blob/main/docs/mcp.md)
 
-**Non-Node.js projects?** Shows alternatives:
-- Python → `pre-commit`
-- Go → `golangci-lint`
-- Rust → `cargo-husky`
-- Ruby → `overcommit`
-
-## Plugin Structure
-
-```
-claude-plugins/
-├── .claude-plugin/
-│   └── marketplace.json
-├── plugins/
-│   ├── git/
-│   │   ├── .claude-plugin/
-│   │   │   └── plugin.json
-│   │   └── commands/
-│   │       ├── commit.md
-│   │       ├── commit-light.md
-│   │       ├── branch.md
-│   │       ├── pr.md
-│   │       ├── pr-light.md
-│   │       ├── ci.md
-│   │       └── init.md
-│   └── react/
-│       ├── .claude-plugin/
-│       │   └── plugin.json
-│       └── commands/
-│           ├── comment.md
-│           └── template.md
-└── README.md
-```
+---
 
 ## Contributing
 
-Contributions are welcome! Feel free to:
+Contributions welcome! Feel free to:
 - Open issues for bugs or feature requests
 - Submit PRs for improvements
 - Suggest new commands or plugins
