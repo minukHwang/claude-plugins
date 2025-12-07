@@ -6,12 +6,56 @@ description: Initialize husky, commitlint, and gitmoji for conventional commits
 
 Set up husky, commitlint, and gitmoji for conventional commits with automatic emoji prefixes.
 
-## Step 0: Check Existing Setup
+## Step 0: Check Project Type
 
 ```bash
-# Check if package.json exists
+# Check if this is a Node.js project
 ls package.json 2>/dev/null
+```
 
+### If NO package.json found:
+
+Detect project type and show alternatives:
+
+```bash
+# Python
+ls requirements.txt pyproject.toml setup.py 2>/dev/null
+
+# Go
+ls go.mod 2>/dev/null
+
+# Rust
+ls Cargo.toml 2>/dev/null
+
+# Ruby
+ls Gemfile 2>/dev/null
+```
+
+Show message based on detected language:
+
+```
+⚠️ This is not a Node.js project.
+
+/git:init is designed for Node.js projects (husky + commitlint).
+
+Alternatives for your project:
+```
+
+| Language | Tool | Install |
+|----------|------|---------|
+| Python | pre-commit | `pip install pre-commit && pre-commit install` |
+| Go | golangci-lint | `go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest` |
+| Rust | cargo-husky | `cargo add --dev cargo-husky` |
+| Ruby | overcommit | `gem install overcommit && overcommit --install` |
+| Other | git hooks | Manual setup in `.git/hooks/` |
+
+**Exit after showing alternatives.**
+
+---
+
+## Step 1: Check Existing Setup
+
+```bash
 # Check if husky is already installed
 ls .husky 2>/dev/null
 
@@ -41,7 +85,7 @@ Show current configuration status and ask user:
 #### If Merge: Only add hooks/config that don't exist
 #### If Overwrite: Replace everything
 
-## Step 1: Check Package Manager
+## Step 2: Check Package Manager
 
 Detect which package manager is being used:
 
@@ -61,7 +105,7 @@ If no lock file found, ask user:
 | 2 | npm |
 | 3 | yarn |
 
-## Step 2: Install Dependencies
+## Step 3: Install Dependencies
 
 Based on package manager, install required dependencies:
 
@@ -80,7 +124,7 @@ npm install -D husky @commitlint/cli @commitlint/config-conventional commitlint 
 yarn add -D husky @commitlint/cli @commitlint/config-conventional commitlint commitlint-config-gitmoji gitmoji-cli
 ```
 
-## Step 3: Add Prepare Script
+## Step 4: Add Prepare Script
 
 Check if `package.json` has a `prepare` script. If not, add it:
 
@@ -101,7 +145,7 @@ If `prepare` script already exists, append husky:
 }
 ```
 
-## Step 4: Initialize Husky
+## Step 5: Initialize Husky
 
 ```bash
 # Create .husky directory
@@ -111,7 +155,7 @@ mkdir -p .husky
 pnpm prepare  # or npm/yarn based on package manager
 ```
 
-## Step 5: Create Husky Hooks
+## Step 6: Create Husky Hooks
 
 ### Create commit-msg hook:
 ```bash
@@ -163,7 +207,7 @@ Make hooks executable:
 chmod +x .husky/commit-msg .husky/prepare-commit-msg
 ```
 
-## Step 6: Setup Pre-commit Hook (Auto-detect)
+## Step 7: Setup Pre-commit Hook (Auto-detect)
 
 Check package.json for linting/type-checking tools:
 
@@ -224,7 +268,7 @@ If Option 1: Create empty pre-commit hook template:
 # Example: pnpm lint && pnpm test
 ```
 
-## Step 7: Create Commitlint Config
+## Step 8: Create Commitlint Config
 
 Create `commitlint.config.cjs`:
 
@@ -258,7 +302,7 @@ module.exports = {
 };
 ```
 
-## Step 8: Update .gitignore
+## Step 9: Update .gitignore
 
 Check if `.gitignore` includes `node_modules/`. If not, add:
 
