@@ -6,6 +6,31 @@ description: Generate conventional commit message from staged changes and commit
 
 Analyze staged changes and generate a conventional commit message in English.
 
+## Step 0: Detect Project Commit Rules
+
+Automatically search for commitlint configuration (no user prompt):
+
+```bash
+# Search for commitlint config files
+ls commitlint.config.{js,cjs,mjs,ts} .commitlintrc.{json,yaml,yml,js,cjs} .commitlintrc 2>/dev/null
+```
+
+Also check `package.json` for a `commitlint` field.
+
+### If config found:
+- Read the configuration file
+- Extract rules: allowed types, character limits, emoji requirements
+- **MERGE** with plugin defaults:
+  - Use THEIR: types, character limits (must pass validation)
+  - Use OUR: emoji prefix format (`✨ type: description`)
+  - Priority: pass commitlint validation > exact match our format
+
+### If no config found:
+- Use plugin defaults (see below)
+- Include emoji prefix
+- 100 characters max
+- Standard commit types
+
 ## Step 1: Check Staged Changes
 
 First, verify there are staged changes:
@@ -37,42 +62,42 @@ Analyze:
 
 **Format 1: Single line (for simple changes with 1-2 files)**
 ```
-<type>: <description>
+<emoji> <type>: <description>
 ```
 
 **Format 2: With bullet points (for complex changes with 3+ files or multiple changes)**
 ```
-<type>: <description>
+<emoji> <type>: <description>
 
 - Detail 1
 - Detail 2
 - Detail 3
 ```
 
-### Determine Commit Type
+### Commit Type and Emoji Mapping
 
-| Type | Description |
-|------|-------------|
-| feat | Adding a new feature or capability |
-| fix | Resolving a bug or issue |
-| docs | Updating documentation or comments |
-| style | Formatting code without changing functionality |
-| refactor | Restructuring existing code |
-| perf | Optimizing performance |
-| test | Adding or modifying tests |
-| build | Modifying build tools or dependencies |
-| ci | Updating CI/CD configuration |
-| chore | Routine maintenance tasks |
-| revert | Undoing a previous commit |
-| init | Initial project setup |
+| Type | Emoji | Description |
+|------|-------|-------------|
+| feat | ✨ | Adding a new feature or capability |
+| fix | 🐛 | Resolving a bug or issue |
+| docs | 📄 | Updating documentation or comments |
+| style | 🎨 | Formatting code without changing functionality |
+| refactor | 📦 | Restructuring existing code |
+| perf | 🚀 | Optimizing performance |
+| test | 🚨 | Adding or modifying tests |
+| build | 🔨 | Modifying build tools or dependencies |
+| ci | 🔧 | Updating CI/CD configuration |
+| chore | 📝 | Routine maintenance tasks |
+| revert | 🗑 | Undoing a previous commit |
+| init | 🎉 | Initial project setup |
 
 ### Rules
 
-- **50 characters max** for the main description
+- **100 characters max** for the main description (or follow commitlint limit if configured)
 - Use **imperative mood** (e.g., "Add", "Fix", "Update", not "Added", "Fixed")
 - **No period** at the end
 - **English only**
-- **DO NOT include emoji** - gitmoji hook will add it automatically
+- **Always include emoji** at the start of the message
 - Choose format based on change complexity:
   - Simple (1-2 files, single purpose) → Single line
   - Complex (3+ files or multiple changes) → With bullet points
@@ -81,14 +106,14 @@ Analyze:
 
 **Single line:**
 ```
-feat: Add emotion calendar view with monthly navigation
-fix: Resolve NextAuth session refresh on token expiration
-docs: Update installation guide in README
+✨ feat: Add emotion calendar view with monthly navigation
+🐛 fix: Resolve NextAuth session refresh on token expiration
+📄 docs: Update installation guide in README
 ```
 
 **With bullet points:**
 ```
-feat: Add user authentication system
+✨ feat: Add user authentication system
 
 - Implement Google OAuth provider
 - Add session management with JWT
@@ -101,10 +126,10 @@ Commit with the generated message:
 
 ```bash
 # Single line format
-git commit -m "<type>: <description>"
+git commit -m "<emoji> <type>: <description>"
 
 # With bullet points format
-git commit -m "<type>: <description>" -m "- Detail 1
+git commit -m "<emoji> <type>: <description>" -m "- Detail 1
 - Detail 2
 - Detail 3"
 ```
@@ -128,4 +153,4 @@ git commit -m "<type>: <description>" -m "- Detail 1
 2. **NEVER include**: "Co-Authored-By"
 3. **DO NOT run git add**: Only commit already staged changes
 4. **English only**: All text must be in English
-5. **NO emoji in message**: gitmoji hook handles this automatically
+5. **Always include emoji**: Add the appropriate gitmoji at the start of the message

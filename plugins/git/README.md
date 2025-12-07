@@ -9,10 +9,17 @@ GitHub commit, PR, and branch automation plugin for Claude Code.
 Analyzes staged changes and generates a conventional commit message.
 
 **Features:**
+- **Auto-detects commitlint config** - If found, merges with plugin rules
 - Analyzes `git diff --staged` to understand changes
-- Generates conventional commit format (`<type>: <description>`)
+- Generates conventional commit format (`✨ type: description`)
 - Automatically chooses single-line or bullet-point format based on complexity
-- Works with gitmoji hooks (no emoji in message - hook adds it)
+- Always includes gitmoji prefix (works with or without commitlint)
+
+**Auto-detection:**
+```
+commitlint found → Uses their types/limits + our emoji format
+commitlint not found → Uses defaults (emoji + 100 chars + standard types)
+```
 
 **Usage:**
 ```bash
@@ -23,7 +30,7 @@ git add <files>
 **Example output:**
 ```
 ✓ Commit created: a1b2c3d
-  feat: Add emotion calendar view with monthly navigation
+  ✨ feat: Add emotion calendar view with monthly navigation
 ```
 
 ---
