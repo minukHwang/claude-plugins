@@ -1,96 +1,471 @@
 ---
-description: Initialize husky, commitlint, and gitmoji for conventional commits
+description: Initialize git repository with hooks, .gitignore, and initial commit
 ---
 
-# Initialize Git Commit Tooling
+# Initialize Git Project
 
-Set up husky, commitlint, and gitmoji for conventional commits with automatic emoji prefixes.
+Complete git project initialization: repository setup, .gitignore generation, commit tooling (husky/commitlint), and initial commit.
 
-## Step 0: Check Project Type
+---
+
+## Step 0: Git Repository Setup
+
+### Check git initialization:
+```bash
+ls -d .git 2>/dev/null
+```
+
+### If .git exists:
+Check remote configuration:
+```bash
+git remote -v
+```
+
+#### If remote exists:
+```
+✓ Git initialized
+  Remote: origin → {url}
+```
+→ Continue to Step 1
+
+#### If no remote:
+**Ask user (AskUserQuestion):** "Connect to remote repository?"
+
+| Option | Description |
+|--------|-------------|
+| Existing URL | Connect to existing GitHub repository |
+| Create new | Create new repo on GitHub (gh CLI) |
+| Skip | Continue without remote |
+
+### If .git does NOT exist:
+```bash
+git init
+```
+
+**Ask user (AskUserQuestion):** "Connect to remote repository?"
+
+| Option | Description |
+|--------|-------------|
+| Existing URL | Connect to existing GitHub repository |
+| Create new | Create new repo on GitHub (gh CLI) |
+| Skip | Continue without remote |
+
+### Handle remote options:
+
+#### Existing URL:
+Get URL input from user, then:
+```bash
+git remote add origin <url>
+```
+
+#### Create new:
+Check gh CLI:
+```bash
+gh --version 2>/dev/null
+```
+
+If not installed:
+```
+⚠️ GitHub CLI not installed.
+Install: https://cli.github.com/
+Falling back to "Skip" option.
+```
+
+If installed:
+
+**Ask user (AskUserQuestion):** "Repository visibility?"
+
+| Option | Description |
+|--------|-------------|
+| Public | Anyone can see this repository |
+| Private | Only you can see this repository |
+
+Get repository name (default: current folder name):
+```bash
+basename $(pwd)
+```
+
+Create repository:
+```bash
+# Public
+gh repo create <repo-name> --public --source=. --remote=origin
+
+# Private
+gh repo create <repo-name> --private --source=. --remote=origin
+```
+
+#### Skip:
+```
+⏭️ Skipping remote setup. You can add later:
+   git remote add origin <url>
+```
+
+---
+
+## Step 1: Generate .gitignore
+
+### Check existing .gitignore:
+```bash
+ls .gitignore 2>/dev/null
+```
+
+### If .gitignore exists:
+**Ask user (AskUserQuestion):** "How to handle existing .gitignore?"
+
+| Option | Description |
+|--------|-------------|
+| Merge | Add missing entries only |
+| Replace | Replace with template |
+| Skip | Keep existing |
+
+### If .gitignore does NOT exist (or Replace selected):
+Detect project type:
+```bash
+# Priority order
+ls package.json 2>/dev/null && echo "nodejs"
+ls requirements.txt pyproject.toml setup.py 2>/dev/null && echo "python"
+ls go.mod 2>/dev/null && echo "go"
+ls Cargo.toml 2>/dev/null && echo "rust"
+ls Gemfile 2>/dev/null && echo "ruby"
+ls *.xcodeproj 2>/dev/null && echo "ios"
+ls build.gradle 2>/dev/null && echo "android"
+```
+
+### .gitignore Templates:
+
+#### Node.js:
+```gitignore
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+.next/
+out/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Cache
+.turbo/
+.cache/
+.eslintcache
+
+# Test coverage
+coverage/
+```
+
+#### Python:
+```gitignore
+# Byte-compiled
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+.venv/
+env/
+.env/
+
+# Environment variables
+.env
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+
+# Distribution
+dist/
+build/
+*.egg-info/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Jupyter
+.ipynb_checkpoints/
+```
+
+#### Go:
+```gitignore
+# Binaries
+bin/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary
+*.test
+
+# Output
+*.out
+
+# Dependency directories
+vendor/
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+
+# Environment
+.env
+```
+
+#### Rust:
+```gitignore
+# Build
+/target/
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+
+# Environment
+.env
+```
+
+#### Ruby:
+```gitignore
+# Dependencies
+vendor/bundle/
+.bundle/
+
+# Gems
+*.gem
+
+# Environment
+.env
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+
+# Logs
+log/
+*.log
+```
+
+#### iOS/macOS:
+```gitignore
+# Xcode
+build/
+DerivedData/
+*.xcuserstate
+*.xcworkspace/xcuserdata/
+
+# CocoaPods
+Pods/
+
+# Carthage
+Carthage/Build/
+
+# SPM
+.swiftpm/
+.build/
+
+# IDE
+.idea/
+
+# OS
+.DS_Store
+
+# Environment
+.env
+```
+
+#### Android/Java:
+```gitignore
+# Build
+build/
+.gradle/
+
+# Local configuration
+local.properties
+
+# IDE
+.idea/
+*.iml
+
+# OS
+.DS_Store
+
+# Environment
+.env
+```
+
+#### Generic (fallback):
+```gitignore
+# Environment
+.env
+.env.local
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+```
+
+Show generated entries:
+```
+📄 .gitignore created ({type} template)
+   Added {count} entries
+```
+
+---
+
+## Step 2: Check Project Type
 
 ```bash
-# Check if this is a Node.js project
 ls package.json 2>/dev/null
 ```
 
-### If NO package.json found:
+### If Node.js project:
+→ Continue to Step 3 (Husky setup)
 
-Detect project type and show alternatives:
-
+### If NOT Node.js:
+Detect project type:
 ```bash
-# Python
-ls requirements.txt pyproject.toml setup.py 2>/dev/null
-
-# Go
-ls go.mod 2>/dev/null
-
-# Rust
-ls Cargo.toml 2>/dev/null
-
-# Ruby
-ls Gemfile 2>/dev/null
+ls requirements.txt pyproject.toml setup.py 2>/dev/null && echo "Python"
+ls go.mod 2>/dev/null && echo "Go"
+ls Cargo.toml 2>/dev/null && echo "Rust"
+ls Gemfile 2>/dev/null && echo "Ruby"
 ```
 
-Show message based on detected language:
-
+Show message:
 ```
-⚠️ This is not a Node.js project.
+📦 Detected: {Language} project
 
-/git:init is designed for Node.js projects (husky + commitlint).
-
-Alternatives for your project:
+Git hooks options:
 ```
 
-| Language | Tool | Install |
-|----------|------|---------|
-| Python | pre-commit | `pip install pre-commit && pre-commit install` |
-| Go | golangci-lint | `go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest` |
-| Rust | cargo-husky | `cargo add --dev cargo-husky` |
-| Ruby | overcommit | `gem install overcommit && overcommit --install` |
-| Other | git hooks | Manual setup in `.git/hooks/` |
+**Ask user (AskUserQuestion):** "How to set up git hooks?"
 
-**Exit after showing alternatives.**
+| Option | Description |
+|--------|-------------|
+| pre-commit | Install pre-commit framework (Python) |
+| Manual | Create hooks manually in .git/hooks |
+| Skip | Skip hooks, continue to initial commit |
+
+#### pre-commit selected:
+```bash
+pip install pre-commit
+
+# Create .pre-commit-config.yaml
+cat > .pre-commit-config.yaml << 'EOF'
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-added-large-files
+EOF
+
+pre-commit install
+```
+
+→ Skip to Step 11 (Initial Commit)
+
+#### Manual selected:
+```
+📁 Manual hook setup:
+   1. Create scripts in .git/hooks/
+   2. Make executable: chmod +x .git/hooks/<hook-name>
+
+   Common hooks:
+   - pre-commit: Run before commit
+   - commit-msg: Validate commit message
+   - pre-push: Run before push
+```
+
+→ Skip to Step 11 (Initial Commit)
+
+#### Skip selected:
+→ Skip to Step 11 (Initial Commit)
 
 ---
 
-## Step 1: Check Existing Setup
+## Step 3: Check Existing Husky Setup
 
 ```bash
-# Check if husky is already installed
 ls .husky 2>/dev/null
-
-# Check if commitlint config exists
 ls commitlint.config.* .commitlintrc* 2>/dev/null
 ```
 
 ### If already set up:
-Show current configuration status and ask user:
-
+Show current configuration:
 ```
 ⚠️ Existing setup detected:
-  - .husky/ directory: ✓ exists
-  - commitlint config: ✓ exists
-  - prepare-commit-msg: ✓ exists
+  - .husky/ directory: ✓/✗
+  - commitlint config: ✓/✗
+  - prepare-commit-msg: ✓/✗
+  - commit-msg: ✓/✗
+  - pre-commit: ✓/✗
 ```
 
-**Ask user (AskUserQuestion):** "How would you like to proceed?"
+**Ask user (AskUserQuestion):** "How to proceed with existing setup?"
 
 | Option | Description |
 |--------|-------------|
-| Skip | Cancel and keep existing config |
-| Merge | Add missing parts only (safe) |
-| Overwrite | Replace all config (destructive) |
+| Skip | Keep existing configuration |
+| Merge | Add missing parts only |
+| Overwrite | Replace all configuration |
 
-#### If "Skip": Exit with message "Keeping existing configuration."
-#### If "Merge": Only add hooks/config that don't exist
-#### If "Overwrite": Replace everything
+#### Skip: Exit husky setup → Go to Step 11
+#### Merge: Only add missing hooks/config
+#### Overwrite: Replace everything
 
-## Step 2: Check Package Manager
+---
 
-Detect which package manager is being used:
+## Step 4: Check Package Manager
 
 ```bash
-# Check for lock files
 ls pnpm-lock.yaml 2>/dev/null && echo "pnpm"
 ls yarn.lock 2>/dev/null && echo "yarn"
 ls package-lock.json 2>/dev/null && echo "npm"
@@ -98,7 +473,7 @@ ls package-lock.json 2>/dev/null && echo "npm"
 
 If no lock file found:
 
-**Ask user (AskUserQuestion):** "Which package manager do you use?"
+**Ask user (AskUserQuestion):** "Which package manager?"
 
 | Option | Description |
 |--------|-------------|
@@ -106,29 +481,32 @@ If no lock file found:
 | npm | Use npm |
 | yarn | Use yarn |
 
-## Step 3: Install Dependencies
+---
 
-Based on package manager, install required dependencies:
+## Step 5: Install Dependencies
 
 ### pnpm:
 ```bash
-pnpm add -D husky @commitlint/cli @commitlint/config-conventional commitlint commitlint-config-gitmoji gitmoji-cli
+pnpm add -D husky @commitlint/cli @commitlint/config-conventional commitlint-config-gitmoji
 ```
 
 ### npm:
 ```bash
-npm install -D husky @commitlint/cli @commitlint/config-conventional commitlint commitlint-config-gitmoji gitmoji-cli
+npm install -D husky @commitlint/cli @commitlint/config-conventional commitlint-config-gitmoji
 ```
 
 ### yarn:
 ```bash
-yarn add -D husky @commitlint/cli @commitlint/config-conventional commitlint commitlint-config-gitmoji gitmoji-cli
+yarn add -D husky @commitlint/cli @commitlint/config-conventional commitlint-config-gitmoji
 ```
 
-## Step 4: Add Prepare Script
+---
 
-Check if `package.json` has a `prepare` script. If not, add it:
+## Step 6: Add Prepare Script
 
+Check package.json for prepare script.
+
+If not exists, add:
 ```json
 {
   "scripts": {
@@ -137,7 +515,7 @@ Check if `package.json` has a `prepare` script. If not, add it:
 }
 ```
 
-If `prepare` script already exists, append husky:
+If exists, append:
 ```json
 {
   "scripts": {
@@ -146,19 +524,22 @@ If `prepare` script already exists, append husky:
 }
 ```
 
-## Step 5: Initialize Husky
+---
+
+## Step 7: Initialize Husky
 
 ```bash
-# Create .husky directory
 mkdir -p .husky
 
-# Run prepare script to initialize husky
-pnpm prepare  # or npm/yarn based on package manager
+# Run prepare
+pnpm prepare  # or npm/yarn
 ```
 
-## Step 6: Create Husky Hooks
+---
 
-### Create commit-msg hook:
+## Step 8: Create Husky Hooks
+
+### commit-msg hook:
 ```bash
 # .husky/commit-msg
 pnpm commitlint --edit "$1"
@@ -167,13 +548,13 @@ pnpm commitlint --edit "$1"
 For npm: `npx commitlint --edit "$1"`
 For yarn: `yarn commitlint --edit "$1"`
 
-### Create prepare-commit-msg hook:
+### prepare-commit-msg hook:
 ```bash
 # .husky/prepare-commit-msg
 MSG_FILE=$1
 MSG=$(cat "$MSG_FILE")
 
-# Skip if gitmoji code already exists
+# Skip if gitmoji already exists
 if ! echo "$MSG" | grep -qE '^:[a-z_]+:'; then
   if echo "$MSG" | grep -q '^feat'; then
     sed -i '' '1s/^/:sparkles: /' "$MSG_FILE"
@@ -208,43 +589,39 @@ Make hooks executable:
 chmod +x .husky/commit-msg .husky/prepare-commit-msg
 ```
 
-## Step 7: Setup Pre-commit Hook (Auto-detect)
+---
 
-Check package.json for linting/type-checking tools:
+## Step 9: Setup Pre-commit Hook
 
+Check for linting tools:
 ```bash
-# Check for TypeScript
 grep -q '"typescript"' package.json && echo "typescript"
-
-# Check for ESLint
 grep -q '"eslint"' package.json && echo "eslint"
-
-# Check for lint-staged
 grep -q '"lint-staged"' package.json && echo "lint-staged"
 ```
 
-### Case A: TypeScript + ESLint + lint-staged found
-Automatically create pre-commit hook:
-
+### All tools found (TypeScript + ESLint + lint-staged):
+Auto-create pre-commit hook:
 ```bash
 # .husky/pre-commit
 echo "🔍 Running type check..."
-pnpm type-check  # or npm run type-check / yarn type-check
+pnpm type-check
 
 echo "🧹 Running lint-staged..."
 pnpm lint-staged
 ```
 
-Show message: "✅ Pre-commit hook added (type-check + lint-staged)"
-
-### Case B: Some tools found (partial)
-Show what was detected and ask:
-
 ```
-📦 Detected tools:
-  - TypeScript: ✓
-  - ESLint: ✓
-  - lint-staged: ✗
+✅ Pre-commit hook added (type-check + lint-staged)
+```
+
+### Partial tools found:
+Show detected tools:
+```
+📦 Detected:
+  - TypeScript: ✓/✗
+  - ESLint: ✓/✗
+  - lint-staged: ✓/✗
 ```
 
 **Ask user (AskUserQuestion):** "Add pre-commit hook with available tools?"
@@ -254,26 +631,26 @@ Show what was detected and ask:
 | Yes | Add with detected tools |
 | No | Skip pre-commit hook |
 
-### Case C: No tools found
-
-**Ask user (AskUserQuestion):** "No linting tools detected. Add pre-commit hook?"
+### No tools found:
+**Ask user (AskUserQuestion):** "No linting tools detected. Add empty pre-commit hook?"
 
 | Option | Description |
 |--------|-------------|
-| Yes, manual | I'll configure it manually |
+| Yes | Create template for manual config |
 | No | Skip pre-commit hook |
 
-If "Yes, manual": Create empty pre-commit hook template:
+If Yes:
 ```bash
 # .husky/pre-commit
 # Add your pre-commit commands here
 # Example: pnpm lint && pnpm test
 ```
 
-## Step 8: Create Commitlint Config
+---
+
+## Step 10: Create Commitlint Config
 
 Create `commitlint.config.cjs`:
-
 ```javascript
 module.exports = {
   extends: ['@commitlint/config-conventional', 'gitmoji'],
@@ -304,57 +681,85 @@ module.exports = {
 };
 ```
 
-## Step 9: Update .gitignore
+---
 
-Check if `.gitignore` includes `node_modules/`. If not, add:
+## Step 11: Initial Commit
 
+Check for existing commits:
+```bash
+git rev-list --count HEAD 2>/dev/null || echo "0"
 ```
-# Dependencies
-node_modules/
+
+If count is 0 (no commits):
+
+**Ask user (AskUserQuestion):** "Create initial commit?"
+
+| Option | Description |
+|--------|-------------|
+| Yes | Run /git:commit for initial commit |
+| No | Skip, I'll commit manually |
+
+### Yes selected:
 ```
+📝 Launching /git:commit for initial commit...
+
+Hint: Commit type → init
+```
+
+→ Execute /git:commit (the commit command will detect initial commit and suggest `init` type)
+
+### No selected:
+```
+⏭️ Skipping initial commit.
+   When ready: /git:commit
+```
+
+---
 
 ## Output Format
 
 ### On Success:
 ```
-✅ Git commit tooling initialized!
+✅ Git initialization complete!
 
-Installed:
+Repository:
+  - Git initialized: ✓
+  - Remote: origin → {url} (or "none")
+  - .gitignore: ✓ ({type} template)
+
+Commit tooling:
   - husky (git hooks)
-  - commitlint (commit message linting)
-  - gitmoji (automatic emoji prefixes)
+  - commitlint (message linting)
+  - gitmoji (auto emoji)
 
-Hooks configured:
-  - prepare-commit-msg: Auto-add gitmoji ✓
-  - commit-msg: Validate commit format ✓
-  - pre-commit: Type-check + lint-staged ✓  (if detected)
+Hooks:
+  - prepare-commit-msg: ✓
+  - commit-msg: ✓
+  - pre-commit: ✓/✗
 
-Your commits will now:
-  1. Run pre-commit checks (if configured)
-  2. Auto-add gitmoji based on commit type
-  3. Validate commit message format
+Initial commit: ✓/pending
 
-Example:
-  git commit -m "feat: Add new feature"
-  → :sparkles: feat: Add new feature
-
-Try it with /git:commit!
+Next steps:
+  - git push -u origin main (if remote configured)
+  - /git:commit for your next commit
 ```
 
 ### On Failure:
 ```
-❌ Setup failed: <error message>
+❌ Setup failed: {error}
 
 Please check:
-  - package.json exists
-  - Git repository is initialized
+  - Git is installed
   - Write permissions in project directory
+  - Network connection (for gh CLI)
 ```
+
+---
 
 ## Commit Type to Emoji Mapping
 
-| Type | Gitmoji Code | Emoji |
-|------|--------------|-------|
+| Type | Gitmoji | Emoji |
+|------|---------|-------|
 | feat | :sparkles: | ✨ |
 | fix | :bug: | 🐛 |
 | docs | :page_facing_up: | 📄 |
@@ -368,9 +773,12 @@ Please check:
 | revert | :wastebasket: | 🗑 |
 | init | :tada: | 🎉 |
 
+---
+
 ## Constraints
 
-1. **Preserve existing scripts**: Don't overwrite existing prepare script, append to it
-2. **Respect package manager**: Use the same package manager as the project
-3. **macOS compatible**: sed commands use macOS syntax (`sed -i ''`)
-4. **Non-destructive**: Ask before overwriting existing config
+1. **Preserve existing**: Don't overwrite without asking
+2. **Respect package manager**: Use detected package manager
+3. **macOS compatible**: sed uses `sed -i ''` syntax
+4. **Non-destructive**: Always ask before replacing
+5. **Workflow connection**: Link to /git:commit for initial commit

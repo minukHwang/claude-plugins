@@ -189,24 +189,45 @@ Ready to merge! 🎉
 
 ---
 
-### `/git:init` - Initialize Commit Tooling
+### `/git:init` - Initialize Git Project
 
-Sets up husky, commitlint, and gitmoji for conventional commits.
+Complete git project initialization from repository setup to first commit.
 
-**What it installs:**
-- **husky** - Git hooks manager
-- **commitlint** - Commit message linting
-- **gitmoji** - Automatic emoji prefixes
+**What it does:**
+
+| Step | Feature |
+|------|---------|
+| 0 | **Git repository** - `git init` + remote (connect or create via `gh`) |
+| 1 | **Auto .gitignore** - Detect project type, generate template |
+| 2 | **Project type check** - Node.js → husky, Others → pre-commit/manual |
+| 3-10 | **Husky setup** - commitlint, gitmoji hooks (Node.js only) |
+| 11 | **Initial commit** - Launch `/git:commit` with `init` type |
+
+**.gitignore templates:**
+Node.js, Python, Go, Rust, Ruby, iOS, Android, Generic
+
+**Remote options:**
+| Option | Description |
+|--------|-------------|
+| Existing URL | Connect to existing GitHub repo |
+| Create new | Create repo via `gh repo create` |
+| Skip | Local only |
+
+**Non-Node.js support:**
+| Option | Description |
+|--------|-------------|
+| pre-commit | Install pre-commit framework (Python) |
+| Manual | Create hooks in `.git/hooks/` |
+| Skip | No hooks |
 
 **Usage:**
 ```bash
 /git:init
 ```
 
-**After setup, commits automatically get emoji:**
+**Workflow connection:**
 ```
-git commit -m "feat: Add new feature"
-→ :sparkles: feat: Add new feature
+/git:init → /git:commit → /git:pr → /notion:til
 ```
 
 ## Requirements

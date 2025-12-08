@@ -131,10 +131,50 @@ git diff --staged --name-only | grep -E '\.(tsx)$'
 3. Continue to Step 2
 
 #### If "No":
-Continue to Step 2
+Continue to Step 1.6
 
 ### If no `.tsx` files:
-Skip to Step 2
+Skip to Step 1.6
+
+## Step 1.6: Initial Commit Detection
+
+Check if this is the first commit in the repository:
+
+```bash
+git rev-list --count HEAD 2>/dev/null || echo "0"
+```
+
+### If count is 0 (no commits yet):
+
+This is an initial commit. Auto-configure:
+
+```
+🎉 Initial commit detected!
+   Suggested type: init
+   Suggested message: Initialize {repo-name}
+```
+
+Get repository name:
+```bash
+basename $(pwd)
+```
+
+**Pre-configure for Step 3:**
+- Type: `init`
+- Emoji: 🎉
+
+**Continue to Step 2** for analysis:
+- Analyze all staged files (structure, components, features)
+- Check conversation context (what was the user building?)
+- Generate appropriate description
+
+Description examples based on analysis:
+- Simple boilerplate: `Initialize {repo-name}`
+- With features: `Initialize project with Next.js, TypeScript, and authentication`
+- From conversation: `Initialize emotion tracking app with calendar and 3D visualization`
+
+### If count > 0:
+Continue to Step 2 (normal commit flow)
 
 ## Step 2: Deep Analysis of Changes
 

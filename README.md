@@ -48,12 +48,14 @@ Git workflow automation with smart commits, PRs, and CI monitoring.
 | `/git:pr` | Create PR with full code analysis |
 | `/git:pr-light` | Create PR, saves tokens |
 | `/git:ci` | Monitor GitHub Actions, analyze failures |
-| `/git:init` | Setup husky + commitlint + gitmoji |
+| `/git:init` | Full project init: git, .gitignore, hooks, first commit |
 
 **Features:**
 - Auto-detects staged/unstaged files
 - Deep analysis reads actual file content
 - Generates conventional commit messages with gitmoji
+- Auto .gitignore generation (Node, Python, Go, Rust, Ruby, iOS, Android)
+- Non-Node.js support (pre-commit framework)
 - Integrates with react, readme, notion plugins
 
 📄 [Full documentation](./plugins/git/README.md)
@@ -123,6 +125,10 @@ Notion workspace automation tools.
 ### Git Workflow
 
 ```bash
+# New project setup
+/git:init            # git init + .gitignore + husky + first commit
+
+# Feature development
 /git:branch          # Create feature/user-auth
 # ... make changes ...
 /git:commit          # ✨ feat: Add user authentication
