@@ -1,0 +1,43 @@
+#!/bin/sh
+
+# Version consistency check for claude-plugins
+# Ensures all version files are in sync
+
+ROOT_VERSION=$(node -p "require('./package.json').version" 2>/dev/null)
+MARKETPLACE_VERSION=$(node -p "require('./.claude-plugin/marketplace.json').metadata.version" 2>/dev/null)
+
+if [ -z "$ROOT_VERSION" ] || [ -z "$MARKETPLACE_VERSION" ]; then
+  exit 0  # Skip if files don't exist
+fi
+
+# Check root package.json vs marketplace.json
+if [ "$ROOT_VERSION" != "$MARKETPLACE_VERSION" ]; then
+  echo "❌ Version mismatch detected!"
+  echo ""
+  echo "  package.json:             $ROOT_VERSION"
+  echo "  marketplace.json:         $MARKETPLACE_VERSION"
+  echo ""
+  echo "Please sync versions before committing."
+  echo "See CLAUDE.md for version tracking rules."
+  exit 1
+fi
+
+# Check plugin versions in marketplace vs plugin.json
+for plugin in git react readme notion; do
+  PLUGIN_JSON_VERSION=$(node -p "require('./plugins/$plugin/.claude-plugin/plugin.json').version" 2>/dev/null)
+  MARKETPLACE_PLUGIN_VERSION=$(node -p "require('./.claude-plugin/marketplace.json').plugins.find(p => p.name === '$plugin')?.version" 2>/dev/null)
+
+  if [ -n "$PLUGIN_JSON_VERSION" ] && [ -n "$MARKETPLACE_PLUGIN_VERSION" ]; then
+    if [ "$PLUGIN_JSON_VERSION" != "$MARKETPLACE_PLUGIN_VERSION" ]; then
+      echo "❌ Plugin version mismatch: $plugin"
+      echo ""
+      echo "  plugins/$plugin/plugin.json:    $PLUGIN_JSON_VERSION"
+      echo "  marketplace.json [$plugin]:     $MARKETPLACE_PLUGIN_VERSION"
+      echo ""
+      echo "Please sync versions before committing."
+      exit 1
+    fi
+  fi
+done
+
+exit 0

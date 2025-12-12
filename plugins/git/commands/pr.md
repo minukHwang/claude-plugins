@@ -136,6 +136,35 @@ Synthesize all information from:
 - File content (context)
 - Conversation history (user's goals)
 
+### 5.7 Version Update Check (claude-plugins only)
+
+**Only for claude-plugins repository.**
+
+Check if plugin files changed (from Step 5.3 changed files):
+- `plugins/*/commands/*.md` changed?
+- `plugins/*/skills/*.md` changed?
+
+If detected:
+
+**Ask user (AskUserQuestion):**
+"🏷️ Plugin changes detected. Version update needed?"
+
+| Option | Description |
+|--------|-------------|
+| PATCH (X.Y.Z+1) | Bug fix, docs improvement |
+| MINOR (X.Y+1.0) | New feature added |
+| Skip | Keep current version |
+
+### If PATCH or MINOR selected:
+1. Read current version from `package.json`
+2. Update version in these files:
+   - `package.json`
+   - `.claude-plugin/marketplace.json` (metadata.version + plugins[affected].version)
+   - `plugins/{affected}/.claude-plugin/plugin.json`
+3. Create version commit:
+   `:bookmark: release: v{new_version}`
+4. Push and continue to Step 6 (version commit included in PR)
+
 ## Step 6: Generate PR Title
 
 Format: `<emoji> <type>: <description>`

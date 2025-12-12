@@ -6,14 +6,14 @@
   },
   "metadata": {
     "description": "Claude Code plugins by Minuk Hwang",
-    "version": "1.0.0"
+    "version": "1.1.0"
   },
   "plugins": [
     {
       "name": "git",
       "source": "./plugins/git",
       "description": "Git workflow automation tools",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "author": {
         "name": "Minuk Hwang"
       },
@@ -55,7 +55,7 @@
       "name": "notion",
       "source": "./plugins/notion",
       "description": "Notion workspace automation tools",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "author": {
         "name": "Minuk Hwang"
       },

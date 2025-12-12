@@ -322,21 +322,133 @@ git rev-parse HEAD
 
 ### Page Content (Korean)
 
+**⚠️ 중요: 각 섹션을 충분히 상세하게 작성할 것!**
+
+간단한 한 줄이 아니라, 맥락과 구체적인 내용을 포함해야 함.
+
 ```markdown
 ## 🔍 문제
 
-[분석 기반으로 어떤 문제/이슈가 있었는지 작성]
+[구체적인 상황 설명]
+- 어떤 기능/버그/개선이 필요했는지
+- 왜 이 작업이 필요했는지 (배경/맥락)
+- 기존에 어떤 문제가 있었는지 (있다면)
 
 ## 💡 해결
 
-[어떻게 해결했는지, 핵심 코드 예시 포함]
+[단계별 접근 방법 + 핵심 코드]
+
+### 접근 방법
+1. 첫 번째로 한 것
+2. 두 번째로 한 것
+3. ...
+
+### 핵심 코드
+\`\`\`typescript
+// 실제 구현한 코드 예시 (변경된 파일에서 발췌)
+// 주요 로직을 보여주는 부분
+\`\`\`
+
+### 왜 이렇게 했는지
+- 이 방식을 선택한 이유
+- 고려했던 다른 방법이 있다면
 
 ## 📚 배운점
 
-[새로 알게 된 것, 시행착오, 팁 등]
+[기술적 인사이트 + 실용적 팁]
+- 새로 알게 된 기술/패턴/개념
+- 삽질했던 부분과 해결 과정
+- 다음에 비슷한 작업할 때 기억할 점
+- 더 개선할 수 있는 부분 (있다면)
+
+## 🚀 더 알아보기
+
+[AI가 제안하는 추가 학습/개선 포인트]
+- 관련 공식 문서나 아티클 (링크 포함)
+- 이 기술을 더 깊이 공부하려면
+- 비슷한 상황에서 쓸 수 있는 대안 (다른 라이브러리/패턴)
+- 성능/보안/유지보수 관점에서 개선할 수 있는 부분
+```
+
+**작성 기준:**
+| 섹션 | 최소 분량 | 포함해야 할 것 |
+|------|----------|---------------|
+| 문제 | 3-5줄 | 배경, 필요성, 기존 상태 |
+| 해결 | 10줄+ | 접근법, 코드 예시, 선택 이유 |
+| 배운점 | 3-5줄 | 인사이트, 팁, 주의점 |
+| 더 알아보기 | 2-4줄 | 공식 문서, 대안, 개선점 |
+
+**❌ 나쁜 예시:**
+```markdown
+## 🔍 문제
+로그인 기능이 필요했다.
+
+## 💡 해결
+로그인 기능을 구현했다.
+
+## 📚 배운점
+React를 배웠다.
+```
+
+**✅ 좋은 예시:**
+```markdown
+## 🔍 문제
+
+기존 앱에는 인증 시스템이 없어서 모든 사용자가 동일한 데이터에 접근하고 있었다.
+사용자별 데이터 분리와 보안을 위해 로그인 기능이 필요했다.
+JWT 기반 인증을 도입하기로 결정했다.
+
+## 💡 해결
+
+### 접근 방법
+1. NextAuth.js 설정 및 Provider 구성
+2. JWT 토큰 발급/검증 로직 구현
+3. Protected Route 미들웨어 적용
+
+### 핵심 코드
+\`\`\`typescript
+// middleware.ts
+export function middleware(request: NextRequest) {
+  const token = request.cookies.get('token');
+  if (!token && request.nextUrl.pathname.startsWith('/dashboard')) {
+    return NextResponse.redirect(new URL('/login', request.url));
+  }
+}
+\`\`\`
+
+### 왜 이렇게 했는지
+NextAuth.js를 선택한 이유는 Next.js와의 통합이 쉽고,
+다양한 OAuth Provider를 쉽게 추가할 수 있기 때문이다.
+
+## 📚 배운점
+
+- NextAuth.js의 `callbacks`에서 JWT payload를 커스터마이징할 수 있다
+- 미들웨어에서 인증 체크하면 클라이언트 코드가 깔끔해진다
+- 주의: `getServerSession`은 서버 컴포넌트에서만 사용 가능
+
+## 🚀 더 알아보기
+
+- [NextAuth.js 공식 문서](https://next-auth.js.org/) - 다양한 Provider 설정법
+- OAuth 2.0 vs JWT 차이점 비교해보면 좋음
+- 대안: [Clerk](https://clerk.com/), [Auth0](https://auth0.com/) - 더 많은 기능 제공
+- 보안 강화: Rate limiting, CSRF 토큰 추가 고려
 ```
 
 ### Create Page
+
+**Property Type Formats:**
+
+| Type | Format | Example |
+|------|--------|---------|
+| title | string | `"제목": "로그인 기능 구현"` |
+| date | expanded | `"date:날짜:start": "2025-01-01"`, `"date:날짜:is_datetime": 0` |
+| select | string | `"타입": "feat"` |
+| multi_select | **JSON array string** | `"기술 스택": "[\"React\", \"TypeScript\"]"` |
+| rich_text | string (markdown OK) | `"프로젝트": "[repo](url)"` |
+
+⚠️ **multi_select는 반드시 JSON 배열 문자열로 전달해야 함!**
+- ❌ `"React, TypeScript"` (쉼표 구분 문자열)
+- ✅ `"[\"React\", \"TypeScript\"]"` (JSON 배열 문자열)
 
 ```
 mcp__notion__notion-create-pages
@@ -348,7 +460,7 @@ pages: [{
     date:날짜:is_datetime: 0,
     타입: "feat",
     영역: "Frontend",
-    기술 스택: "React, TypeScript",
+    기술 스택: "[\"React\", \"TypeScript\"]",
     프로젝트: "[{project}](https://{host}/{namespace}/{project})",
     참조: "[{short_hash}]({commit_url})"  // or "[#{number}]({pr_url})" for PR/MR
   },
