@@ -40,10 +40,11 @@ Records a TIL (Today I Learned) entry to a Notion database.
 
 ```bash
 /notion:til
-# → "What would you like to record?"
-# → 1. Analyze recent commits
-# → "How many commits to analyze?"
-# → 1. Last 1 commit
+# → "무엇을 기록할까요?"
+# → 1. 최신 커밋 1개
+# → 2. 특정 커밋 선택 (다중 선택 가능)
+# → 3. PR/MR 단위
+# → 4. 직접 입력
 # → Analyzing changes...
 # ✓ TIL recorded to Notion!
 ```
@@ -53,7 +54,9 @@ Records a TIL (Today I Learned) entry to a Notion database.
 - **Deep Analysis**: Reads actual file content, not just diffs
 - **Auto Tech Stack**: Extracts tech stack from changed files only
 - **Korean Content**: TIL content written in Korean
-- **Git Links**: Repo name with link + commit URL
+- **Multi-commit Support**: Select multiple commits → merged into 1 TIL
+- **PR/MR Support**: Analyze entire PR/MR changes (GitHub & GitLab)
+- **Git Links**: Repo name + commit/PR links (markdown format)
 
 ### TIL Database
 
@@ -67,7 +70,7 @@ Records a TIL (Today I Learned) entry to a Notion database.
 | 영역 | Select | Frontend/Backend/DevOps/Infra/Full-stack |
 | 기술 스택 | Multi-select | Tech used in THIS work only |
 | 프로젝트 | Text | Repo name as clickable link |
-| 커밋 | URL | Commit or PR link |
+| 참조 | Text | Commit/PR links in markdown: `[abc123](url)` or `[#123](url)` |
 
 ### TIL Page Content (Korean)
 
@@ -150,13 +153,37 @@ Selecting "Yes":
 
 ## Examples
 
-### Standalone Usage
+### Latest Commit
 
 ```bash
 /notion:til
-# → "What would you like to record?"
-# → 1. Analyze recent commits
-# → Analyzes commit and creates TIL
+# → "무엇을 기록할까요?"
+# → 1. 최신 커밋 1개
+# → Analyzes HEAD commit
+# ✓ TIL recorded!
+```
+
+### Multiple Commits
+
+```bash
+/notion:til
+# → "무엇을 기록할까요?"
+# → 2. 특정 커밋 선택
+# → "분석할 커밋을 선택하세요" (multiSelect)
+# → Select: abc123, def456
+# → Merges into 1 TIL
+# ✓ TIL recorded!
+```
+
+### PR/MR Analysis
+
+```bash
+/notion:til
+# → "무엇을 기록할까요?"
+# → 3. PR/MR 단위
+# → "분석할 PR/MR을 선택하세요"
+# → #123 Add login feature
+# → Analyzes entire PR diff
 # ✓ TIL recorded!
 ```
 
@@ -169,17 +196,6 @@ Selecting "Yes":
 # → Yes
 # → Creates TIL using existing analysis
 # ✓ TIL recorded! (saves tokens)
-```
-
-### Specific Commit
-
-```bash
-/notion:til
-# → "What would you like to record?"
-# → 2. Enter specific commit hash
-# → Enter: abc123
-# → Analyzes that commit
-# ✓ TIL recorded!
 ```
 
 ## License

@@ -110,6 +110,8 @@ Notion workspace automation tools.
 
 **Features:**
 - Deep analysis of code changes
+- **Multi-commit support**: Select multiple commits → 1 TIL
+- **PR/MR support**: Analyze entire PR changes (GitHub & GitLab)
 - Korean content with structured format (Problem/Solution/Lesson)
 - Auto tech stack detection from changed files
 - Triggered after `/git:commit`
@@ -183,7 +185,8 @@ Notion workspace automation tools.
 | Requirement | For |
 |-------------|-----|
 | Git 2.0+ | All plugins |
-| GitHub CLI (`gh`) | `/git:pr`, `/git:ci` |
+| GitHub CLI (`gh`) | `/git:pr`, `/git:ci`, `/notion:til` (GitHub) |
+| GitLab CLI (`glab`) | `/notion:til` (GitLab PR/MR) |
 | Node.js | `/git:init` |
 | macOS or Linux | All plugins |
 | Notion MCP | `/notion:til` |
