@@ -185,6 +185,7 @@ Format: `<emoji> <type>: <description>`
 | chore | 📝 | Routine maintenance tasks |
 | revert | 🗑 | Undoing a previous commit |
 | init | 🎉 | Initial project setup |
+| release | 🔖 | Version release or tagging |
 
 ### Type Selection
 Choose the **dominant type** from all commits in this PR.

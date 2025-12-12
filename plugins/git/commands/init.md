@@ -671,6 +671,7 @@ module.exports = {
         'chore',
         'revert',
         'init',
+        'release',
       ],
     ],
     'subject-case': [0],
@@ -772,6 +773,7 @@ Please check:
 | chore | :memo: | 📝 |
 | revert | :wastebasket: | 🗑 |
 | init | :tada: | 🎉 |
+| release | :bookmark: | 🔖 |
 
 ---
 

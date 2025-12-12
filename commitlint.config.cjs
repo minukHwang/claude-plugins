@@ -18,6 +18,7 @@ module.exports = {
         'chore', // other tasks
         'revert', // revert previous commit
         'init', // initial setup
+        'release', // version release
       ],
     ],
     'subject-case': [0], // disable subject case rules (allow emoji usage)
@@ -89,6 +90,11 @@ module.exports = {
             description: 'Setting up the project structure, initial configuration, or boilerplate code',
             title: 'Initialization',
             emoji: '🎉',
+          },
+          release: {
+            description: 'Version release, tagging, or publishing',
+            title: 'Release',
+            emoji: '🔖',
           },
         },
       },

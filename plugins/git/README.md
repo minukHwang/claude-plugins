@@ -284,6 +284,7 @@ Node.js, Python, Go, Rust, Ruby, iOS, Android, Generic
 | chore | Maintenance | 📝 |
 | revert | Revert commit | 🗑 |
 | init | Initial setup | 🎉 |
+| release | Version release | 🔖 |
 
 ## License
 

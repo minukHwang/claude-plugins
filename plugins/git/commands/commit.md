@@ -238,6 +238,7 @@ Synthesize all information:
 | chore | 📝 | Routine maintenance tasks |
 | revert | 🗑 | Undoing a previous commit |
 | init | 🎉 | Initial project setup |
+| release | 🔖 | Version release or tagging |
 
 ### Rules
 
