@@ -214,19 +214,22 @@ Brief description of what this PR implements or fixes.
 
 ### ✨ **Key Features**
 
-#### 1. **Feature Category 1**
+<!-- Add as many feature categories as needed (1, 2, 3, 4...) -->
 
-- **Specific Feature**: Description of the feature
-- **Technical Detail**: Implementation details
-- **User Impact**: How this affects the user experience
+#### 1. **[Feature Category Name]**
 
-#### 2. **Feature Category 2**
+- **[Specific Feature]**: Description of the feature
+- **[Technical Detail]**: Implementation details
+- **[User Impact]**: How this affects the user experience
 
-- **Specific Feature**: Description of the feature
-- **Technical Detail**: Implementation details
-- **User Impact**: How this affects the user experience
+#### 2. **[Feature Category Name]**
 
-#### 3. **Technical Improvements**
+- **[Specific Feature]**: Description
+- **[Technical Detail]**: Implementation details
+
+<!-- Add more categories as needed -->
+
+#### N. **Technical Improvements** (if applicable)
 
 - **Performance**: Any performance improvements
 - **Code Quality**: Code refactoring or improvements
@@ -271,9 +274,9 @@ Related to #(issue number)
 ### Body Writing Guidelines
 
 - **Overview**: Focus on business value or problem solved, not implementation details
-- **Key Changes**: Be specific - mention actual file names, components, or functions
+- **Key Features**: Be specific - mention actual file names, components, or functions
 - **Technical Details**: Include concrete numbers and facts
-- **Review Points**: Highlight risky areas or complex logic that needs attention
+- **Remove empty sections**: If no screenshots, related issues, or other optional content exists, remove the entire section (don't leave empty or "None" sections)
 
 ## Step 8: Create PR
 
