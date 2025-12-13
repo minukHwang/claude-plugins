@@ -114,34 +114,51 @@ ls screenshots/ 2>/dev/null || ls docs/images/ 2>/dev/null
 ### Frontend Template
 
 ```markdown
-# Project Name
+<div align="center">
 
-> Brief description
+# 🎨 Project Name
+
+> ⚠️ _This project is currently in development._ (if applicable)
+
+<br/>
+
+![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&pause=1000&color=6366F1&center=true&vCenter=true&width=450&lines=Feature+1;Feature+2;Feature+3)
+
+<!-- Typing SVG: Write feature-focused phrases, not generic descriptions -->
+
+**Brief project description**
+
+![Badge1](https://img.shields.io/badge/Tech-000000?style=for-the-badge)
+![Badge2](https://img.shields.io/badge/Tech-000000?style=for-the-badge)
+
+</div>
+
+---
 
 ## ⚠️ Development Status (if applicable)
 
 > **Note:** This project is currently in development. Features and documentation are being actively worked on.
 
-## Table of Contents
+## 📑 Table of Contents
 
-1. [Overview](#overview)
-2. [Key Features](#key-features)
-3. [Tech Stack](#tech-stack)
-4. [Architecture](#architecture)
-5. [Project Structure](#project-structure)
-6. [Screenshots](#screenshots)
-7. [Technical Challenges & Solutions](#technical-challenges--solutions)
-8. [Getting Started](#getting-started)
-9. [Roadmap](#roadmap)
-10. [Author](#author)
+1. [📖 Overview](#-overview)
+2. [✨ Key Features](#-key-features)
+3. [🛠 Tech Stack](#-tech-stack)
+4. [🏗 Architecture](#-architecture)
+5. [📂 Project Structure](#-project-structure)
+6. [📸 Screenshots](#-screenshots)
+7. [🔧 Technical Challenges & Solutions](#-technical-challenges--solutions)
+8. [🚀 Getting Started](#-getting-started)
+9. [🗓 Roadmap](#-roadmap)
+10. [👤 Author](#-author)
 
 ---
 
-## Overview
+## 📖 Overview
 
 [2-3 sentences about the project]
 
-## Key Features
+## ✨ Key Features
 
 - **Feature 1**: Description
 - **Feature 2**: Description
@@ -149,7 +166,7 @@ ls screenshots/ 2>/dev/null || ls docs/images/ 2>/dev/null
 
 (or placeholder: `🚧 Features are being developed. Check back soon!`)
 
-## Tech Stack
+## 🛠 Tech Stack
 
 ### Core
 - Framework (version)
@@ -159,11 +176,11 @@ ls screenshots/ 2>/dev/null || ls docs/images/ 2>/dev/null
 - Library 1
 - Library 2
 
-## Architecture
+## 🏗 Architecture
 
 [Architecture description or diagram]
 
-## Project Structure
+## 📂 Project Structure
 
 ```
 project/
@@ -174,11 +191,11 @@ project/
 └── ...
 ```
 
-## Screenshots
+## 📸 Screenshots
 
 [Screenshots or placeholder: `🚧 Screenshots are being prepared...`]
 
-## Technical Challenges & Solutions
+## 🔧 Technical Challenges & Solutions
 
 ### Challenge 1: [Title]
 **Problem:** Description
@@ -186,7 +203,7 @@ project/
 
 (or placeholder: `🚧 Technical challenges and solutions will be documented as the project evolves.`)
 
-## Getting Started
+## 🚀 Getting Started
 
 ### Prerequisites
 - Node.js (version)
@@ -204,55 +221,80 @@ npm install
 npm run dev
 ```
 
-## Roadmap
+## 🗓 Roadmap
 
 - [ ] Feature 1
 - [ ] Feature 2
 
-## Author
+## 👤 Author
 
 **Name** - [GitHub](link)
+
+---
+
+<div align="center">
+
+Made with ❤️ and ☕
+
+</div>
 ```
 
 ### Backend Template
 
 ```markdown
-# Project Name
+<div align="center">
 
-> Brief description
+# 🚀 Project Name
+
+> ⚠️ _This project is currently in development._ (if applicable)
+
+<br/>
+
+![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&pause=1000&color=6366F1&center=true&vCenter=true&width=450&lines=Feature+1;Feature+2;Feature+3)
+
+<!-- Typing SVG: Write feature-focused phrases, not generic descriptions -->
+
+**Brief project description**
+
+![Badge1](https://img.shields.io/badge/Tech-000000?style=for-the-badge)
+![Badge2](https://img.shields.io/badge/Tech-000000?style=for-the-badge)
+
+</div>
+
+---
 
 ## ⚠️ Development Status (if applicable)
 
 > **Note:** This project is currently in development.
 
-## Table of Contents
+## 📑 Table of Contents
 
-1. [Overview](#overview)
-2. [Key Features](#key-features)
-3. [Tech Stack](#tech-stack)
-4. [Architecture](#architecture)
-5. [Project Structure](#project-structure)
-6. [API Endpoints](#api-endpoints)
-7. [Authentication Flow](#authentication-flow)
-8. [Technical Challenges & Solutions](#technical-challenges--solutions)
-9. [Getting Started](#getting-started)
-10. [Roadmap](#roadmap)
-11. [Author](#author)
+1. [📖 Overview](#-overview)
+2. [✨ Key Features](#-key-features)
+3. [🛠 Tech Stack](#-tech-stack)
+4. [🏗 Architecture](#-architecture)
+5. [📂 Project Structure](#-project-structure)
+6. [📡 API Endpoints](#-api-endpoints)
+7. [🔐 Authentication Flow](#-authentication-flow)
+8. [🔧 Technical Challenges & Solutions](#-technical-challenges--solutions)
+9. [🚀 Getting Started](#-getting-started)
+10. [🗓 Roadmap](#-roadmap)
+11. [👤 Author](#-author)
 
 ---
 
-## Overview
+## 📖 Overview
 
 [2-3 sentences]
 
-## Key Features
+## ✨ Key Features
 
 - **Feature 1**: Description
 - **Feature 2**: Description
 
 (or placeholder)
 
-## Tech Stack
+## 🛠 Tech Stack
 
 ### Core
 - Framework (version)
@@ -263,7 +305,7 @@ npm run dev
 - Docker
 - Cloud services
 
-## Architecture
+## 🏗 Architecture
 
 ```
 ┌─────────────┐     ┌─────────────┐     ┌─────────────┐
@@ -271,7 +313,7 @@ npm run dev
 └─────────────┘     └─────────────┘     └─────────────┘
 ```
 
-## Project Structure
+## 📂 Project Structure
 
 ```
 project/
@@ -283,7 +325,7 @@ project/
 └── ...
 ```
 
-## API Endpoints
+## 📡 API Endpoints
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
@@ -292,17 +334,17 @@ project/
 
 (or placeholder: `🚧 API documentation coming soon.`)
 
-## Authentication Flow
+## 🔐 Authentication Flow
 
 [Auth flow description]
 
 (or placeholder if not implemented)
 
-## Technical Challenges & Solutions
+## 🔧 Technical Challenges & Solutions
 
 (same as Frontend)
 
-## Getting Started
+## 🚀 Getting Started
 
 ### Prerequisites
 - Runtime (version)
@@ -327,14 +369,22 @@ git clone <repo-url>
 | DATABASE_URL | Database connection string |
 | JWT_SECRET | JWT signing secret |
 
-## Roadmap
+## 🗓 Roadmap
 
 - [ ] Feature 1
 - [ ] Feature 2
 
-## Author
+## 👤 Author
 
 **Name** - [GitHub](link)
+
+---
+
+<div align="center">
+
+Made with ❤️ and ☕
+
+</div>
 ```
 
 ### Full-stack Template
