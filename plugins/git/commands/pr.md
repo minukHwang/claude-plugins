@@ -206,33 +206,66 @@ Choose the **dominant type** from all commits in this PR.
 Use this template:
 
 ```markdown
-## Overview
+## 📝 **PR Description**
 
-[2-3 sentences summarizing the purpose and background of this PR based on commit and diff analysis]
+### 🎯 **Overview**
 
-## Key Changes
+Brief description of what this PR implements or fixes.
 
-- [Specific change 1 based on actual code changes]
-- [Specific change 2 based on actual code changes]
-- [Specific change 3 based on actual code changes]
+### ✨ **Key Features**
 
-## Technical Details
+#### 1. **Feature Category 1**
 
-- **Files Changed**: [number] files
-- **Dependencies**: [New dependencies added, or "None"]
-- **Breaking Changes**: [Description or "None"]
+- **Specific Feature**: Description of the feature
+- **Technical Detail**: Implementation details
+- **User Impact**: How this affects the user experience
 
-## Review Points
+#### 2. **Feature Category 2**
 
-- [Area that needs careful review 1]
-- [Area that needs careful review 2]
+- **Specific Feature**: Description of the feature
+- **Technical Detail**: Implementation details
+- **User Impact**: How this affects the user experience
 
-## Testing
+#### 3. **Technical Improvements**
 
-- [ ] Build successful
-- [ ] Type check passed
-- [ ] Lint check passed
+- **Performance**: Any performance improvements
+- **Code Quality**: Code refactoring or improvements
+- **Developer Experience**: DX improvements
+
+### 🔧 **Technical Details**
+
+- **Dependencies**: Any new dependencies added
+- **Breaking Changes**: Any breaking changes (if applicable)
+- **Migration Guide**: If needed, migration steps for breaking changes
+
+### 🧪 **Testing**
+
+- [ ] Unit tests added/updated
+- [ ] Integration tests added/updated
 - [ ] Manual testing completed
+- [ ] Cross-browser testing (Chrome, Safari, Firefox)
+- [ ] Responsive design tested (mobile/desktop)
+- [ ] Build successful (`pnpm build:all`)
+- [ ] Type check passed (`pnpm type-check:all`)
+- [ ] Lint check passed (`pnpm lint:all`)
+
+### 📸 **Screenshots/Videos**
+
+<!-- Add screenshots or videos if UI changes are included -->
+
+### 📋 **Checklist**
+
+- [ ] Code follows project style guidelines
+- [ ] Self-review completed
+- [ ] Documentation updated (if needed)
+- [ ] No console errors or warnings
+- [ ] Responsive design tested (if applicable)
+- [ ] Accessibility checked (if UI changes)
+
+### 🔗 **Related Issues**
+
+Closes #(issue number)
+Related to #(issue number)
 ```
 
 ### Body Writing Guidelines
