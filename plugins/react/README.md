@@ -32,10 +32,19 @@ React/Next.js development automation tools for Claude Code.
 
 | Location | Style | Example |
 |----------|-------|---------|
-| Top-level sections | JSDoc + `====` | Type Definitions |
-| Component sections | JSDoc + `----` + number | 1. External Hooks |
-| Function/variable | `/** */` | Build URL with date |
-| Inline annotation | `//` | `// YYYY-MM-DD format` |
+| Top-level sections | `/*` + `====` | Type Definitions |
+| Component sections | `/*` + `----` + number | 1. External Hooks |
+| Constants/type properties | `/** */` | `/** Max items */` |
+| Type annotations | `//` inline | `date: string; // YYYY-MM-DD` |
+| Function/variable inside component | `/** */` | `/** Handle click */` |
+| Logic explanation | `//` inline | `// Skip if empty` |
+
+> **Important**: Use `/*` (not `/**`) for Top-level section and Component section headers. `/**` is JSDoc and IDE will show it as documentation for the next declaration. `/*` is a regular comment that IDE ignores.
+
+**Which sections need `/** */` comments?**
+- Section 2 (States), 5-10: Use `/** description */` - useState/useRef and custom logic need explanation
+- Section 1 (External Hooks), 3-4 (Query/Custom Hooks): Typically no comments needed (IDE hover shows JSDoc), but add if extra context helpful
+- Section 6 (Derived Values): Add comments only if variable name doesn't clearly explain purpose
 
 ---
 
@@ -46,7 +55,7 @@ React/Next.js development automation tools for Claude Code.
 ```typescript
 'use client';
 
-/**
+/*
  * ============================================
  * Constants
  * ============================================
@@ -55,12 +64,13 @@ React/Next.js development automation tools for Claude Code.
 /** Maximum number of items allowed */
 const MAX_ITEMS = 100;
 
-/**
+/*
  * ============================================
  * Type Definitions
  * ============================================
  */
 
+/** ComponentName props */
 interface ComponentProps {
   /** Prop description */
   value: string;
@@ -68,47 +78,52 @@ interface ComponentProps {
   onChange?: (value: string) => void;
 }
 
-/**
+/*
  * ============================================
  * Component
  * ============================================
  */
 
+/**
+ * Component description
+ *
+ * @param value - Current value
+ * @param onChange - Callback when value changes
+ */
 export function ComponentName({ value, onChange }: ComponentProps) {
-  /**
+  /*
    * --------------------------------------------
    * 1. External Hooks
    * --------------------------------------------
    */
-  // Navigation
   const router = useRouter();
-  // Context
   const { user } = useAuthContext();
 
-  /**
+  /*
    * --------------------------------------------
    * 2. States
    * --------------------------------------------
    */
+  /** Current input value */
   const [localValue, setLocalValue] = useState(value);
+  /** Reference to input element */
   const inputRef = useRef<HTMLInputElement>(null);
 
-  /**
+  /*
    * --------------------------------------------
    * 3. Query Hooks
    * --------------------------------------------
    */
   const { data, isLoading } = useQuery({ ... });
 
-  /**
+  /*
    * --------------------------------------------
    * 4. Custom Hooks
    * --------------------------------------------
    */
-  /** Debounced value for API calls */
   const debouncedValue = useDebounce(localValue, 300);
 
-  /**
+  /*
    * --------------------------------------------
    * 5. Computed Values
    * --------------------------------------------
@@ -118,7 +133,7 @@ export function ComponentName({ value, onChange }: ComponentProps) {
     return items.filter(...);
   }, [items]);
 
-  /**
+  /*
    * --------------------------------------------
    * 6. Derived Values
    * --------------------------------------------
@@ -126,7 +141,7 @@ export function ComponentName({ value, onChange }: ComponentProps) {
   const isEmpty = localValue.length === 0;
   const isValid = localValue.length <= MAX_ITEMS;
 
-  /**
+  /*
    * --------------------------------------------
    * 7. Callbacks
    * --------------------------------------------
@@ -137,7 +152,7 @@ export function ComponentName({ value, onChange }: ComponentProps) {
     onChange?.(newValue);
   }, [onChange]);
 
-  /**
+  /*
    * --------------------------------------------
    * 8. Helper Functions
    * --------------------------------------------
@@ -147,17 +162,18 @@ export function ComponentName({ value, onChange }: ComponentProps) {
     return val.trim().toLowerCase();
   };
 
-  /**
+  /*
    * --------------------------------------------
    * 9. Event Handlers
    * --------------------------------------------
    */
+  /** Handle form submission */
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     // Submit logic
   };
 
-  /**
+  /*
    * --------------------------------------------
    * 10. Effects
    * --------------------------------------------
@@ -167,7 +183,7 @@ export function ComponentName({ value, onChange }: ComponentProps) {
     setLocalValue(value);
   }, [value]);
 
-  /**
+  /*
    * --------------------------------------------
    * 11. Return
    * --------------------------------------------
@@ -189,12 +205,13 @@ export function ComponentName({ value, onChange }: ComponentProps) {
 
 import { createContext, useCallback, useContext, useMemo, useState } from 'react';
 
-/**
+/*
  * ============================================
  * Type Definitions
  * ============================================
  */
 
+/** Context value type */
 interface ContextType {
   /** Current value */
   value: string;
@@ -204,38 +221,41 @@ interface ContextType {
   reset: () => void;
 }
 
+/** Provider props */
 interface ProviderProps {
   children: React.ReactNode;
 }
 
-/**
+/*
  * ============================================
  * Context
  * ============================================
- *
- * Context description here
  */
 
+/** My feature context */
 const MyContext = createContext<ContextType | undefined>(undefined);
 
-/**
+/*
  * ============================================
  * Provider
  * ============================================
- *
- * Provider description
+ */
+
+/**
+ * My feature provider
  *
  * @param children - Child components to wrap
  */
 export function MyProvider({ children }: ProviderProps) {
-  /**
+  /*
    * --------------------------------------------
    * 1. States
    * --------------------------------------------
    */
+  /** Current context value */
   const [value, setValue] = useState('');
 
-  /**
+  /*
    * --------------------------------------------
    * 2. Callbacks - Actions
    * --------------------------------------------
@@ -246,7 +266,7 @@ export function MyProvider({ children }: ProviderProps) {
     setValue('');
   }, []);
 
-  /**
+  /*
    * --------------------------------------------
    * 3. Context Value
    * --------------------------------------------
@@ -256,7 +276,7 @@ export function MyProvider({ children }: ProviderProps) {
     [value, reset]
   );
 
-  /**
+  /*
    * --------------------------------------------
    * 4. Return
    * --------------------------------------------
@@ -264,12 +284,18 @@ export function MyProvider({ children }: ProviderProps) {
   return <MyContext.Provider value={contextValue}>{children}</MyContext.Provider>;
 }
 
-/**
+/*
  * ============================================
  * Custom Hook
  * ============================================
  */
 
+/**
+ * Hook to access MyContext
+ *
+ * @returns Context value with state and actions
+ * @throws Error if used outside of MyProvider
+ */
 export function useMyContext() {
   const context = useContext(MyContext);
   if (context === undefined) {
@@ -294,10 +320,17 @@ import type { ApiResponse } from '@/types/api.types';
 
 import type { CreateRequest, GetParams, GetResponse } from './feature.dto';
 
+/** Feature API service */
 export const featureService = {
   /**
    * GET /features
    * Get feature list with filters
+   *
+   * @param params - Query parameters
+   * @param params.page - Page number
+   * @param params.limit - Items per page
+   * @param params.search - Search keyword (optional)
+   * @returns Feature list response
    */
   getFeatures: async (params: GetParams): Promise<ApiResponse<GetResponse>> => {
     const { data } = await axiosInstance.get('/features', { params });
@@ -307,6 +340,11 @@ export const featureService = {
   /**
    * POST /features
    * Create new feature
+   *
+   * @param params - Feature data
+   * @param params.name - Feature name
+   * @param params.description - Feature description (optional)
+   * @returns Empty response on success
    */
   createFeature: async (params: CreateRequest): Promise<ApiResponse<null>> => {
     const { data } = await axiosInstance.post('/features', params);
@@ -332,17 +370,19 @@ import { useQuery } from '@tanstack/react-query';
 import type { GetParams, GetResponse } from './feature.dto';
 import { featureService } from './feature.service';
 
-/**
+/*
  * ============================================
  * Query Keys
  * ============================================
  */
+
+/** Feature query keys */
 export const FEATURE_QUERY_KEY = {
   LIST: 'featureList',
   DETAIL: 'featureDetail',
 } as const;
 
-/**
+/*
  * ============================================
  * Hooks
  * ============================================
@@ -351,6 +391,12 @@ export const FEATURE_QUERY_KEY = {
 /**
  * GET /features
  * Get feature list query
+ *
+ * @param params - Query parameters
+ * @param params.page - Page number
+ * @param params.limit - Items per page
+ * @param params.search - Search keyword (optional)
+ * @returns Feature list data
  */
 export const useFeatureListQuery = (params: GetParams) => {
   return useQuery({
@@ -422,6 +468,89 @@ export function formatFeatureName(name: string): string {
  */
 export function isValidFeature(feature: Feature): boolean {
   return feature.name.length > 0 && feature.name.length <= 100;
+}
+```
+
+---
+
+### Hook Template
+
+```typescript
+/**
+ * [Feature hooks]
+ * Custom hooks for feature functionality
+ */
+
+'use client';
+
+import { useCallback, useEffect, useState } from 'react';
+
+/**
+ * Hook to manage feature state with persistence
+ *
+ * @param initialValue - Initial feature value
+ * @param options - Hook options (debounce, persist)
+ * @returns Feature state and control functions
+ *
+ * @example
+ * const { value, setValue, reset } = useFeature('default', { persist: true });
+ */
+export function useFeature(
+  initialValue: string,
+  options?: { debounce?: number; persist?: boolean }
+) {
+  /*
+   * --------------------------------------------
+   * 1. States
+   * --------------------------------------------
+   */
+  /** Current feature value */
+  const [value, setValue] = useState(initialValue);
+  /** Loading state for async operations */
+  const [isLoading, setIsLoading] = useState(false);
+
+  /*
+   * --------------------------------------------
+   * 2. Callbacks
+   * --------------------------------------------
+   */
+
+  /** Reset to initial value */
+  const reset = useCallback(() => {
+    setValue(initialValue);
+  }, [initialValue]);
+
+  /** Update value with validation */
+  const updateValue = useCallback((newValue: string) => {
+    if (newValue.length <= 100) {
+      setValue(newValue);
+    }
+  }, []);
+
+  /*
+   * --------------------------------------------
+   * 3. Effects
+   * --------------------------------------------
+   */
+
+  /** Persist to localStorage when value changes */
+  useEffect(() => {
+    if (options?.persist) {
+      localStorage.setItem('feature-value', value);
+    }
+  }, [value, options?.persist]);
+
+  /*
+   * --------------------------------------------
+   * 4. Return
+   * --------------------------------------------
+   */
+  return {
+    value,
+    setValue: updateValue,
+    reset,
+    isLoading,
+  };
 }
 ```
 

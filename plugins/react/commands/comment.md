@@ -80,94 +80,106 @@ Check existing comments:
 
 **Top-level sections (==== format, no numbering):**
 ```typescript
-/**
+/*
  * ============================================
  * Constants
  * ============================================
  */
 
-/**
+const MAX_ITEMS = 100;
+
+/*
  * ============================================
  * Type Definitions
  * ============================================
  */
 
-/**
+interface MyComponentProps {
+  // ...
+}
+
+/*
  * ============================================
  * Component
  * ============================================
+ */
+
+/**
+ * Component description
+ *
+ * @param value - Current value
+ * @param onChange - Callback when value changes
  */
 ```
 
 **Inside component (---- format, numbered):**
 ```typescript
 function MyComponent() {
-  /**
+  /*
    * --------------------------------------------
    * 1. External Hooks
    * --------------------------------------------
    */
-  // Navigation
   const router = useRouter();
-  // Context
   const { user } = useAuthContext();
 
-  /**
+  /*
    * --------------------------------------------
    * 2. States
    * --------------------------------------------
    */
+  /** Current input value */
   const [value, setValue] = useState('');
 
-  /**
+  /*
    * --------------------------------------------
    * 3. Query Hooks
    * --------------------------------------------
    */
 
-  /**
+  /*
    * --------------------------------------------
    * 4. Custom Hooks
    * --------------------------------------------
    */
 
-  /**
+  /*
    * --------------------------------------------
    * 5. Computed Values
    * --------------------------------------------
    */
 
-  /**
+  /*
    * --------------------------------------------
    * 6. Derived Values
    * --------------------------------------------
    */
 
-  /**
+  /*
    * --------------------------------------------
    * 7. Callbacks
    * --------------------------------------------
    */
 
-  /**
+  /*
    * --------------------------------------------
    * 8. Helper Functions
    * --------------------------------------------
    */
 
-  /**
+  /*
    * --------------------------------------------
    * 9. Event Handlers
    * --------------------------------------------
    */
 
-  /**
+  /*
    * --------------------------------------------
    * 10. Effects
    * --------------------------------------------
    */
 
-  /**
+  /*
    * --------------------------------------------
    * 11. Return
    * --------------------------------------------
@@ -176,71 +188,96 @@ function MyComponent() {
 }
 ```
 
-**Function/variable descriptions:** Use `/** description */` format
+**Function/variable descriptions (sections 2, 5-10):** Use `/** description */` for States, Computed Values, Callbacks, Helper Functions, Event Handlers, Effects (shown in IDE hover). Sections 1, 3-4 typically don't need comments (IDE hover shows their JSDoc), but add if extra context is helpful. Section 6 (Derived Values) - add comments only if variable name doesn't clearly explain purpose.
 
 ### 4.2 Context Files (*Context.tsx, *Provider.tsx)
 
 **Top-level sections:**
 ```typescript
-/**
+/*
  * ============================================
  * Type Definitions
  * ============================================
  */
 
-/**
+interface ContextType {
+  // ...
+}
+
+interface ProviderProps {
+  children: React.ReactNode;
+}
+
+/*
  * ============================================
  * Context
  * ============================================
- *
- * Context description here
  */
 
-/**
+const MyContext = createContext<ContextType | undefined>(undefined);
+
+/*
  * ============================================
  * Provider
  * ============================================
- *
- * Provider description
- *
- * @param children - Child components to wrap
  */
 
 /**
+ * My feature provider
+ *
+ * @param children - Child components to wrap
+ */
+export function MyProvider({ children }: ProviderProps) {
+  // ...
+}
+
+/*
  * ============================================
  * Custom Hook
  * ============================================
  */
+
+/**
+ * Hook to access MyContext
+ *
+ * @returns Context value with state and actions
+ * @throws Error if used outside of MyProvider
+ */
+export function useMyContext() {
+  // ...
+}
 ```
 
 **Inside Provider (numbered, subcategories allowed):**
 ```typescript
 function MyProvider({ children }) {
-  /**
+  /*
    * --------------------------------------------
    * 1. States
    * --------------------------------------------
    */
+  /** Current context value */
+  const [value, setValue] = useState('');
 
-  /**
+  /*
    * --------------------------------------------
    * 2. Callbacks - Navigation
    * --------------------------------------------
    */
 
-  /**
+  /*
    * --------------------------------------------
    * 3. Callbacks - Helpers
    * --------------------------------------------
    */
 
-  /**
+  /*
    * --------------------------------------------
    * 4. Context Value
    * --------------------------------------------
    */
 
-  /**
+  /*
    * --------------------------------------------
    * 5. Return
    * --------------------------------------------
@@ -261,6 +298,11 @@ export const xxxService = {
   /**
    * HTTP_METHOD /endpoint
    * Description
+   *
+   * @param params - Parameter description
+   * @param params.field1 - Field 1 description
+   * @param params.field2 - Field 2 description (optional)
+   * @returns Response description
    */
   methodName: async (...) => { ... },
 };
@@ -277,14 +319,15 @@ export const xxxService = {
 
 'use client';
 
-/**
+/*
  * ============================================
  * Query Keys
  * ============================================
  */
+
 export const XXX_QUERY_KEY = { ... };
 
-/**
+/*
  * ============================================
  * Hooks
  * ============================================
@@ -293,6 +336,11 @@ export const XXX_QUERY_KEY = { ... };
 /**
  * HTTP_METHOD /endpoint
  * Description
+ *
+ * @param params - Query parameters
+ * @param params.field1 - Field 1 description
+ * @param params.field2 - Field 2 description (optional)
+ * @returns Query data
  */
 export const useXxxQuery = (...) => { ... };
 ```
@@ -351,6 +399,59 @@ export type XxxType = ...;
 export const XXX_CONSTANT = ...;
 ```
 
+### 4.8 Hook Files (*.hook.ts, *.hooks.ts)
+
+**Structure:**
+```typescript
+/**
+ * [Hook name]
+ * Description
+ */
+
+'use client';
+
+/**
+ * Hook description
+ *
+ * @param initialValue - Initial value
+ * @param options - Hook options
+ * @returns State and control functions
+ *
+ * @example
+ * const { value, setValue } = useFeature('default');
+ */
+export function useFeature(initialValue: string, options?: Options) {
+  /*
+   * --------------------------------------------
+   * 1. States
+   * --------------------------------------------
+   */
+  /** Current feature value */
+  const [value, setValue] = useState(initialValue);
+  /** Loading state for async operations */
+  const [isLoading, setIsLoading] = useState(false);
+
+  /*
+   * --------------------------------------------
+   * 2. Callbacks
+   * --------------------------------------------
+   */
+
+  /*
+   * --------------------------------------------
+   * 3. Effects
+   * --------------------------------------------
+   */
+
+  /*
+   * --------------------------------------------
+   * 4. Return
+   * --------------------------------------------
+   */
+  return { value, setValue, reset };
+}
+```
+
 ## Step 5: Show Changes Summary
 
 ```
@@ -366,12 +467,14 @@ Apply changes? (y/n)
 
 | Location | Style | Example |
 |----------|-------|---------|
-| Top-level sections | JSDoc + `====` | `Type Definitions` |
-| Component sections | JSDoc + `----` + number | `1. External Hooks` |
+| Top-level sections | `/*` + `====` | `Type Definitions` |
+| Component sections | `/*` + `----` + number | `1. External Hooks` |
 | Constants/type properties | `/** */` | `/** Max items */` |
 | Type annotations | `//` inline | `date: string; // YYYY-MM-DD` |
-| Function/variable inside component | `/** */` | `/** Handle click */` |
+| Function/variable inside component | `/** */` (shown in IDE hover) | `/** Handle click */` |
 | Logic explanation | `//` inline | `// Skip if empty` |
+
+> **Important**: Use `/*` (not `/**`) for Top-level section and Component section headers. `/**` is JSDoc and IDE will show it as documentation for the next declaration. `/*` is a regular comment that IDE ignores.
 
 ## Constraints
 
@@ -379,3 +482,4 @@ Apply changes? (y/n)
 2. **English comments**: All comments should be in English
 3. **Skip empty sections**: Don't add section headers for empty sections
 4. **Match file conventions**: Use patterns from existing code in the project
+5. **Use `/*` for section headers**: Prevents IDE from showing section header as documentation
