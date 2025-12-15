@@ -76,6 +76,8 @@ Check existing comments:
 
 ## Step 4: Apply Comments by File Type
 
+> **Next.js Special Files:** `page.tsx`, `layout.tsx`, `loading.tsx`, `error.tsx`, `not-found.tsx` follow the Component template structure. Use section name like `Page Component` or `Layout Component` instead of just `Component`.
+
 ### 4.1 Component Files (*.tsx)
 
 **Top-level sections (==== format, no numbering):**

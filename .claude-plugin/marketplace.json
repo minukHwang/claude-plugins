@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "Claude Code plugins by Minuk Hwang",
-    "version": "1.3.3"
+    "version": "1.3.4"
   },
   "plugins": [
     {
@@ -27,7 +27,7 @@
       "name": "react",
       "source": "./plugins/react",
       "description": "React/Next.js development automation tools",
-      "version": "1.0.1",
+      "version": "1.0.2",
       "author": {
         "name": "Minuk Hwang"
       },

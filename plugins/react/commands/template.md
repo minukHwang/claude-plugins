@@ -38,6 +38,8 @@ Available: Component, Context, Service, Query, DTO, Utils"
 
 Based on selection, output the template as a code block.
 
+> **Next.js Special Files:** `page.tsx`, `layout.tsx`, `loading.tsx`, `error.tsx`, `not-found.tsx` follow the Component template structure. Use section name like `Page Component` or `Layout Component` instead of just `Component`.
+
 ### Component Template
 
 ```typescript
