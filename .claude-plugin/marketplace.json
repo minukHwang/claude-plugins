@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "Claude Code plugins by Minuk Hwang",
-    "version": "1.4.0"
+    "version": "1.5.0"
   },
   "plugins": [
     {
@@ -64,6 +64,20 @@
       "license": "MIT",
       "keywords": ["notion", "til", "database", "mcp", "automation"],
       "category": "productivity"
+    },
+    {
+      "name": "util",
+      "source": "./plugins/util",
+      "description": "Utility tools for Claude Code",
+      "version": "1.0.0",
+      "author": {
+        "name": "Minuk Hwang"
+      },
+      "homepage": "https://github.com/minukHwang/claude-plugins",
+      "repository": "https://github.com/minukHwang/claude-plugins",
+      "license": "MIT",
+      "keywords": ["util", "search", "web", "date", "automation"],
+      "category": "utility"
     }
   ]
 }

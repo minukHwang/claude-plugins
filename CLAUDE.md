@@ -21,6 +21,20 @@
 | `.claude-plugin/marketplace.json` | plugins[해당].version |
 | `plugins/{name}/.claude-plugin/plugin.json` | version |
 
+### 커밋 전 README 업데이트 (필수)
+
+커밋하기 전에 반드시 README 업데이트 확인:
+
+| 파일 | 업데이트 시점 |
+|------|--------------|
+| `plugins/{name}/README.md` | 해당 플러그인 변경 시 |
+| `README.md` (루트) | 새 플러그인/커맨드/스킬 추가 시 |
+
+**체크리스트:**
+- [ ] 플러그인 README에 변경사항 반영
+- [ ] 루트 README에 새 기능 추가 (Table of Contents, Plugins 섹션)
+- [ ] Quick Start 설치 명령어 업데이트 (새 플러그인 시)
+
 ### 커밋 규칙
 
 - 버전 변경 커밋: `:bookmark: release: v{version}` 형식

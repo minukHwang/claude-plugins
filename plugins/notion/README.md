@@ -75,14 +75,45 @@ Records a TIL (Today I Learned) entry to a Notion database.
 ### TIL Page Content (Korean)
 
 ```markdown
+## 📋 배경
+- 상황: Context of the work
+- 문제 인식: Why this work was needed
+- 목표: What we wanted to achieve
+
 ## 🔍 문제
-[What problem/issue existed]
+### ⚠️ 1. [Problem Title]
+- 현상: What went wrong
+- 원인 분석: Why it happened
 
 ## 💡 해결
-[How it was solved, with code examples]
+### 고려한 선택지
+- A 방법: ...
+- B 방법: ...
+
+### ⭐ 대안 비교
+| 선택지 | 장점 | 단점 |
+|--------|------|------|
+| A 방법 | ... | ... |
+| **B 방법 (선택)** | ... | - |
+
+### 선택한 방법과 이유
+[Why this approach was chosen]
+
+### 구현 코드
+[Code examples]
+
+## ✅ 결과
+[What was achieved]
 
 ## 📚 배운점
-[What was learned, tips, insights]
+### 🔧 기술적 배움
+### 🧠 설계적 배움
+
+## 🤔 더 알아보기
+[AI suggestions for further learning]
+
+## 🔗 관련 링크
+[Reference links]
 ```
 
 ### Deep Analysis

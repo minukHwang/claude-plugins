@@ -13,6 +13,7 @@ A Claude Code plugin marketplace for development workflow automation.
   - [react](#react) - React/Next.js development
   - [readme](#readme) - Documentation generation
   - [notion](#notion) - Notion workspace automation
+  - [util](#util) - Utility tools
 - [Workflow Examples](#workflow-examples)
 - [Requirements](#requirements)
 - [Contributing](#contributing)
@@ -30,6 +31,7 @@ A Claude Code plugin marketplace for development workflow automation.
 /plugin install react@minukHwang-plugins
 /plugin install readme@minukHwang-plugins
 /plugin install notion@minukHwang-plugins
+/plugin install util@minukHwang-plugins
 ```
 
 ---
@@ -119,6 +121,23 @@ Notion workspace automation tools.
 ⚠️ Requires [Notion MCP setup](#notion-mcp-setup)
 
 📄 [Full documentation](./plugins/notion/README.md)
+
+---
+
+### util
+
+Utility tools for Claude Code.
+
+| Skill | Description |
+|-------|-------------|
+| `search` | Current date awareness for web searches |
+
+**Features:**
+- Ensures Claude uses current year (not 2024) when searching
+- Auto-triggers on: "검색해봐", "알아봐", "찾아봐", "분석해봐"
+- Runs `date` before `WebSearch`/`WebFetch`
+
+📄 [Full documentation](./plugins/util/README.md)
 
 ---
 

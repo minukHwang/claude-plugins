@@ -1,0 +1,11 @@
+{
+  "name": "util",
+  "version": "1.0.0",
+  "description": "Utility tools for Claude Code",
+  "author": {
+    "name": "Minuk Hwang",
+    "email": "minuk.lucas.hwang@gmail.com"
+  },
+  "homepage": "https://github.com/minukHwang/claude-plugins",
+  "license": "MIT"
+}
