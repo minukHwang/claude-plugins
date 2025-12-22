@@ -775,6 +775,29 @@ Tech Stack: [React, TypeScript, ...]
 View in Notion: [page URL]
 ```
 
+### Step 6: Blog Extension Prompt
+
+After TIL creation success, ask user:
+
+**Ask user (AskUserQuestion):**
+"블로그로 확장할까요?"
+
+| Option | Description |
+|--------|-------------|
+| 예 | 지금 바로 블로그로 확장 |
+| 나중에 | TIL만 기록하고 종료 |
+
+**If "예":**
+```
+💡 블로그 확장을 위해 `/notion:blog` 를 실행하세요.
+방금 작성한 TIL을 기반으로 더 자세한 블로그 글을 작성합니다.
+
+TIL URL: [page URL]
+```
+
+**If "나중에":**
+→ End with success message above
+
 ### On Failure:
 ```
 ✗ Failed to record TIL: <error message>

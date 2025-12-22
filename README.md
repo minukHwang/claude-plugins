@@ -109,6 +109,7 @@ Notion workspace automation tools.
 | Command | Description |
 |---------|-------------|
 | `/notion:til` | Record TIL to Notion (requires MCP) |
+| `/notion:blog` | Write detailed blog post (extends TIL) |
 
 **Features:**
 - Deep analysis of code changes
@@ -116,6 +117,8 @@ Notion workspace automation tools.
 - **PR/MR support**: Analyze entire PR changes (GitHub & GitLab)
 - Korean content with structured format (Problem/Solution/Lesson)
 - Auto tech stack detection from changed files
+- **TIL → Blog flow**: Expand TIL into detailed blog post
+- **Web search**: Searches official docs and articles for blog
 - Triggered after `/git:commit`
 
 ⚠️ Requires [Notion MCP setup](#notion-mcp-setup)
@@ -189,12 +192,16 @@ Utility tools for Claude Code.
 
 ```bash
 /notion:til          # Record TIL to Notion
+/notion:blog         # Write detailed blog post
 
 # Or after commit:
 /git:commit
 # → "📝 Record TIL to Notion?"
 # → Yes
 /notion:til
+# → "📝 Expand to blog post?"
+# → Yes
+/notion:blog
 ```
 
 ---

@@ -7,6 +7,7 @@ Notion workspace automation tools.
 | Command | Description |
 |---------|-------------|
 | `/notion:til` | Record TIL (Today I Learned) to Notion database |
+| `/notion:blog` | Write detailed technical blog post to Notion (extends TIL) |
 
 ## Requirements
 
@@ -228,6 +229,103 @@ Selecting "Yes":
 # → Creates TIL using existing analysis
 # ✓ TIL recorded! (saves tokens)
 ```
+
+## /notion:blog
+
+Writes a detailed technical blog post to Notion. Extends TIL with deeper analysis, web search, and structured format.
+
+### Workflow
+
+```bash
+/notion:blog
+# → "무엇을 블로그로 작성할까요?"
+# → 1. 최신 커밋 1개
+# → 2. 특정 커밋 선택 (다중 선택 가능)
+# → 3. PR/MR 단위
+# → 4. TIL에서 확장
+# → 5. 직접 입력
+# → Deep analysis + Web search...
+# ✓ Blog post created!
+```
+
+### TIL vs Blog
+
+| Aspect | TIL | Blog |
+|--------|-----|------|
+| Depth | Minimal | Rich & detailed |
+| Structure | 배경/문제/해결/결과/배운점 | 배경/문제/선택지⭐/구현/성과 |
+| Web Search | ❌ | ✅ |
+| TIL Reference | - | ✅ |
+| Database | `[Claude] TIL` | `[Claude] Blog` |
+
+### Features
+
+- **TIL Extension**: Expand existing TIL into detailed blog post
+- **Web Search**: Searches official docs and related articles
+- **Blog Writing Guide**: Follows structured guide (Notion page)
+- **Options Section**: Detailed comparison of technical alternatives
+- **Before/After Tables**: Quantitative results comparison
+
+### Blog Database
+
+**Database Name:** `[Claude] Blog`
+
+| Property | Type | Description |
+|----------|------|-------------|
+| 제목 | Title | Descriptive title (Korean) |
+| 날짜 | Date | Today's date |
+| 타입 | Select | feat/fix/docs/refactor/etc. |
+| 영역 | Select | Frontend/Backend/DevOps/Infra/Full-stack |
+| 기술 스택 | Multi-select | Tech used in this work |
+| 프로젝트 | Text | Repo name as clickable link |
+| 참조 | Text | Commit/PR/TIL links in markdown |
+| 상태 | Select | 작성중/완료/발행됨 |
+
+### Blog Page Content
+
+Follows the blog writing guide structure:
+
+```markdown
+## 1. 배경 (Context)
+- 상황, 문제 인식, 환경
+
+## 2. 문제 정의 (Problem)
+- 현상, 디버깅 과정, 근본 원인
+
+## 3. 기술적 선택지 (Options) ⭐
+- 비교 테이블
+- 각 Option 상세 (동작 원리, 검토 과정, 결론)
+- 선택 이유
+
+## 4. 해결 및 구현 (Implementation)
+- 아키텍처/설계
+- 구현 코드
+- UX 디테일 (optional)
+- 트러블슈팅 요약
+
+## 5. 성과 및 회고 (Impact & Learning)
+- 정량적 성과 (Before/After table)
+- 정성적 성과 (applicable items only)
+- 배운 점 (기술/설계/UX/비즈니스)
+- 회고
+
+## 🔗 참고 자료
+- Web search collected links
+```
+
+### TIL → Blog Flow
+
+After creating a TIL, you'll be prompted:
+
+```
+✓ TIL recorded!
+
+📝 블로그로 확장할까요?
+1. 예 - 지금 바로 블로그로 확장
+2. 나중에 - TIL만 기록하고 종료
+```
+
+Selecting "예" will start `/notion:blog` with the TIL content as reference.
 
 ## License
 
