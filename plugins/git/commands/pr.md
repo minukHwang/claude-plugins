@@ -278,6 +278,31 @@ Related to #(issue number)
 - **Technical Details**: Include concrete numbers and facts
 - **Remove empty sections**: If no screenshots, related issues, or other optional content exists, remove the entire section (don't leave empty or "None" sections)
 
+## Step 7.5: Devlog Enhancement Prompt (Optional)
+
+After PR body generated, before creating PR:
+
+**Ask user (AskUserQuestion):**
+"📋 Enhance with devlog context?"
+
+| Option | Description |
+|--------|-------------|
+| Yes | Find related entries from devlog |
+| No | Proceed without devlog |
+
+### If "Yes":
+
+Run devlog lookup (cascade filtering):
+
+1. **Match by commit hash**: PR commits in DEVLOG.md/PLANS.md **Commit** field
+2. **Match by Related Files**: Compare PR changed files with entry's **Related Files**
+3. **Fallback by branch**: Match current branch, show recent 3 entries, ask user to confirm
+
+If found: Use entry context to enhance PR description (especially Technical Details section).
+If not found: "No related devlog found" → proceed.
+
+**Reference:** DEVLOG.md + PLANS.md
+
 ## Step 8: Create PR
 
 Execute:

@@ -35,6 +35,10 @@ commitlint not found → Uses defaults (emoji + 100 chars + standard types)
 # If no staged changes, will prompt to add files
 ```
 
+**Devlog integration:**
+- After commit, updates DEVLOG.md entries with commit hash (if Related Files match)
+- Offers "📋 Enhance with devlog context?" before TIL prompt
+
 **Example output:**
 ```
 ✓ Commit created: a1b2c3d
@@ -113,6 +117,9 @@ Analyzes all changes and creates a comprehensive PR using `gh` CLI.
 ```bash
 /git:pr
 ```
+
+**Devlog integration:**
+- Offers "📋 Enhance with devlog context?" to reference DEVLOG.md + PLANS.md
 
 **Example output:**
 ```

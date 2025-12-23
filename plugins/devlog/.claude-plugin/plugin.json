@@ -1,6 +1,6 @@
 {
   "name": "devlog",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Project decision and design logging with auto-trigger hooks",
   "author": {
     "name": "Minuk Hwang",

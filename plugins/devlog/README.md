@@ -66,6 +66,10 @@ Optional global hooks for automatic suggestions:
 
 **Commit**: abc1234 - "feat: add caching layer"
 
+**Related Files**
+- `src/cache/redis.service.ts`
+- `src/user/user.controller.ts`
+
 **Context**
 Working on user service API...
 
@@ -84,6 +88,10 @@ API responses are slow...
 **Outcome/Lessons**
 - TTL configuration was critical...
 ```
+
+**Note:**
+- **Commit** field starts empty; updated automatically after `/git:commit`
+- **Related Files** enables accurate matching when referenced by other commands
 
 ### PLANS.md (Design Decisions)
 ```markdown
@@ -105,6 +113,28 @@ Implement secure user authentication...
 **Trade-offs Accepted**
 - Complexity vs Scalability...
 ```
+
+## Integration with Other Commands
+
+Other commands can reference devlog for enhanced context:
+
+| Command | Devlog Reference | Prompt |
+|---------|------------------|--------|
+| `/git:commit` | DEVLOG.md | "📋 Enhance with devlog context?" |
+| `/git:pr` | DEVLOG.md + PLANS.md | "📋 Enhance with devlog context?" |
+| `/notion:til` | DEVLOG.md + PLANS.md | "📋 Enhance with devlog context?" |
+| `/notion:blog` | DEVLOG.md + PLANS.md | "📋 Enhance with devlog context?" |
+
+### Lookup Flow (Cascade Filtering)
+
+1. **Match by commit hash**: Find entries with matching **Commit** field
+2. **Match by Related Files**: Compare changed files with entry's **Related Files**
+3. **Fallback by branch**: Match current branch, show recent 3 entries
+4. If not found: "No related devlog found"
+
+### Auto Hash Update
+
+After `/git:commit`, the commit hash is automatically added to matching DEVLOG.md entries based on **Related Files**.
 
 ## Hook Configuration
 
@@ -132,4 +162,4 @@ Add to `~/.claude/settings.json` for all projects:
 
 ## Version
 
-1.0.0
+1.1.0

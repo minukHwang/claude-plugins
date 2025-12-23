@@ -164,6 +164,7 @@ Project decision and design logging with auto-trigger hooks.
 - Sensitive info filtering (API keys, passwords)
 - Auto-trigger hooks (Stop + PreCompact)
 - Context recovery for new sessions
+- Integration with `/git:commit`, `/git:pr`, `/notion:til`, `/notion:blog`
 
 📄 [Full documentation](./plugins/devlog/README.md)
 

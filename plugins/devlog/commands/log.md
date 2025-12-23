@@ -28,11 +28,13 @@ git branch --show-current
 git log -1 --format="%h %s" 2>/dev/null || echo "No commits yet"
 ```
 
-### 1.2 Diff Analysis
+### 1.2 Diff Analysis & Related Files
 ```bash
 git diff --name-only 2>/dev/null
 git diff --staged --name-only 2>/dev/null
 ```
+
+Store the list of changed files as **Related Files** for later use in entry format.
 
 ### 1.3 File Content Analysis
 
@@ -103,7 +105,12 @@ Use Edit tool to append after the last `---`:
 ```markdown
 ### {date} {time} ### {branch}
 
-**Commit**: {hash} - "{message}"  ← (only if committed)
+**Commit**: (empty - will be updated after /git:commit)
+
+**Related Files**
+- `{file1}`
+- `{file2}`
+- `{file3}`
 
 **Context**
 {Working context - what you were building/fixing}
@@ -127,11 +134,10 @@ Use Edit tool to append after the last `---`:
 **Outcome/Lessons**
 {Results and learnings - bullet points}
 
-**Related Files**
-{List of affected files}
-
 ---
 ```
+
+**Note:** The **Commit** field starts empty. After `/git:commit`, the commit hash will be automatically updated to this entry based on **Related Files** matching.
 
 ## Step 4: Commit (Optional)
 

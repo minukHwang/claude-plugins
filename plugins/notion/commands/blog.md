@@ -55,16 +55,37 @@ Show recent TIL list → User selects one → Fetch TIL page → Step 2
 
 ## Step 2: Deep Analysis
 
-### 2.1 Code Analysis (Same as TIL)
+### 2.1 Commit/PR Analysis
+```bash
+git log -1 --format="%B" {hash}  # commit message
+git diff {hash}~1..{hash}        # changes (or PR range)
+git diff {hash}~1..{hash} --name-only  # changed files
+```
 
-| Step | Analysis |
-|------|----------|
-| Commit/PR Analysis | git log, git diff |
-| Changed Files | Read with Read tool |
-| Context Analysis | Conversation context |
-| Tech Stack Extract | From file extensions/imports |
+### 2.2 File Content Analysis
+**Read changed files with Read tool** to understand:
+- What was modified and why
+- Technical decisions involved
+- Patterns, new components, or modified logic
 
-### 2.2 TIL DB Lookup (Additional)
+### 2.3 Context Analysis
+If there's relevant conversation history:
+- What task was the user working on?
+- What problem were they solving?
+- Any specific feature names or terminology mentioned?
+
+### 2.4 Tech Stack Detection
+| Indicator | Tech |
+|-----------|------|
+| `.tsx` files | React |
+| `useQuery` import | React Query |
+| `next/` imports | Next.js |
+| Tailwind classes | Tailwind CSS |
+| `prisma` usage | Prisma |
+
+**Important:** Only include tech actually used in THIS commit/PR.
+
+### 2.5 TIL DB Lookup (Additional)
 
 Check for related TIL:
 
@@ -121,6 +142,31 @@ id: "2d18429a-1c2a-813f-9887-d3b3408c44d3"
 6. 참고 자료
 
 **Important:** Write detailed content for each section as specified in the guide.
+
+## Step 4.5: Devlog Enhancement Prompt (Optional)
+
+After content analysis, before creating blog entry:
+
+**Ask user (AskUserQuestion):**
+"📋 Enhance with devlog context?"
+
+| Option | Description |
+|--------|-------------|
+| Yes | Find related entries from devlog |
+| No | Proceed without devlog |
+
+### If "Yes":
+
+Run devlog lookup (cascade filtering):
+
+1. **Match by commit hash**: Current commit(s) in DEVLOG.md/PLANS.md **Commit** field
+2. **Match by Related Files**: Compare changed files with entry's **Related Files**
+3. **Fallback by branch**: Match current branch, show recent 3 entries, ask user to confirm
+
+If found: Use entry context to enhance blog content (especially Options/Decision sections).
+If not found: "No related devlog found" → proceed.
+
+**Reference:** DEVLOG.md + PLANS.md
 
 ## Step 5: Find or Create Blog Database
 
