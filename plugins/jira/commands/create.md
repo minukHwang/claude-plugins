@@ -151,6 +151,30 @@ If Yes:
 3. Prompt user for date selection (YYYY-MM-DD format)
 4. Store as `{due_date}`
 
+## Step 4.6: Set Start Date (Optional)
+
+**Ask user (AskUserQuestion):**
+"Set start date?"
+
+| Option | Description |
+|--------|-------------|
+| Today | Start working now |
+| Custom | Enter specific date |
+| Skip | Set later via /jira:start |
+
+If Today:
+```bash
+date +%Y-%m-%d
+```
+Store as `{start_date}`.
+
+If Custom:
+Prompt user for date selection (YYYY-MM-DD format).
+Store as `{start_date}`.
+
+If Skip:
+`{start_date}` remains empty (will be set by /jira:start).
+
 ## Step 5: Create Jira Issue
 
 ### 5.1: Get Current User Account ID
@@ -174,16 +198,23 @@ parent: {selected_epic_key}  # Only if Epic selected in Step 1.5
 assignee_account_id: {current_user_account_id}  # Auto-assign to self
 ```
 
-### 5.3: Set Due Date (if provided)
+### 5.3: Set Due Date and Start Date (if provided)
 
-If `{due_date}` was set in Step 4.5:
+If `{due_date}` or `{start_date}` was set:
 
 ```
 mcp__atlassian__editJiraIssue:
   cloudId: {jira.cloudId}
   issueIdOrKey: {created_issue_key}
-  fields: { "duedate": "{due_date}" }
+  fields: {
+    "duedate": "{due_date}",           // if due_date provided
+    "customfield_10015": "{start_date}" // if start_date provided
+  }
 ```
+
+**Note:** Start Date field name may vary by project:
+- Common names: `customfield_10015`, `customfield_10014`, `Start date`
+- If field not found, skip with warning (non-critical)
 
 **Note:** Priority via additional_fields may cause "Input data should be a String" error.
 Set priority separately via `mcp__atlassian__editJiraIssue` if needed.
@@ -210,16 +241,22 @@ If `notion.enabled` is true (from workflow.json) and `todo.id` exists (from ~/.c
    pages: [{
      "properties": {
        "Title": "{summary}",
-       "Epic": "{selected_epic_key}: {selected_epic_summary}",  # Only if Epic selected
+       "Type": "{issue_type}",  // Epic, Story, Task, Bug (from Step 1)
+       "Epic": "[{epic_key}](https://{jira.siteUrl}/browse/{epic_key}) - {epic_summary}",  # Only if Epic selected
        "Status": "Todo",
        "Project": "[{project}](https://{host}/{namespace}/{project})",
        "Jira Link": "[{issueKey}](https://{jira.siteUrl}/browse/{issueKey})",
-       "Priority": "{priority}"
+       "Priority": "{priority}",
+       "date:Due Date:start": "{due_date}",       // if due_date provided
+       "date:Due Date:is_datetime": 0,
+       "date:Start Date:start": "{start_date}",   // if start_date provided
+       "date:Start Date:is_datetime": 0
      }
    }]
    ```
 
-   **Note:** If no Epic selected, omit the "Epic" field or set to empty string.
+   **Note:** If no Epic selected, omit the "Epic" field.
+   **Note:** Omit date fields if not set (don't include empty date fields).
 
 **Note:** If `todo.id` not found in user config, skip Notion sync with message:
 ```
@@ -249,13 +286,17 @@ Summary: {summary}
 Type: {type}
 Parent: {epic_key} ({epic_summary})  # if Epic selected
 Priority: {priority}
+Start Date: {start_date}  # if set
 Due Date: {due_date}  # if set
 Assignee: {current_user_name}
 URL: https://{jira.siteUrl}/browse/{issueKey}
 
 {if notion synced}
 ✓ Notion TODO item created
-  └── Epic: {epic_key}: {epic_summary}
+  ├── Type: {type}
+  ├── Epic: [{epic_key}]({url}) - {epic_summary}
+  ├── Start Date: {start_date}
+  └── Due Date: {due_date}
 {/if}
 
 Next steps:

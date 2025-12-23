@@ -15,6 +15,15 @@ cat .claude/workflow.json 2>/dev/null
 If exists, extract:
 - `jira.enabled` - Whether Jira integration is active
 - `jira.cloudId` - Atlassian cloud ID for Jira URLs
+- `jira.siteUrl` - Atlassian site URL for Jira links
+- `notion.enabled` - Whether Notion integration is active
+
+If `notion.enabled`, also load:
+```bash
+cat ~/.claude/notion.json 2>/dev/null
+```
+
+Extract `todo.id` for Notion TODO updates.
 
 ## Step 1: Verify Git Repository
 
@@ -196,6 +205,46 @@ If detected:
    `:bookmark: release: v{new_version}`
 4. Push and continue to Step 6 (version commit included in PR)
 
+### 5.8 Multi-Issue Warning (if jira.enabled)
+
+Extract all issue keys from commit messages:
+```bash
+git log origin/<TARGET_BRANCH>..HEAD --pretty=format:"%s %b" | grep -oE '[A-Z]+-[0-9]+' | sort -u
+```
+
+Compare with branch issue key:
+- Branch key: `{issueKey}` (from Step 2.5)
+- Commit keys: All unique keys from commits
+
+If commit keys contain keys OTHER than branch key:
+
+```
+⚠️ Warning: Multiple issue keys detected!
+
+Branch: {branch_issue_key}
+Commits reference: {all_issue_keys}
+
+Best practice: 1 PR = 1 Issue
+```
+
+**Ask user (AskUserQuestion):**
+"Multiple Jira issues found in commits. Continue?"
+
+| Option | Description |
+|--------|-------------|
+| Continue | Create PR anyway (not recommended) |
+| Cancel | Abort to fix commits |
+
+If "Cancel" selected, stop with message:
+```
+PR creation cancelled.
+
+To fix, consider:
+- Cherry-pick relevant commits to separate branches
+- Create separate PRs for each issue
+- Use /jira:start to work on one issue at a time
+```
+
 ## Step 6: Generate PR Title
 
 Format: `<emoji> <type>: <description>`
@@ -364,6 +413,38 @@ EOF
 )" --base <TARGET_BRANCH>
 ```
 
+## Step 8.5: Update Notion TODO with PR (if jira.enabled and notion.enabled)
+
+After successful PR creation, if Jira integration is enabled:
+
+1. Extract PR number from `gh pr create` output or URL
+
+2. Load Notion config:
+   ```bash
+   cat ~/.claude/notion.json 2>/dev/null
+   ```
+
+3. Search for TODO item by Jira issue key:
+   Call `mcp__notion__notion-search`:
+   ```
+   query: "{issueKey}"
+   ```
+
+4. If found, update PR field (rich text format like TIL):
+   Call `mcp__notion__notion-update-page`:
+   ```
+   data: {
+     "page_id": "{found_page_id}",
+     "command": "update_properties",
+     "properties": {
+       "PR": "[#{pr_number}]({pr_url})"
+     }
+   }
+   ```
+
+**Note:** PR format follows TIL convention: `[#{number}]({url})`
+Example: `[#42](https://github.com/user/repo/pull/42)`
+
 ## Step 9: README Update Suggestion (Optional)
 
 After successful PR creation:
@@ -394,6 +475,11 @@ Proceed to output
 
 Title: <PR title>
 URL: <PR URL>
+
+{if notion updated}
+✓ Notion TODO updated
+  └── PR: [#{pr_number}]({pr_url})
+{/if}
 
 The PR is ready for review.
 ```

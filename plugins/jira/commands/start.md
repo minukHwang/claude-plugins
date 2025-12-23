@@ -78,7 +78,7 @@ Call `mcp__atlassian__getJiraIssue`:
 ```
 cloudId: {jira.cloudId}
 issueIdOrKey: {selected_issue_key}
-fields: ["summary", "status", "issuetype", "priority", "description"]
+fields: ["summary", "status", "issuetype", "priority", "description", "customfield_10015"]
 ```
 
 Verify issue exists and extract:
@@ -86,6 +86,7 @@ Verify issue exists and extract:
 - `summary` - Issue title
 - `issueType` - Bug, Task, Story, Epic
 - `status` - Current status
+- `startDate` - Existing start date (customfield_10015), may be null
 
 ## Step 3: Transition Issue to In Progress + Set Start Date
 
@@ -106,7 +107,11 @@ issueIdOrKey: {issueKey}
 transition: {"id": "{transition_id}"}
 ```
 
-### 3.2: Set Jira Start Date
+### 3.2: Set Jira Start Date (Conditional)
+
+**Only set Start Date if not already set:**
+
+If `startDate` from Step 2 is null/empty:
 
 1. Get current date:
    ```bash
@@ -123,6 +128,10 @@ transition: {"id": "{transition_id}"}
      "customfield_10015": "{today_date}"
    }
    ```
+
+If `startDate` already exists:
+- Skip Jira update
+- Use existing `startDate` for display
 
 **Note:** Start Date field name may vary by project:
 - Common names: `customfield_10015`, `customfield_10014`, `Start date`
@@ -160,7 +169,9 @@ If `notion.enabled` is true:
    filter: {"property": "object", "value": "page"}
    ```
 
-2. If found, update status and start date:
+2. If found, update status (and start date if not already set):
+
+   **If Start Date was not set (from Step 3.2):**
    Call `mcp__notion__notion-update-page`:
    ```
    data: {
@@ -174,7 +185,17 @@ If `notion.enabled` is true:
    }
    ```
 
-   Where `{today_date}` is today's date in `YYYY-MM-DD` format.
+   **If Start Date already exists:**
+   Call `mcp__notion__notion-update-page`:
+   ```
+   data: {
+     "page_id": "{found_page_id}",
+     "command": "update_properties",
+     "properties": {
+       "Status": "In Progress"
+     }
+   }
+   ```
 
 ## Output
 
@@ -185,7 +206,7 @@ If `notion.enabled` is true:
 Summary: {summary}
 Type: {issueType}
 Status: To Do → In Progress
-Start Date: {today_date}
+Start Date: {today_date}  # or "{existing_date} (already set)"
 
 Branch: {branch_name}
 ├─ Created via /git:branch
@@ -194,7 +215,7 @@ Branch: {branch_name}
 {if notion synced}
 ✓ Notion TODO updated
   ├─ Status: Todo → In Progress
-  └─ Start Date: {today_date}
+  └─ Start Date: {today_date or "unchanged"}
 {/if}
 
 Next steps:

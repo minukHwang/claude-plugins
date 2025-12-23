@@ -56,11 +56,14 @@ Project workflow configuration for Git strategy, Jira integration, and Notion sy
 | Skill | Description |
 |-------|-------------|
 | `workflow-context` | Auto-load workflow settings |
+| `one-pr-one-issue` | 1 PR = 1 Issue workflow guide (v1.2.0) |
 
 **Features:**
 - Git strategy selection (github-flow, git-flow, trunk-based)
 - Jira project connection with issue key in branches/commits
 - Notion TODO database integration with **Epic field** (v1.1.0)
+- **Type field**: Epic/Story/Task/Bug/Todo select (v1.2.0)
+- **CLAUDE.md rules**: Auto-add 1 PR = 1 Issue workflow (v1.2.0)
 - **Two-ID system**: Data Source ID + Page ID for Notion DBs (v1.1.0)
 - Merge method configuration (squash, merge, rebase)
 - Creates `.claude/workflow.json` for other plugins to use
@@ -82,17 +85,19 @@ Jira issue management and Git integration automation.
 | `/jira:start` | Start working on issue (creates branch) |
 | `/jira:done` | Complete issue (creates PR, updates status) |
 | `/jira:view` | View issue details |
-| `/jira:sync` | Sync Notion TODO → Jira (NEW) |
+| `/jira:sync` | Bidirectional sync: Jira ↔ Notion TODO (v1.3.0) |
 
 **Features:**
 - Full Jira workflow: create → start → done
 - **Epic selection**: Link issues to parent Epics (v1.1.0)
 - **Due Date & Auto-assign**: Optional due date, auto-assign to self (v1.1.0)
+- **Start Date**: Optional at creation, auto-set on start (v1.3.0)
 - Auto branch creation with issue key (via `/git:branch`)
 - Automatic status transitions with **Start Date** (v1.1.0)
 - Notion TODO sync (create, update status, add links)
-- **Epic field**: Syncs Epic info to Notion TODO (v1.1.0)
-- **Reverse sync**: Notion TODO → Jira via `/jira:sync` (v1.2.0)
+- **Type field**: Epic/Story/Task/Bug synced to Notion (v1.3.0)
+- **Epic field**: Rich text link to Epic (v1.3.0)
+- **Bidirectional sync**: Jira ↔ Notion with Done propagation (v1.3.0)
 - Seamless integration with git plugin
 
 ⚠️ Requires [Atlassian MCP](#atlassian-mcp-setup) and `/workflow:init`
@@ -123,6 +128,8 @@ Git workflow automation with smart commits, PRs, CI monitoring, and Jira integra
 - Non-Node.js support (pre-commit framework)
 - Integrates with react, readme, notion plugins
 - **Jira integration** (v1.4.0): Issue key in branch/commit/PR
+- **Notion PR update**: Saves PR link to TODO `[#42](url)` (v1.5.0)
+- **Multi-issue warning**: Warns on 1 PR with multiple issues (v1.5.0)
 
 📄 [Full documentation](./plugins/git/README.md)
 

@@ -4,7 +4,7 @@ Jira issue management and Git integration automation.
 
 ## Version
 
-1.2.0
+1.3.0
 
 ## Prerequisites
 
@@ -20,7 +20,7 @@ Jira issue management and Git integration automation.
 | `/jira:start` | Start working on an issue (creates branch) |
 | `/jira:done` | Complete issue (creates PR, updates status) |
 | `/jira:view` | View issue details |
-| `/jira:sync` | Sync Notion TODO → Jira (v1.2.0) |
+| `/jira:sync` | Bidirectional sync: Jira ↔ Notion TODO (v1.3.0) |
 
 ## Features
 
@@ -28,6 +28,7 @@ Jira issue management and Git integration automation.
 - Create issues with type selection (Task, Bug, Story, Epic)
 - **Epic selection**: Link issues to parent Epics (v1.1.0)
 - **Due Date**: Optional due date setting (v1.1.0)
+- **Start Date**: Optional at creation, auto-set on start (v1.3.0)
 - **Auto-assign**: Issues assigned to current user (v1.1.0)
 - View backlog and assigned issues
 - Track issue status throughout workflow
@@ -36,14 +37,36 @@ Jira issue management and Git integration automation.
 - Automatic branch creation with issue key
 - Issue key included in commit messages
 - PR creation with Jira link
+- **1 PR = 1 Issue**: Warning on multi-issue PRs (v1.3.0)
 
 ### Notion Sync
+- **Type field**: Epic/Story/Task/Bug synced (v1.3.0)
 - Create TODO items in Notion when creating Jira issues
-- **Epic field**: Epic info synced to Notion TODO (v1.1.0)
-- Update Notion status and Start Date when starting issues
-- **Jira Start Date**: Set start date field when starting (v1.1.0)
-- Add commit and PR links on completion
-- **Reverse sync**: Notion TODO → Jira via `/jira:sync` (v1.2.0)
+- **Epic field**: Rich text link to Epic (v1.3.0)
+- **Due Date**: Synced to Notion (v1.3.0)
+- **Start Date**: Optional at create, set on start (v1.3.0)
+- Update Notion status when starting issues
+- Add PR links on completion (TIL format: `[#42](url)`)
+- **Bidirectional sync**: Jira ↔ Notion via `/jira:sync` (v1.3.0)
+  - Done status propagation
+  - Project scope selection
+
+## Notion TODO Fields
+
+| Field | Type | Description |
+|-------|------|-------------|
+| Title | title | Issue summary |
+| Type | select | Epic/Story/Task/Bug/Todo |
+| Epic | rich_text | `[KEY](url) - Summary` |
+| Status | status | Todo/In Progress/In Review/Done |
+| Priority | select | High/Medium/Low |
+| Project | rich_text | `[repo](url)` |
+| Jira Link | rich_text | `[KEY](url)` |
+| PR | rich_text | `[#number](url)` |
+| Start Date | date | When work started |
+| Due Date | date | Deadline |
+
+**Note:** Type = "Todo" items are personal and excluded from Jira sync.
 
 ## Workflow Example
 
@@ -52,6 +75,7 @@ Jira issue management and Git integration automation.
     |
     v
 Creates Jira issue (CP-1) + Notion TODO item
+(Type: Task, Epic: linked, Due Date: optional)
     |
     v
 /jira:start CP-1
@@ -59,7 +83,8 @@ Creates Jira issue (CP-1) + Notion TODO item
     v
 Creates branch (feature/CP-1-add-user-authentication)
 Updates Jira status (To Do -> In Progress)
-Updates Notion (Status: Todo -> In Progress, Start Date: today)
+Sets Start Date (if not already set)
+Updates Notion (Status, Start Date)
     |
     v
 Work on feature, commit with [CP-1]
@@ -70,7 +95,7 @@ Work on feature, commit with [CP-1]
     v
 Creates PR with Jira link
 Updates Jira status (In Progress -> In Review/Done)
-Updates Notion (status + commit link + PR link)
+Updates Notion (Status, PR link)
 ```
 
 ## Configuration

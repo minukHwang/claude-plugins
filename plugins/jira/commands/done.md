@@ -142,29 +142,44 @@ If `notion.enabled` is true:
    query: "{issueKey}"
    ```
 
-2. Get the latest commit hash:
-   ```bash
-   git log -1 --format="%H"
+2. Fetch the TODO page to check existing PR field:
+   Call `mcp__notion__notion-fetch`:
    ```
+   id: "{found_page_id}"
+   ```
+   Extract existing `PR` value if any.
 
-3. Get repository URL:
-   ```bash
-   git remote get-url origin
-   ```
+3. Extract PR number from URL:
+   Parse `{pr_url}` to get PR number (e.g., `https://github.com/user/repo/pull/42` → `42`)
 
 4. Update Notion page:
    Call `mcp__notion__notion-update-page`:
+
+   **If PR field is empty:**
    ```
    data: {
      "page_id": "{found_page_id}",
      "command": "update_properties",
      "properties": {
        "Status": "{selected_status}",
-       "Commit": "{repo_url}/commit/{commit_hash}",
-       "PR": "{pr_url}"
+       "PR": "[#{pr_number}]({pr_url})"
      }
    }
    ```
+
+   **If PR field already has value:**
+   ```
+   data: {
+     "page_id": "{found_page_id}",
+     "command": "update_properties",
+     "properties": {
+       "Status": "{selected_status}"
+     }
+   }
+   ```
+
+**Note:** PR is only saved as fallback if `/git:pr` didn't already set it.
+**Note:** PR format follows TIL convention: `[#{number}]({url})`
 
 ## Output
 
@@ -184,8 +199,7 @@ Jira Issue:
 {if notion synced}
 Notion TODO Updated:
 ├─ Status: {new_status}
-├─ Commit: {commit_url}
-└─ PR: {pr_url}
+└─ PR: [#{pr_number}]({pr_url})  # if not already set
 {/if}
 
 Next steps:

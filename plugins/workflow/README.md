@@ -4,7 +4,7 @@ Project workflow configuration for Git strategy, Jira integration, and Notion sy
 
 ## Version
 
-1.1.0
+1.2.0
 
 ## Commands
 
@@ -12,6 +12,12 @@ Project workflow configuration for Git strategy, Jira integration, and Notion sy
 |---------|-------------|
 | `/workflow:init` | Initialize workflow configuration for a project |
 | `/workflow:config` | Modify existing workflow settings |
+
+## Skills
+
+| Skill | Description |
+|-------|-------------|
+| `one-pr-one-issue` | 1 PR = 1 Issue workflow guide (v1.2.0) |
 
 ## Features
 
@@ -24,10 +30,13 @@ Project workflow configuration for Git strategy, Jira integration, and Notion sy
 - Connect to Jira project
 - Auto-include issue keys in branch names
 - Auto-include issue keys in commit messages
+- **CLAUDE.md rules**: Auto-add 1 PR = 1 Issue workflow rules (v1.2.0)
 
 ### Notion Integration
 - Connect [CLAUDE] TODO DB for task tracking
+- **Type field**: Epic/Story/Task/Bug/Todo select (v1.2.0)
 - **TODO DB with Epic field**: Links Jira Epic info to Notion (v1.1.0)
+- **PR field**: Rich text format `[#number](url)` (v1.2.0)
 - TODO DB stored in user-level config (`~/.claude/notion.json`)
 - TIL/BLOG DBs configured by `/notion:til` and `/notion:blog` commands
 

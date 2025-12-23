@@ -4,7 +4,7 @@ GitHub commit, PR, branch, and CI automation plugin for Claude Code with optiona
 
 ## Version
 
-1.4.0
+1.5.0
 
 ## Jira Integration (New in 1.4.0)
 
@@ -14,7 +14,11 @@ When `.claude/workflow.json` is configured with Jira settings, git commands auto
 |---------|--------------|
 | `/git:branch` | Link issue, include key in branch name, update status |
 | `/git:commit` | Append `[ISSUE-KEY]` to commit message |
-| `/git:pr` | Add Jira issue link in PR body |
+| `/git:pr` | Add Jira issue link in PR body, update Notion PR field (v1.5.0) |
+
+### New in v1.5.0
+- **Notion PR update**: Saves PR link to Notion TODO in TIL format `[#42](url)`
+- **Multi-issue warning**: Warns when multiple issue keys detected in commits
 
 **Requires:** `/workflow:init` with Jira enabled
 

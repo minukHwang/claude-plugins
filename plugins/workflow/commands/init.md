@@ -176,6 +176,17 @@ parent: { "type": "workspace", "workspace": true }
 title: "[CLAUDE] TODO"
 properties: {
   "Title": { "title": {} },
+  "Type": {
+    "select": {
+      "options": [
+        { "name": "Epic", "color": "purple" },
+        { "name": "Story", "color": "green" },
+        { "name": "Task", "color": "blue" },
+        { "name": "Bug", "color": "red" },
+        { "name": "Todo", "color": "gray" }
+      ]
+    }
+  },
   "Epic": { "rich_text": {} },
   "Status": {
     "status": {
@@ -189,8 +200,7 @@ properties: {
   },
   "Project": { "rich_text": {} },
   "Jira Link": { "rich_text": {} },
-  "Commit": { "url": {} },
-  "PR": { "url": {} },
+  "PR": { "rich_text": {} },
   "Priority": {
     "select": {
       "options": [
@@ -281,6 +291,27 @@ Write `.claude/workflow.json` with collected settings:
 
 **Note:** Notion DB IDs are stored in `~/.claude/notion.json` (user-level), not in project workflow.json.
 
+## Step 7: Add Jira Workflow Rules to CLAUDE.md (if Jira enabled)
+
+If Jira integration is enabled, append workflow rules to project's CLAUDE.md:
+
+```bash
+cat CLAUDE.md 2>/dev/null
+```
+
+If CLAUDE.md exists and doesn't contain "Jira Workflow Rules", append:
+
+```markdown
+## Jira Workflow Rules
+
+- **1 PR = 1 Issue**: Each PR should contain only one Jira issue
+- **Branch naming**: `{type}/{ISSUE-KEY}-description` (e.g., `feature/CP-1-add-auth`)
+- **New task during work**: Stash changes → /jira:start NEW-ISSUE → Complete → Return
+- **Commit messages**: Include issue key `[CP-1] commit message`
+```
+
+If CLAUDE.md doesn't exist, create it with the rules above.
+
 ## Output
 
 ### On Success:
@@ -304,6 +335,11 @@ Jira: {enabled/disabled}
 Notion TODO: {connected/not configured}
 {if connected}
 └─ DB: [CLAUDE] TODO ({db_id})
+{/if}
+
+{if jira enabled}
+CLAUDE.md: Jira Workflow Rules added
+└─ 1 PR = 1 Issue workflow enforced
 {/if}
 
 Next steps:
