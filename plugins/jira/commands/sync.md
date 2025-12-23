@@ -94,8 +94,7 @@ Parse each item's:
 - Status
 - Priority
 - Type
-- Due Date
-- Start Date
+- Period (start/end dates)
 - Jira Link (extract issue key if present)
 - last_edited_time
 
@@ -168,8 +167,8 @@ For each Jira-only issue:
    | issuetype | Type (Epic/Story/Task/Bug) |
    | status | Status (Todo/In Progress/Done) |
    | priority | Priority |
-   | duedate | Due Date |
-   | customfield_10015 | Start Date |
+   | customfield_10015 | Period:start |
+   | duedate | Period:end |
 
 4. Create Notion TODO:
    ```
@@ -183,10 +182,9 @@ For each Jira-only issue:
          "Priority": "{priority}",
          "Project": "[{project}](https://{host}/{namespace}/{project})",
          "Jira Link": "[{issueKey}](https://{jira.siteUrl}/browse/{issueKey})",
-         "date:Due Date:start": "{duedate}",
-         "date:Due Date:is_datetime": 0,
-         "date:Start Date:start": "{start_date}",
-         "date:Start Date:is_datetime": 0
+         "date:Period:start": "{start_date}",
+         "date:Period:end": "{duedate}",
+         "date:Period:is_datetime": 0
        }
      }]
    ```
@@ -250,8 +248,8 @@ For each matched pair:
    |-------|---------------|---------------|
    | Status | status → Status | Status → transition |
    | Priority | priority → Priority | Priority → priority |
-   | Due Date | duedate → Due Date | Due Date → duedate |
-   | Start Date | customfield_10015 → Start Date | Start Date → customfield_10015 |
+   | Period:start | customfield_10015 → Period:start | Period:start → customfield_10015 |
+   | Period:end | duedate → Period:end | Period:end → duedate |
 
    **Note:** Summary is NOT synced to prevent accidental overwrites.
 
@@ -266,10 +264,9 @@ For each matched pair:
        "properties": {
          "Status": "{jira_status}",
          "Priority": "{jira_priority}",
-         "date:Due Date:start": "{jira_duedate}",
-         "date:Due Date:is_datetime": 0,
-         "date:Start Date:start": "{jira_start_date}",
-         "date:Start Date:is_datetime": 0
+         "date:Period:start": "{jira_start_date}",
+         "date:Period:end": "{jira_duedate}",
+         "date:Period:is_datetime": 0
        }
      }
    ```
@@ -296,8 +293,8 @@ For each matched pair:
      issueIdOrKey: {issueKey}
      fields: {
        "priority": {"name": "{notion_priority}"},
-       "duedate": "{notion_due_date}",
-       "customfield_10015": "{notion_start_date}"
+       "customfield_10015": "{period_start}",
+       "duedate": "{period_end}"
      }
    ```
 

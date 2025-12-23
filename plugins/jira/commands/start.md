@@ -179,8 +179,8 @@ If `notion.enabled` is true:
      "command": "update_properties",
      "properties": {
        "Status": "In Progress",
-       "date:Start Date:start": "{today_date}",
-       "date:Start Date:is_datetime": 0
+       "date:Period:start": "{today_date}",
+       "date:Period:is_datetime": 0
      }
    }
    ```
@@ -215,7 +215,7 @@ Branch: {branch_name}
 {if notion synced}
 ✓ Notion TODO updated
   ├─ Status: Todo → In Progress
-  └─ Start Date: {today_date or "unchanged"}
+  └─ Period: {today_date} → (end)
 {/if}
 
 Next steps:

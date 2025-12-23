@@ -4,7 +4,7 @@ Project workflow configuration for Git strategy, Jira integration, and Notion sy
 
 ## Version
 
-1.2.0
+1.2.1
 
 ## Commands
 
@@ -35,6 +35,7 @@ Project workflow configuration for Git strategy, Jira integration, and Notion sy
 ### Notion Integration
 - Connect [CLAUDE] TODO DB for task tracking
 - **Type field**: Epic/Story/Task/Bug/Todo select (v1.2.0)
+- **Period field**: Date range (start → end) for calendar view (v1.2.1)
 - **TODO DB with Epic field**: Links Jira Epic info to Notion (v1.1.0)
 - **PR field**: Rich text format `[#number](url)` (v1.2.0)
 - TODO DB stored in user-level config (`~/.claude/notion.json`)

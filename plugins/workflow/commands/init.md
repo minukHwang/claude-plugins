@@ -210,8 +210,7 @@ properties: {
       ]
     }
   },
-  "Start Date": { "date": {} },
-  "Due Date": { "date": {} }
+  "Period": { "date": {} }
 }
 ```
 

@@ -247,10 +247,9 @@ If `notion.enabled` is true (from workflow.json) and `todo.id` exists (from ~/.c
        "Project": "[{project}](https://{host}/{namespace}/{project})",
        "Jira Link": "[{issueKey}](https://{jira.siteUrl}/browse/{issueKey})",
        "Priority": "{priority}",
-       "date:Due Date:start": "{due_date}",       // if due_date provided
-       "date:Due Date:is_datetime": 0,
-       "date:Start Date:start": "{start_date}",   // if start_date provided
-       "date:Start Date:is_datetime": 0
+       "date:Period:start": "{start_date}",       // if start_date provided
+       "date:Period:end": "{due_date}",           // if due_date provided
+       "date:Period:is_datetime": 0
      }
    }]
    ```
@@ -295,8 +294,7 @@ URL: https://{jira.siteUrl}/browse/{issueKey}
 ✓ Notion TODO item created
   ├── Type: {type}
   ├── Epic: [{epic_key}]({url}) - {epic_summary}
-  ├── Start Date: {start_date}
-  └── Due Date: {due_date}
+  └── Period: {start_date} → {due_date}
 {/if}
 
 Next steps:

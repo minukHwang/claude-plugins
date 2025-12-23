@@ -4,7 +4,7 @@ Jira issue management and Git integration automation.
 
 ## Version
 
-1.3.0
+1.3.1
 
 ## Prerequisites
 
@@ -27,8 +27,7 @@ Jira issue management and Git integration automation.
 ### Issue Management
 - Create issues with type selection (Task, Bug, Story, Epic)
 - **Epic selection**: Link issues to parent Epics (v1.1.0)
-- **Due Date**: Optional due date setting (v1.1.0)
-- **Start Date**: Optional at creation, auto-set on start (v1.3.0)
+- **Period**: Start/Due date as range, synced to Notion calendar (v1.3.1)
 - **Auto-assign**: Issues assigned to current user (v1.1.0)
 - View backlog and assigned issues
 - Track issue status throughout workflow
@@ -43,8 +42,7 @@ Jira issue management and Git integration automation.
 - **Type field**: Epic/Story/Task/Bug synced (v1.3.0)
 - Create TODO items in Notion when creating Jira issues
 - **Epic field**: Rich text link to Epic (v1.3.0)
-- **Due Date**: Synced to Notion (v1.3.0)
-- **Start Date**: Optional at create, set on start (v1.3.0)
+- **Period field**: Start → End date range for calendar view (v1.3.1)
 - Update Notion status when starting issues
 - Add PR links on completion (TIL format: `[#42](url)`)
 - **Bidirectional sync**: Jira ↔ Notion via `/jira:sync` (v1.3.0)
@@ -63,8 +61,7 @@ Jira issue management and Git integration automation.
 | Project | rich_text | `[repo](url)` |
 | Jira Link | rich_text | `[KEY](url)` |
 | PR | rich_text | `[#number](url)` |
-| Start Date | date | When work started |
-| Due Date | date | Deadline |
+| Period | date | Start → End (calendar range) |
 
 **Note:** Type = "Todo" items are personal and excluded from Jira sync.
 
@@ -75,7 +72,7 @@ Jira issue management and Git integration automation.
     |
     v
 Creates Jira issue (CP-1) + Notion TODO item
-(Type: Task, Epic: linked, Due Date: optional)
+(Type: Task, Epic: linked, Period: optional)
     |
     v
 /jira:start CP-1
@@ -83,8 +80,8 @@ Creates Jira issue (CP-1) + Notion TODO item
     v
 Creates branch (feature/CP-1-add-user-authentication)
 Updates Jira status (To Do -> In Progress)
-Sets Start Date (if not already set)
-Updates Notion (Status, Start Date)
+Sets Period:start (if not already set)
+Updates Notion (Status, Period)
     |
     v
 Work on feature, commit with [CP-1]
