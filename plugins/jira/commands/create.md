@@ -129,16 +129,27 @@ User enters the summary text.
 ## Step 4.5: Set Due Date (Optional)
 
 **Ask user (AskUserQuestion):**
-"기한을 설정할까요?"
+"Set due date?"
 
 | Option | Description |
 |--------|-------------|
-| Yes | 기한 날짜 입력 |
-| No | 기한 없이 생성 |
+| Yes | Enter due date |
+| No | Create without due date |
 
 If Yes:
-- Prompt user for date input (YYYY-MM-DD format)
-- Store as `{due_date}`
+1. Get current date:
+   ```bash
+   date +%Y-%m-%d
+   ```
+
+2. Calculate date options based on current date:
+   - 1 week later: `{current_date} + 7 days`
+   - 2 weeks later: `{current_date} + 14 days`
+   - End of month: Last day of current month
+   - Custom: User enters manually
+
+3. Prompt user for date selection (YYYY-MM-DD format)
+4. Store as `{due_date}`
 
 ## Step 5: Create Jira Issue
 

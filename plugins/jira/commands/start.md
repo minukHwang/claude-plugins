@@ -108,17 +108,21 @@ transition: {"id": "{transition_id}"}
 
 ### 3.2: Set Jira Start Date
 
-Set the start date field in Jira:
-Call `mcp__atlassian__editJiraIssue`:
-```
-cloudId: {jira.cloudId}
-issueIdOrKey: {issueKey}
-fields: {
-  "customfield_10015": "{today_date}"
-}
-```
+1. Get current date:
+   ```bash
+   date +%Y-%m-%d
+   ```
+   Store as `{today_date}`.
 
-Where `{today_date}` is today's date in `YYYY-MM-DD` format.
+2. Set the start date field in Jira:
+   Call `mcp__atlassian__editJiraIssue`:
+   ```
+   cloudId: {jira.cloudId}
+   issueIdOrKey: {issueKey}
+   fields: {
+     "customfield_10015": "{today_date}"
+   }
+   ```
 
 **Note:** Start Date field name may vary by project:
 - Common names: `customfield_10015`, `customfield_10014`, `Start date`
