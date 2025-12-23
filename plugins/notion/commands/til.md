@@ -189,58 +189,47 @@ glab mr view {number} --output json
 
 ## Step 3: Find or Create TIL Database
 
-### 3.1 Search for Existing DB
+### 3.1 Check User Config
+
+```bash
+cat ~/.claude/notion.json 2>/dev/null
+```
+
+If `til.id` exists in config → Use existing DB, skip to Step 4
+
+### 3.2 Search Notion for Existing DB (if not in config)
 
 ```
 mcp__notion__notion-search
-query: "[Claude] TIL"
+query: "[CLAUDE] TIL"
+filter: { "property": "object", "value": "database" }
 ```
 
-### 3.2 Handle Search Results
+#### Case A: Found
+- Extract database ID
+- Save to `~/.claude/notion.json` (see 3.5)
+- Display: "Found existing [CLAUDE] TIL database"
+- Use that database
 
-#### Case A: 1 result found
-→ Use that database
-
-#### Case B: Multiple results found
-
-**Ask user (AskUserQuestion):**
-"Multiple TIL databases found. Which one to use?"
-
-Show list of found databases as options → User selects one
-
-#### Case C: No results found
+#### Case B: Not Found
 
 **Ask user (AskUserQuestion):**
-"Where should the TIL database be created?"
+"[CLAUDE] TIL database not found. What would you like to do?"
 
 | Option | Description |
 |--------|-------------|
-| Search and select | Search for a page and select it |
-| Enter directly | Enter page URL or name directly |
-| Workspace root | Create at workspace root level |
+| Create new | Create new [CLAUDE] TIL database |
+| Skip | Don't record TIL |
+| Enter ID | Provide existing database ID manually |
 
-**If "Search and select":**
-```
-mcp__notion__notion-search
-query: [user's search term]
-```
-→ Show results → User selects parent page
-→ Create DB under selected page
+**If "Create new":**
+→ Go to 3.4
 
-**If "Enter directly":**
-User enters page URL or name
-```
-mcp__notion__notion-fetch
-id: [user input]
-```
-→ Verify page exists
-→ Create DB under that page
+**If "Skip":**
+→ Exit with message: "TIL recording skipped. Run /notion:til again when ready."
 
-**If "Workspace root":**
-```
-mcp__notion__notion-create-database
-(no parent specified)
-```
+**If "Enter ID":**
+User provides database ID → Verify via `mcp__notion__notion-fetch` → Save to config
 
 ### 3.3 기존 DB 마이그레이션 (if needed)
 
@@ -251,12 +240,13 @@ mcp__notion__notion-create-database
 3. 기존 "커밋" URL 값을 `[{hash}]({url})` 형식으로 변환하여 "참조"에 저장
 4. "커밋" 속성 삭제
 
-### 3.4 Create Database (if needed)
+### 3.4 Create Database (if not found)
 
 ```
 mcp__notion__notion-create-database
 
-title: [Claude] TIL
+parent: { "type": "workspace", "workspace": true }
+title: [CLAUDE] TIL
 properties:
   - 제목 (title)
   - 날짜 (date)
@@ -266,6 +256,31 @@ properties:
   - 프로젝트 (rich_text): Repo name with link
   - 참조 (rich_text): Commit/PR links in markdown format
 ```
+
+### 3.5 Save to User Config
+
+Create `~/.claude` directory if not exists:
+```bash
+mkdir -p ~/.claude
+```
+
+Read existing config or create new:
+```bash
+cat ~/.claude/notion.json 2>/dev/null || echo '{}'
+```
+
+Update with TIL DB info and write:
+
+```json
+{
+  "til": {
+    "id": "{database_id}",
+    "name": "[CLAUDE] TIL"
+  }
+}
+```
+
+**Note:** Merge with existing config (preserve todo, blog fields if present)
 
 ## Step 4: Get Git Repository Info
 
@@ -834,5 +849,6 @@ TIL URL: [page URL]
 2. **Accurate tech stack**: Only include tech actually used in this work
 3. **Deep analysis**: Read actual file content, don't just rely on diffs
 4. **Git context reuse**: When from `/git:commit`, reuse analysis to save tokens
-5. **DB naming**: Always use `[Claude] TIL` for database name
+5. **DB naming**: Always use `[CLAUDE] TIL` for database name
 6. **MCP required**: Cannot work without Notion MCP connection
+7. **User-level config**: Store DB ID in `~/.claude/notion.json`, not project-level

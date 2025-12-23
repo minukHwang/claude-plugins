@@ -2,6 +2,10 @@
 
 React/Next.js development automation tools for Claude Code.
 
+## Version
+
+1.1.0
+
 ## Commands
 
 | Command | Description |
@@ -13,7 +17,7 @@ React/Next.js development automation tools for Claude Code.
 
 | Skill | Description |
 |-------|-------------|
-| `react-conventions` | Component structure & comment conventions (auto-referenced for `.tsx`/`.ts` files) |
+| `react-conventions` | MANDATORY - Component structure & comment conventions (auto-applied for `.tsx`/`.ts` files) |
 
 ## Supported File Types
 

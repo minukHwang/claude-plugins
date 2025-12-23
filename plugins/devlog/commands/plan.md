@@ -146,6 +146,27 @@ Use Edit tool to append after the last `---`:
 
 **Note:** No commit prompt - design decisions will be committed with implementation.
 
+## Step 4: Confluence Sync (Optional)
+
+Check if Confluence is enabled:
+```bash
+cat .claude/workflow.json 2>/dev/null | grep -q '"confluence".*"enabled": true'
+```
+
+If `confluence.enabled: true`:
+
+**Ask user (AskUserQuestion):**
+"Also record to Confluence?"
+
+| Option | Description |
+|--------|-------------|
+| Yes | Sync to Confluence |
+| No | Local only |
+
+### If Yes:
+
+Run `/devlog:jira` to sync this entry to Confluence.
+
 ## Output
 
 ### On Success:

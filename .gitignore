@@ -18,3 +18,6 @@ Thumbs.db
 # Temp
 *.tmp
 *.temp
+
+# Devlog (private mode)
+.claude/devlog/

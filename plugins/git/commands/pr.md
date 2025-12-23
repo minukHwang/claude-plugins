@@ -6,6 +6,16 @@ description: Create a GitHub Pull Request with detailed analysis of changes
 
 Analyze all changes in the current branch and create a comprehensive PR using `gh` CLI.
 
+## Step 0: Load Workflow Configuration (Optional)
+
+```bash
+cat .claude/workflow.json 2>/dev/null
+```
+
+If exists, extract:
+- `jira.enabled` - Whether Jira integration is active
+- `jira.cloudId` - Atlassian cloud ID for Jira URLs
+
 ## Step 1: Verify Git Repository
 
 Check if this is a git repository:
@@ -27,6 +37,27 @@ Store as `SOURCE_BRANCH`.
 If detached HEAD: "No branch checked out. Please checkout a branch first." and stop.
 
 If on `main` or `master`: "You are on the main branch. Please checkout a feature branch first." and stop.
+
+## Step 2.5: Extract Jira Issue Key (if jira.enabled)
+
+If workflow.json has `jira.enabled: true`:
+
+Extract issue key from current branch:
+```bash
+echo "$SOURCE_BRANCH" | grep -oE '[A-Z]+-[0-9]+'
+```
+
+If issue key found (e.g., `CP-1`):
+- Store for PR body generation
+- Will create Jira link: `https://{cloudId}/browse/{issueKey}`
+
+Get issue details for PR context:
+Call `mcp__atlassian__getJiraIssue`:
+```
+cloudId: {jira.cloudId}
+issueIdOrKey: {issueKey}
+fields: ["summary", "status", "issuetype"]
+```
 
 ## Step 3: Determine Target Branch (Cascading Selection)
 
@@ -265,11 +296,20 @@ Brief description of what this PR implements or fixes.
 - [ ] Responsive design tested (if applicable)
 - [ ] Accessibility checked (if UI changes)
 
+### 🎫 **Jira Issue** (if jira.enabled)
+
+[{ISSUE-KEY}](https://{cloudId}/browse/{ISSUE-KEY}) - {issue summary}
+
 ### 🔗 **Related Issues**
 
 Closes #(issue number)
 Related to #(issue number)
 ```
+
+**Note:** The Jira Issue section should only be included if:
+- workflow.json has `jira.enabled: true`
+- Issue key was extracted from branch name
+- Replace `{ISSUE-KEY}`, `{cloudId}`, and `{issue summary}` with actual values
 
 ### Body Writing Guidelines
 

@@ -2,6 +2,10 @@
 
 Notion workspace automation tools.
 
+## Version
+
+1.5.0
+
 ## Commands
 
 | Command | Description |
@@ -62,7 +66,8 @@ Records a TIL (Today I Learned) entry to a Notion database.
 
 ### TIL Database
 
-**Database Name:** `[Claude] TIL`
+**Database Name:** `[CLAUDE] TIL`
+**Config Location:** `~/.claude/notion.json` (user-level)
 
 | Property | Type | Description |
 |----------|------|-------------|
@@ -155,17 +160,19 @@ Only includes tech actually used in the commit:
 
 ### Database Location
 
-First run behavior:
+First run behavior (TIL and BLOG DBs):
 
-1. Searches for existing `[Claude] TIL` database
-2. If multiple found → asks which to use
-3. If none found → asks where to create:
+1. Check `~/.claude/notion.json` for existing DB ID
+2. If not found → Search Notion for `[CLAUDE] TIL` or `[CLAUDE] BLOG`
+3. If not found → Ask user:
 
 | Option | Description |
 |--------|-------------|
-| 1 | Search and select a page |
-| 2 | Enter page URL directly |
-| 3 | Create at workspace root |
+| Create new | Create new database at workspace root |
+| Skip | Don't record, try again later |
+| Enter ID | Provide existing database ID manually |
+
+DB IDs are saved to `~/.claude/notion.json` (user-level, shared across projects).
 
 ## git:commit Integration
 
@@ -257,7 +264,7 @@ Writes a detailed technical blog post to Notion. Extends TIL with deeper analysi
 | Structure | 배경/문제/해결/결과/배운점 | 배경/문제/선택지⭐/구현/성과 |
 | Web Search | ❌ | ✅ |
 | TIL Reference | - | ✅ |
-| Database | `[Claude] TIL` | `[Claude] Blog` |
+| Database | `[CLAUDE] TIL` | `[CLAUDE] BLOG` |
 
 ### Features
 
@@ -269,7 +276,8 @@ Writes a detailed technical blog post to Notion. Extends TIL with deeper analysi
 
 ### Blog Database
 
-**Database Name:** `[Claude] Blog`
+**Database Name:** `[CLAUDE] BLOG`
+**Config Location:** `~/.claude/notion.json` (user-level)
 
 | Property | Type | Description |
 |----------|------|-------------|

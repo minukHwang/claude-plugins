@@ -1,8 +1,19 @@
 ---
 name: react-conventions
-description: React/Next.js component structure and comment conventions
+description: MANDATORY - React/Next.js component structure and comment conventions. Use when writing or modifying any .tsx/.ts files.
 globs: ["**/*.tsx", "**/*.ts"]
 ---
+
+<MANDATORY>
+When writing or modifying React/Next.js code (.tsx, .ts files):
+
+1. **ALWAYS** follow the 1-11 component structure order
+2. **ALWAYS** use the correct comment conventions (section headers, JSDoc)
+3. **NEVER** write components without proper structure
+4. **NEVER** skip section comments when applicable
+
+This is not optional. This is the project standard.
+</MANDATORY>
 
 # React/Next.js Conventions
 

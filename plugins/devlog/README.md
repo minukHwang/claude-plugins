@@ -1,6 +1,10 @@
 # Devlog Plugin
 
-Project decision and design logging with auto-trigger hooks.
+Project decision and design logging with Confluence sync.
+
+## Version
+
+1.3.0
 
 ## Purpose
 
@@ -18,6 +22,13 @@ Record implementation decisions and design choices to prevent context loss acros
 | `/devlog:log` | Record implementation decision to DEVLOG.md |
 | `/devlog:plan` | Record design decision to PLANS.md |
 | `/devlog:review` | Analyze and summarize decision history |
+| `/devlog:jira` | Sync devlog entries to Confluence (New in 1.2.0) |
+
+## Skills
+
+| Skill | Description |
+|-------|-------------|
+| `devlog-reminder` | MANDATORY - Auto-suggests `/devlog:plan` or `/devlog:log` after completing design or implementation work |
 
 ## Quick Start
 
@@ -33,7 +44,35 @@ Record implementation decisions and design choices to prevent context loss acros
 
 # Review decision history
 /devlog:review
+
+# Sync to Confluence (requires workflow.json)
+/devlog:jira
 ```
+
+## Confluence Integration (New in 1.2.0)
+
+When `.claude/workflow.json` has Confluence enabled, devlog commands offer automatic sync:
+
+**Setup:**
+```bash
+/workflow:init
+# Enable Confluence during setup
+```
+
+**Auto-sync prompts:**
+- `/devlog:log` → "Also record to Confluence?"
+- `/devlog:plan` → "Also record to Confluence?"
+
+**Manual sync:**
+```bash
+/devlog:jira
+# Syncs DEVLOG.md and PLANS.md to "[Project] Development Log" page
+```
+
+**Features:**
+- Auto-creates Confluence page if not exists
+- Sync latest entry or full history
+- Preserves local and remote versions
 
 ## Features
 
@@ -53,10 +92,9 @@ In public-safe mode, automatically redacts:
 - Internal URLs
 - IP addresses
 
-### Auto-trigger Hooks
-Optional global hooks for automatic suggestions:
-- **Stop hook**: Suggests `/devlog:plan` after Plan mode, `/devlog:log` after decisions
-- **PreCompact hook**: Reminds to log before context compaction
+### Auto-trigger Reminders
+- **Skill-based**: `devlog-reminder` skill automatically suggests logging after design/implementation work
+- **PreCompact hook**: Optional hook reminds to log before context compaction
 
 ## File Structure
 
@@ -138,17 +176,17 @@ After `/git:commit`, the commit hash is automatically added to matching DEVLOG.m
 
 ## Hook Configuration
 
-Add to `~/.claude/settings.json` for all projects:
+### Skill-based Reminder (Recommended)
+
+The `devlog-reminder` skill is installed to `~/.claude/skills/` during `/devlog:init`. It automatically suggests devlog commands after completing significant work.
+
+### Optional PreCompact Hook
+
+Add to `~/.claude/settings.json` for reminder before context compaction:
 
 ```json
 {
   "hooks": {
-    "Stop": [{
-      "hooks": [{
-        "type": "prompt",
-        "prompt": "After this response, check: 1) If ExitPlanMode was just called, suggest /devlog:plan. 2) If significant decisions were made, suggest /devlog:log. Only if relevant."
-      }]
-    }],
     "PreCompact": [{
       "matcher": "auto",
       "hooks": [{
@@ -160,6 +198,3 @@ Add to `~/.claude/settings.json` for all projects:
 }
 ```
 
-## Version
-
-1.1.0

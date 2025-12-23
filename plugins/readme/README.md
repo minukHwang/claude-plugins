@@ -2,6 +2,10 @@
 
 Documentation automation tools for project files.
 
+## Version
+
+1.1.0
+
 ## Commands
 
 | Command | Description |

@@ -6,7 +6,17 @@ description: Generate conventional commit message from staged changes and commit
 
 Analyze staged changes and generate a conventional commit message in English.
 
-## Step 0: Detect Project Commit Rules
+## Step 0: Load Workflow Configuration (Optional)
+
+```bash
+cat .claude/workflow.json 2>/dev/null
+```
+
+If exists, extract:
+- `jira.enabled` - Whether Jira integration is active
+- `jira.includeInCommit` - Include issue key in commit message
+
+## Step 0.5: Detect Project Commit Rules
 
 Automatically search for commitlint configuration (no user prompt):
 
@@ -204,6 +214,22 @@ Synthesize all information:
 - Affected modules/components
 - User's original intent from conversation
 
+### 2.5 Extract Jira Issue Key (if jira.enabled && jira.includeInCommit)
+
+If workflow.json has `jira.enabled: true` and `jira.includeInCommit: true`:
+
+Extract issue key from current branch:
+```bash
+git branch --show-current | grep -oE '[A-Z]+-[0-9]+'
+```
+
+If issue key found (e.g., `CP-1`):
+- Store for commit message format
+- Example branch: `feature/CP-1-add-auth` → Issue key: `CP-1`
+
+If no issue key in branch:
+- Continue without issue key in commit message
+
 ## Step 3: Generate Commit Message
 
 ### Commit Message Format
@@ -213,9 +239,23 @@ Synthesize all information:
 <emoji> <type>: <description>
 ```
 
+**Format 1b: With Jira issue key (if jira.includeInCommit)**
+```
+<emoji> <type>: <description> [ISSUE-KEY]
+```
+
 **Format 2: With bullet points (for complex changes with 3+ files or multiple changes)**
 ```
 <emoji> <type>: <description>
+
+- Detail 1
+- Detail 2
+- Detail 3
+```
+
+**Format 2b: With bullet points and Jira (if jira.includeInCommit)**
+```
+<emoji> <type>: <description> [ISSUE-KEY]
 
 - Detail 1
 - Detail 2
@@ -260,9 +300,24 @@ Synthesize all information:
 📄 docs: Update installation guide in README
 ```
 
+**With Jira issue key:**
+```
+✨ feat: Add user login functionality [CP-1]
+🐛 fix: Resolve login redirect issue [CP-2]
+```
+
 **With bullet points:**
 ```
 ✨ feat: Add user authentication system
+
+- Implement Google OAuth provider
+- Add session management with JWT
+- Create login and logout pages
+```
+
+**With bullet points and Jira:**
+```
+✨ feat: Add user authentication system [CP-1]
 
 - Implement Google OAuth provider
 - Add session management with JWT

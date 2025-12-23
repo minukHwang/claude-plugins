@@ -79,36 +79,99 @@ Check if `.gitignore` exists, then append:
 .claude/devlog/
 ```
 
-## Step 3: Global Hooks Setup (Optional)
+## Step 3: User-Scope Skill Installation (Optional)
 
 **Ask user (AskUserQuestion):**
-"Set up auto-trigger hooks globally? (Recommended for first-time setup)"
+"Install devlog-reminder skill globally?"
 
 | Option | Description |
 |--------|-------------|
-| Yes | Add Stop + PreCompact hooks to ~/.claude/settings.json |
+| Yes | Copy skill to ~/.claude/skills/ (works across all projects) |
+| No | Skip (use plugin's bundled skill only) |
+
+### If Yes:
+
+#### 3.1 Create skill directory
+```bash
+mkdir -p ~/.claude/skills/devlog-reminder
+```
+
+#### 3.2 Copy skill file
+
+Use Write tool to create `~/.claude/skills/devlog-reminder/SKILL.md`:
+
+```markdown
+---
+name: devlog-reminder
+description: Use after completing design decisions or implementation work - suggests /devlog:plan for design or /devlog:log for implementation to record decisions
+---
+
+# Devlog Reminder
+
+Suggest devlog recording after completing design decisions or implementation work.
+
+## Trigger Conditions
+
+When the following work is **completed**:
+
+| Work Type | Examples | Command to Suggest |
+|-----------|----------|-------------------|
+| Design decisions | Architecture choices, library comparisons, pattern decisions | `/devlog:plan` |
+| Implementation work | Feature implementation, bug fixes, refactoring | `/devlog:log` |
+
+## Suggestion Format
+
+Suggest naturally after work completion:
+
+\`\`\`
+[Work completion message]
+
+💡 Record this decision/implementation?
+- `/devlog:plan` - Record design decision
+- `/devlog:log` - Record implementation
+\`\`\`
+
+## Do NOT Suggest When
+
+- Simple Q&A only
+- Just reading files without changes
+- Already ran devlog command in this session
+- Trivial changes (typo fixes, adding comments, etc.)
+
+## Decision Criteria
+
+**Is it worth recording?**
+- Would someone ask "why did we do it this way?" later?
+- Is there context other developers should know?
+- Were there trade-offs involved?
+
+If any of the above applies, suggest devlog.
+```
+
+## Step 4: PreCompact Hook Setup (Optional)
+
+**Ask user (AskUserQuestion):**
+"Set up PreCompact hook for devlog reminder?"
+
+| Option | Description |
+|--------|-------------|
+| Yes | Add hook to ~/.claude/settings.json |
 | No | Skip hook setup |
 
 ### If Yes:
 
-#### 3.1 Read existing settings
+#### 4.1 Read existing settings
 ```bash
 cat ~/.claude/settings.json 2>/dev/null || echo "{}"
 ```
 
-#### 3.2 Merge hooks config
+#### 4.2 Merge PreCompact hook
 
-Read `~/.claude/settings.json` with Read tool, then merge the following hooks:
+Read `~/.claude/settings.json` with Read tool, then merge:
 
 ```json
 {
   "hooks": {
-    "Stop": [{
-      "hooks": [{
-        "type": "prompt",
-        "prompt": "After this response, check: 1) If ExitPlanMode was just called, suggest /devlog:plan. 2) If significant decisions were made, suggest /devlog:log. Only if relevant."
-      }]
-    }],
     "PreCompact": [{
       "matcher": "auto",
       "hooks": [{
@@ -120,7 +183,7 @@ Read `~/.claude/settings.json` with Read tool, then merge the following hooks:
 }
 ```
 
-#### 3.3 Write updated settings
+#### 4.3 Write updated settings
 
 Use Write tool to save merged config to `~/.claude/settings.json`
 
@@ -139,9 +202,13 @@ Files created:
 - DEVLOG.md
 - PLANS.md
 
-{if hooks set up}
-Hooks configured:
-- Stop: Auto-suggest after Plan mode / decisions
+{if skill installed}
+Skill installed:
+- ~/.claude/skills/devlog-reminder/SKILL.md
+{/if}
+
+{if hook set up}
+Hook configured:
 - PreCompact: Reminder before context compaction
 {/if}
 

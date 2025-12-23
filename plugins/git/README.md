@@ -1,6 +1,37 @@
 # git
 
-GitHub commit, PR, branch, and CI automation plugin for Claude Code.
+GitHub commit, PR, branch, and CI automation plugin for Claude Code with optional Jira integration.
+
+## Version
+
+1.4.0
+
+## Jira Integration (New in 1.4.0)
+
+When `.claude/workflow.json` is configured with Jira settings, git commands automatically integrate with Jira:
+
+| Command | Jira Feature |
+|---------|--------------|
+| `/git:branch` | Link issue, include key in branch name, update status |
+| `/git:commit` | Append `[ISSUE-KEY]` to commit message |
+| `/git:pr` | Add Jira issue link in PR body |
+
+**Requires:** `/workflow:init` with Jira enabled
+
+**Example with Jira:**
+```
+/git:branch
+# Link to CP-1? → Yes
+# Creates: feature/CP-1-add-authentication
+# Updates Jira status: To Do → In Progress
+
+/git:commit
+# ✨ feat: Add login functionality [CP-1]
+
+/git:pr
+# Includes: ## Jira Issue
+# [CP-1](https://site.atlassian.net/browse/CP-1) - Add authentication
+```
 
 ## Features
 

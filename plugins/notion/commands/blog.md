@@ -45,7 +45,7 @@ MCP Guide: https://docs.anthropic.com/en/docs/claude-code/mcp
 
 ```
 mcp__notion__notion-search
-query: "[Claude] TIL"
+query: "[CLAUDE] TIL"
 ```
 
 Show recent TIL list → User selects one → Fetch TIL page → Step 2
@@ -87,11 +87,18 @@ If there's relevant conversation history:
 
 ### 2.5 TIL DB Lookup (Additional)
 
-Check for related TIL:
+Check for related TIL (use config or search):
+
+```bash
+# Check user config first
+cat ~/.claude/notion.json 2>/dev/null
+# If til.id exists, use that DB
+# Otherwise search:
+```
 
 ```
 mcp__notion__notion-search
-query: "[Claude] TIL"
+query: "[CLAUDE] TIL"
 ```
 
 Search TIL DB for same commit/PR reference:
@@ -170,25 +177,60 @@ If not found: "No related devlog found" → proceed.
 
 ## Step 5: Find or Create Blog Database
 
-### 5.1 Search for Existing DB
+### 5.1 Check User Config
+
+```bash
+cat ~/.claude/notion.json 2>/dev/null
+```
+
+If `blog.id` exists in config → Use existing DB, skip to Step 6
+
+### 5.2 Search Notion for Existing DB (if not in config)
 
 ```
 mcp__notion__notion-search
-query: "[Claude] Blog"
+query: "[CLAUDE] BLOG"
+filter: { "property": "object", "value": "database" }
 ```
 
-### 5.2 Handle Search Results
+#### Case A: Found
+- Extract database ID
+- Save to `~/.claude/notion.json` (see 5.5)
+- Display: "Found existing [CLAUDE] BLOG database"
+- Use that database
 
-- **1 result:** Use that database
-- **Multiple results:** Ask user to select
-- **No results:** Ask user where to create
+#### Case B: Not Found
 
-### 5.3 Create Database (if needed)
+**Ask user (AskUserQuestion):**
+"[CLAUDE] BLOG database not found. What would you like to do?"
+
+| Option | Description |
+|--------|-------------|
+| Create new | Create new [CLAUDE] BLOG database |
+| Skip | Don't record blog |
+| Enter ID | Provide existing database ID manually |
+
+**If "Create new":**
+→ Go to 5.4
+
+**If "Skip":**
+→ Exit with message: "Blog recording skipped. Run /notion:blog again when ready."
+
+**If "Enter ID":**
+User provides database ID → Verify via `mcp__notion__notion-fetch` → Save to config
+
+### 5.3 기존 DB 마이그레이션 (if needed)
+
+기존 `[Claude] Blog` DB가 있는 경우:
+- 속성 구조 확인 후 필요시 마이그레이션
+
+### 5.4 Create Database (if not found)
 
 ```
 mcp__notion__notion-create-database
 
-title: [Claude] Blog
+parent: { "type": "workspace", "workspace": true }
+title: [CLAUDE] BLOG
 properties:
   - 제목 (title)
   - 날짜 (date)
@@ -199,6 +241,31 @@ properties:
   - 참조 (rich_text): Commit/PR/TIL links
   - 상태 (select): 작성중, 완료, 발행됨
 ```
+
+### 5.5 Save to User Config
+
+Create `~/.claude` directory if not exists:
+```bash
+mkdir -p ~/.claude
+```
+
+Read existing config or create new:
+```bash
+cat ~/.claude/notion.json 2>/dev/null || echo '{}'
+```
+
+Update with BLOG DB info and write:
+
+```json
+{
+  "blog": {
+    "id": "{database_id}",
+    "name": "[CLAUDE] BLOG"
+  }
+}
+```
+
+**Note:** Merge with existing config (preserve todo, til fields if present)
 
 ## Step 6: Create Blog Entry
 
@@ -277,3 +344,5 @@ View in Notion: [page URL]
 5. **TIL reference**: Check and use related TIL if exists
 6. **Accurate tech stack**: Only include tech actually used
 7. **MCP required**: Cannot work without Notion MCP connection
+8. **DB naming**: Always use `[CLAUDE] BLOG` for database name
+9. **User-level config**: Store DB ID in `~/.claude/notion.json`, not project-level

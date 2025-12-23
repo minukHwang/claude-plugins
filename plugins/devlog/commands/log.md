@@ -139,7 +139,28 @@ Use Edit tool to append after the last `---`:
 
 **Note:** The **Commit** field starts empty. After `/git:commit`, the commit hash will be automatically updated to this entry based on **Related Files** matching.
 
-## Step 4: Commit (Optional)
+## Step 4: Confluence Sync (Optional)
+
+Check if Confluence is enabled:
+```bash
+cat .claude/workflow.json 2>/dev/null | grep -q '"confluence".*"enabled": true'
+```
+
+If `confluence.enabled: true`:
+
+**Ask user (AskUserQuestion):**
+"Also record to Confluence?"
+
+| Option | Description |
+|--------|-------------|
+| Yes | Sync to Confluence |
+| No | Local only |
+
+### If Yes:
+
+Run `/devlog:jira` to sync this entry to Confluence.
+
+## Step 5: Commit (Optional)
 
 **Ask user (AskUserQuestion):**
 "Commit this log?"

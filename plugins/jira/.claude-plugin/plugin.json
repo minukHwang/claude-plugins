@@ -1,7 +1,7 @@
 {
-  "name": "react",
-  "version": "1.1.0",
-  "description": "React/Next.js development automation tools",
+  "name": "jira",
+  "version": "1.0.0",
+  "description": "Jira issue management and Git integration automation",
   "author": {
     "name": "Minuk Hwang",
     "email": "minuk.lucas.hwang@gmail.com"

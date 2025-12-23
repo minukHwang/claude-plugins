@@ -9,6 +9,8 @@ A Claude Code plugin marketplace for development workflow automation.
 
 - [Quick Start](#quick-start)
 - [Plugins](#plugins)
+  - [workflow](#workflow) - Project workflow configuration (NEW)
+  - [jira](#jira) - Jira issue management (NEW)
   - [git](#git) - Git workflow automation
   - [react](#react) - React/Next.js development
   - [readme](#readme) - Documentation generation
@@ -28,6 +30,8 @@ A Claude Code plugin marketplace for development workflow automation.
 /plugin marketplace add minukHwang/claude-plugins
 
 # 2. Install plugins you need
+/plugin install workflow@minukHwang-plugins  # NEW: Project config
+/plugin install jira@minukHwang-plugins      # NEW: Jira integration
 /plugin install git@minukHwang-plugins
 /plugin install react@minukHwang-plugins
 /plugin install readme@minukHwang-plugins
@@ -40,9 +44,60 @@ A Claude Code plugin marketplace for development workflow automation.
 
 ## Plugins
 
+### workflow
+
+Project workflow configuration for Git strategy, Jira integration, and Notion sync.
+
+| Command | Description |
+|---------|-------------|
+| `/workflow:init` | Initialize workflow configuration |
+| `/workflow:config` | Modify existing workflow settings |
+
+| Skill | Description |
+|-------|-------------|
+| `workflow-context` | Auto-load workflow settings |
+
+**Features:**
+- Git strategy selection (github-flow, git-flow, trunk-based)
+- Jira project connection with issue key in branches/commits
+- Notion TODO database integration
+- Merge method configuration (squash, merge, rebase)
+- Creates `.claude/workflow.json` for other plugins to use
+
+⚠️ Requires [Atlassian MCP](#atlassian-mcp-setup) for Jira integration
+
+📄 [Full documentation](./plugins/workflow/README.md)
+
+---
+
+### jira
+
+Jira issue management and Git integration automation.
+
+| Command | Description |
+|---------|-------------|
+| `/jira:backlog` | View project backlog issues |
+| `/jira:create` | Create a new Jira issue |
+| `/jira:start` | Start working on issue (creates branch) |
+| `/jira:done` | Complete issue (creates PR, updates status) |
+| `/jira:view` | View issue details |
+
+**Features:**
+- Full Jira workflow: create → start → done
+- Auto branch creation with issue key (via `/git:branch`)
+- Automatic status transitions
+- Notion TODO sync (create, update status, add links)
+- Seamless integration with git plugin
+
+⚠️ Requires [Atlassian MCP](#atlassian-mcp-setup) and `/workflow:init`
+
+📄 [Full documentation](./plugins/jira/README.md)
+
+---
+
 ### git
 
-Git workflow automation with smart commits, PRs, and CI monitoring.
+Git workflow automation with smart commits, PRs, CI monitoring, and Jira integration.
 
 | Command | Description |
 |---------|-------------|
@@ -61,6 +116,7 @@ Git workflow automation with smart commits, PRs, and CI monitoring.
 - Auto .gitignore generation (Node, Python, Go, Rust, Ruby, iOS, Android)
 - Non-Node.js support (pre-commit framework)
 - Integrates with react, readme, notion plugins
+- **Jira integration** (v1.4.0): Issue key in branch/commit/PR
 
 📄 [Full documentation](./plugins/git/README.md)
 
@@ -77,7 +133,7 @@ React/Next.js code comment automation following CLAUDE.md conventions.
 
 | Skill | Description |
 |-------|-------------|
-| `react-conventions` | Auto-referenced for `.tsx`/`.ts` files |
+| `react-conventions` | MANDATORY - Auto-applied for `.tsx`/`.ts` files |
 
 **Supported files:** `*.tsx`, `*Context.tsx`, `*.service.ts`, `*.query.ts`, `*.dto.ts`, `*.utils.ts`
 
@@ -148,7 +204,7 @@ Utility tools for Claude Code.
 
 ### devlog
 
-Project decision and design logging with auto-trigger hooks.
+Project decision and design logging with Confluence sync.
 
 | Command | Description |
 |---------|-------------|
@@ -156,21 +212,45 @@ Project decision and design logging with auto-trigger hooks.
 | `/devlog:log` | Record implementation decision to DEVLOG.md |
 | `/devlog:plan` | Record design decision to PLANS.md |
 | `/devlog:review` | Analyze and summarize decision history |
+| `/devlog:jira` | Sync devlog to Confluence (NEW) |
+
+| Skill | Description |
+|-------|-------------|
+| `devlog-reminder` | MANDATORY - Auto-suggests devlog after significant work |
 
 **Features:**
 - Deep analysis of git diff and changed files
 - Auto-extract problem/options/decision from conversation
 - Git integration: public-safe or private mode
 - Sensitive info filtering (API keys, passwords)
-- Auto-trigger hooks (Stop + PreCompact)
+- Skill-based auto-reminder (devlog-reminder)
 - Context recovery for new sessions
 - Integration with `/git:commit`, `/git:pr`, `/notion:til`, `/notion:blog`
+- **Confluence sync** (v1.2.0): Sync entries to Confluence page
 
 📄 [Full documentation](./plugins/devlog/README.md)
 
 ---
 
 ## Workflow Examples
+
+### Jira Workflow (NEW)
+
+```bash
+# 1. Initialize workflow config
+/workflow:init       # Set up Git strategy + Jira + Notion
+
+# 2. Create and start issue
+/jira:create         # Create issue + Notion TODO
+/jira:start CP-1     # Create branch + update status
+
+# 3. Work and commit
+# ... make changes ...
+/git:commit          # ✨ feat: Add feature [CP-1]
+
+# 4. Complete
+/jira:done           # Create PR + update status + sync Notion
+```
 
 ### Git Workflow
 
@@ -179,10 +259,10 @@ Project decision and design logging with auto-trigger hooks.
 /git:init            # git init + .gitignore + husky + first commit
 
 # Feature development
-/git:branch          # Create feature/user-auth
+/git:branch          # Create feature/user-auth (with optional Jira link)
 # ... make changes ...
-/git:commit          # ✨ feat: Add user authentication
-/git:pr              # Create PR with analysis
+/git:commit          # ✨ feat: Add user authentication [CP-1]
+/git:pr              # Create PR with analysis + Jira link
 /git:ci              # Monitor CI status
 ```
 
@@ -234,18 +314,17 @@ Project decision and design logging with auto-trigger hooks.
 
 ```bash
 # Initialize in new project
-/devlog:init         # Set up files + optional hooks
+/devlog:init         # Set up files + install devlog-reminder skill
 
 # After Plan mode design
-# → Auto-suggested via Stop hook
+# → Auto-suggested via devlog-reminder skill
 /devlog:plan         # Record design decision
 
 # After implementation decisions
-# → Auto-suggested via Stop hook
+# → Auto-suggested via devlog-reminder skill
 /devlog:log          # Record implementation decision
 
 # Before compact or new session
-# → Auto-reminded via PreCompact hook
 /devlog:review       # Review decision history
 ```
 
@@ -260,7 +339,23 @@ Project decision and design logging with auto-trigger hooks.
 | GitLab CLI (`glab`) | `/notion:til` (GitLab PR/MR) |
 | Node.js | `/git:init` |
 | macOS or Linux | All plugins |
-| Notion MCP | `/notion:til` |
+| Atlassian MCP | `/workflow:init`, `/jira:*`, `/devlog:jira` |
+| Notion MCP | `/notion:til`, `/jira:create` (TODO sync) |
+
+### Atlassian MCP Setup
+
+```bash
+# 1. Add Atlassian MCP (requires authentication)
+claude mcp add atlassian -- npx -y @anthropic-ai/atlassian-mcp
+
+# 2. Follow authentication prompts for Jira/Confluence access
+
+# 3. Restart Claude Code
+```
+
+Required permissions:
+- Jira: Read/write issues, transitions
+- Confluence: Read/write pages (for devlog sync)
 
 ### Notion MCP Setup
 

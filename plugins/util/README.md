@@ -1,6 +1,10 @@
-# util
+# Util Plugin
 
 Utility tools for Claude Code.
+
+## Version
+
+1.0.0
 
 ## Skills
 
