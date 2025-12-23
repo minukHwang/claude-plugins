@@ -35,7 +35,7 @@ Jira issue management and Git integration automation.
 
 ### Notion Sync
 - Create TODO items in Notion when creating Jira issues
-- Update Notion status when starting/completing issues
+- Update Notion status and Start Date when starting issues
 - Add commit and PR links on completion
 
 ## Workflow Example
@@ -52,7 +52,7 @@ Creates Jira issue (CP-1) + Notion TODO item
     v
 Creates branch (feature/CP-1-add-user-authentication)
 Updates Jira status (To Do -> In Progress)
-Updates Notion status (Todo -> In Progress)
+Updates Notion (Status: Todo -> In Progress, Start Date: today)
     |
     v
 Work on feature, commit with [CP-1]

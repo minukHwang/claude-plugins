@@ -136,16 +136,20 @@ If `notion.enabled` is true:
    filter: {"property": "object", "value": "page"}
    ```
 
-2. If found, update status:
+2. If found, update status and start date:
    Call `mcp__notion__notion-update-page`:
    ```
    page_id: {found_page_id}
    properties: {
      "Status": {
        "status": {"name": "In Progress"}
-     }
+     },
+     "date:Start Date:start": "{today_date}",
+     "date:Start Date:is_datetime": 0
    }
    ```
+
+   Where `{today_date}` is today's date in `YYYY-MM-DD` format.
 
 ## Output
 
@@ -162,7 +166,9 @@ Branch: {branch_name}
 └─ Checked out automatically
 
 {if notion synced}
-✓ Notion TODO status updated: Todo → In Progress
+✓ Notion TODO updated
+  ├─ Status: Todo → In Progress
+  └─ Start Date: {today_date}
 {/if}
 
 Next steps:
