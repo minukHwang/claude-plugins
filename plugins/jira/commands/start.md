@@ -87,7 +87,9 @@ Verify issue exists and extract:
 - `issueType` - Bug, Task, Story, Epic
 - `status` - Current status
 
-## Step 3: Transition Issue to In Progress
+## Step 3: Transition Issue to In Progress + Set Start Date
+
+### 3.1: Transition to In Progress
 
 Get available transitions:
 Call `mcp__atlassian__getTransitionsForJiraIssue`:
@@ -103,6 +105,24 @@ cloudId: {jira.cloudId}
 issueIdOrKey: {issueKey}
 transition: {"id": "{transition_id}"}
 ```
+
+### 3.2: Set Jira Start Date
+
+Set the start date field in Jira:
+Call `mcp__atlassian__editJiraIssue`:
+```
+cloudId: {jira.cloudId}
+issueIdOrKey: {issueKey}
+fields: {
+  "customfield_10015": "{today_date}"
+}
+```
+
+Where `{today_date}` is today's date in `YYYY-MM-DD` format.
+
+**Note:** Start Date field name may vary by project:
+- Common names: `customfield_10015`, `customfield_10014`, `Start date`
+- If field not found, skip with warning (non-critical)
 
 ## Step 4: Create Branch (via /git:branch)
 
@@ -161,6 +181,7 @@ If `notion.enabled` is true:
 Summary: {summary}
 Type: {issueType}
 Status: To Do → In Progress
+Start Date: {today_date}
 
 Branch: {branch_name}
 ├─ Created via /git:branch

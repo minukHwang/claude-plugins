@@ -259,11 +259,16 @@ Update with BLOG DB info and write:
 ```json
 {
   "blog": {
-    "id": "{database_id}",
+    "id": "{data_source_id}",
+    "pageId": "{database_page_id}",
     "name": "[CLAUDE] BLOG"
   }
 }
 ```
+
+**ID Types:**
+- `id`: Data Source ID (collection://) - for creating pages
+- `pageId`: Database Page ID - for schema updates
 
 **Note:** Merge with existing config (preserve todo, til fields if present)
 

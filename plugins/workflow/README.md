@@ -4,7 +4,7 @@ Project workflow configuration for Git strategy, Jira integration, and Notion sy
 
 ## Version
 
-1.0.0
+1.1.0
 
 ## Commands
 
@@ -27,6 +27,7 @@ Project workflow configuration for Git strategy, Jira integration, and Notion sy
 
 ### Notion Integration
 - Connect [CLAUDE] TODO DB for task tracking
+- **TODO DB with Epic field**: Links Jira Epic info to Notion (v1.1.0)
 - TODO DB stored in user-level config (`~/.claude/notion.json`)
 - TIL/BLOG DBs configured by `/notion:til` and `/notion:blog` commands
 
@@ -79,18 +80,25 @@ Notion DB IDs are stored at user-level (shared across projects):
 {
   "todo": {
     "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+    "pageId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
     "name": "[CLAUDE] TODO"
   },
   "til": {
     "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+    "pageId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
     "name": "[CLAUDE] TIL"
   },
   "blog": {
     "id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+    "pageId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
     "name": "[CLAUDE] BLOG"
   }
 }
 ```
+
+**ID Types (v1.1.0):**
+- `id`: Data Source ID (collection://) - for creating pages
+- `pageId`: Database Page ID - for schema updates
 
 **Note:**
 - TODO DB is configured by `/workflow:init`

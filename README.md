@@ -60,7 +60,8 @@ Project workflow configuration for Git strategy, Jira integration, and Notion sy
 **Features:**
 - Git strategy selection (github-flow, git-flow, trunk-based)
 - Jira project connection with issue key in branches/commits
-- Notion TODO database integration
+- Notion TODO database integration with **Epic field** (v1.1.0)
+- **Two-ID system**: Data Source ID + Page ID for Notion DBs (v1.1.0)
 - Merge method configuration (squash, merge, rebase)
 - Creates `.claude/workflow.json` for other plugins to use
 
@@ -84,9 +85,12 @@ Jira issue management and Git integration automation.
 
 **Features:**
 - Full Jira workflow: create → start → done
+- **Epic selection**: Link issues to parent Epics (v1.1.0)
+- **Due Date & Auto-assign**: Optional due date, auto-assign to self (v1.1.0)
 - Auto branch creation with issue key (via `/git:branch`)
-- Automatic status transitions
+- Automatic status transitions with **Start Date** (v1.1.0)
 - Notion TODO sync (create, update status, add links)
+- **Epic field**: Syncs Epic info to Notion TODO (v1.1.0)
 - Seamless integration with git plugin
 
 ⚠️ Requires [Atlassian MCP](#atlassian-mcp-setup) and `/workflow:init`
@@ -177,6 +181,7 @@ Notion workspace automation tools.
 - Auto tech stack detection from changed files
 - **TIL → Blog flow**: Expand TIL into detailed blog post
 - **Web search**: Searches official docs and articles for blog
+- **Two-ID system**: Data Source ID + Page ID (v1.6.0)
 - Triggered after `/git:commit`
 
 ⚠️ Requires [Notion MCP setup](#notion-mcp-setup)

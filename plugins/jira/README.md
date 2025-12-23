@@ -4,7 +4,7 @@ Jira issue management and Git integration automation.
 
 ## Version
 
-1.0.0
+1.1.0
 
 ## Prerequisites
 
@@ -25,6 +25,9 @@ Jira issue management and Git integration automation.
 
 ### Issue Management
 - Create issues with type selection (Task, Bug, Story, Epic)
+- **Epic selection**: Link issues to parent Epics (v1.1.0)
+- **Due Date**: Optional due date setting (v1.1.0)
+- **Auto-assign**: Issues assigned to current user (v1.1.0)
 - View backlog and assigned issues
 - Track issue status throughout workflow
 
@@ -35,7 +38,9 @@ Jira issue management and Git integration automation.
 
 ### Notion Sync
 - Create TODO items in Notion when creating Jira issues
+- **Epic field**: Epic info synced to Notion TODO (v1.1.0)
 - Update Notion status and Start Date when starting issues
+- **Jira Start Date**: Set start date field when starting (v1.1.0)
 - Add commit and PR links on completion
 
 ## Workflow Example
@@ -90,16 +95,21 @@ Updates Notion (status + commit link + PR link)
 
 ### User Config: `~/.claude/notion.json`
 
-Notion TODO DB ID is stored at user-level:
+Notion TODO DB IDs are stored at user-level:
 
 ```json
 {
   "todo": {
     "id": "xxx",
+    "pageId": "yyy",
     "name": "[CLAUDE] TODO"
   }
 }
 ```
+
+**ID Types:**
+- `id`: Data Source ID (collection://) - for creating pages
+- `pageId`: Database Page ID - for schema updates
 
 **Note:** TODO DB is configured by `/workflow:init`
 

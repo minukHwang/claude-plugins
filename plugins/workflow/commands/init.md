@@ -176,6 +176,7 @@ parent: { "type": "workspace", "workspace": true }
 title: "[CLAUDE] TODO"
 properties: {
   "Title": { "title": {} },
+  "Epic": { "rich_text": {} },
   "Status": {
     "status": {
       "options": [
@@ -186,8 +187,8 @@ properties: {
       ]
     }
   },
-  "Project": { "select": {} },
-  "Jira Link": { "url": {} },
+  "Project": { "rich_text": {} },
+  "Jira Link": { "rich_text": {} },
   "Commit": { "url": {} },
   "PR": { "url": {} },
   "Priority": {
@@ -199,6 +200,7 @@ properties: {
       ]
     }
   },
+  "Start Date": { "date": {} },
   "Due Date": { "date": {} }
 }
 ```
@@ -220,11 +222,16 @@ Update with TODO DB info and write:
 ```json
 {
   "todo": {
-    "id": "{database_id}",
+    "id": "{data_source_id}",
+    "pageId": "{database_page_id}",
     "name": "[CLAUDE] TODO"
   }
 }
 ```
+
+**ID Types:**
+- `id`: Data Source ID (collection://) - for creating pages
+- `pageId`: Database Page ID - for schema updates
 
 **Note:** TIL and BLOG DBs are configured separately by `/notion:til` and `/notion:blog` commands.
 

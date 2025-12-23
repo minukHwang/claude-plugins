@@ -4,7 +4,7 @@ Notion workspace automation tools.
 
 ## Version
 
-1.5.0
+1.6.0
 
 ## Commands
 
@@ -173,6 +173,10 @@ First run behavior (TIL and BLOG DBs):
 | Enter ID | Provide existing database ID manually |
 
 DB IDs are saved to `~/.claude/notion.json` (user-level, shared across projects).
+
+**ID Types (v1.6.0):**
+- `id`: Data Source ID (collection://) - for creating pages
+- `pageId`: Database Page ID - for schema updates
 
 ## git:commit Integration
 

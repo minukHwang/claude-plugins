@@ -58,6 +58,49 @@ Present options from API response (common types):
 | Story (스토리) | User story or feature |
 | Epic (에픽) | Collection of related issues |
 
+## Step 1.5: Select Parent Epic (if not Epic type)
+
+If selected type is NOT Epic (에픽):
+
+1. Query existing Epics in project:
+   ```
+   mcp__atlassian__searchJiraIssuesUsingJql:
+     cloudId: {jira.cloudId}
+     jql: "project = {jira.projectKey} AND type = Epic ORDER BY created DESC"
+     maxResults: 10
+     fields: ["summary"]
+   ```
+
+2. If Epics found, ask user (Cascading Selection):
+
+   **Round 1 (first 3 + None/More):**
+
+   **Ask user (AskUserQuestion):**
+   "상위 Epic을 선택하세요:"
+
+   | Option | Description |
+   |--------|-------------|
+   | {epic1.key} | {epic1.summary} |
+   | {epic2.key} | {epic2.summary} |
+   | {epic3.key} | {epic3.summary} |
+   | More.../None | Show more or create standalone |
+
+   **Round 2 (if More...):**
+   | Option | Description |
+   |--------|-------------|
+   | {epic4.key} | {epic4.summary} |
+   | {epic5.key} | {epic5.summary} |
+   | {epic6.key} | {epic6.summary} |
+   | None | Create as standalone issue |
+
+3. If no Epics found:
+   - Skip this step
+   - Display: "No Epics found in project. Creating standalone issue."
+
+4. Store selected Epic info:
+   - `{selected_epic_key}` - Epic issue key (e.g., CP-1)
+   - `{selected_epic_summary}` - Epic summary for Notion
+
 ## Step 2: Enter Summary
 
 **Ask user (AskUserQuestion):**
@@ -83,7 +126,31 @@ User enters the summary text.
 | Medium | Normal priority (Recommended) |
 | Low | Can be addressed later |
 
+## Step 4.5: Set Due Date (Optional)
+
+**Ask user (AskUserQuestion):**
+"기한을 설정할까요?"
+
+| Option | Description |
+|--------|-------------|
+| Yes | 기한 날짜 입력 |
+| No | 기한 없이 생성 |
+
+If Yes:
+- Prompt user for date input (YYYY-MM-DD format)
+- Store as `{due_date}`
+
 ## Step 5: Create Jira Issue
+
+### 5.1: Get Current User Account ID
+
+```
+mcp__atlassian__atlassianUserInfo
+```
+
+Extract `{current_user_account_id}` from response.
+
+### 5.2: Create Issue
 
 Call `mcp__atlassian__createJiraIssue`:
 ```
@@ -92,6 +159,19 @@ projectKey: {jira.projectKey}
 issueTypeName: {selected_type}  # Use localized name from Step 1
 summary: {entered_summary}
 description: {entered_description}  # Required, use "" if empty
+parent: {selected_epic_key}  # Only if Epic selected in Step 1.5
+assignee_account_id: {current_user_account_id}  # Auto-assign to self
+```
+
+### 5.3: Set Due Date (if provided)
+
+If `{due_date}` was set in Step 4.5:
+
+```
+mcp__atlassian__editJiraIssue:
+  cloudId: {jira.cloudId}
+  issueIdOrKey: {created_issue_key}
+  fields: { "duedate": "{due_date}" }
 ```
 
 **Note:** Priority via additional_fields may cause "Input data should be a String" error.
@@ -119,13 +199,16 @@ If `notion.enabled` is true (from workflow.json) and `todo.id` exists (from ~/.c
    pages: [{
      "properties": {
        "Title": "{summary}",
+       "Epic": "{selected_epic_key}: {selected_epic_summary}",  # Only if Epic selected
        "Status": "Todo",
        "Project": "[{project}](https://{host}/{namespace}/{project})",
-       "Jira Link": "https://{jira.siteUrl}/browse/{issueKey}",
+       "Jira Link": "[{issueKey}](https://{jira.siteUrl}/browse/{issueKey})",
        "Priority": "{priority}"
      }
    }]
    ```
+
+   **Note:** If no Epic selected, omit the "Epic" field or set to empty string.
 
 **Note:** If `todo.id` not found in user config, skip Notion sync with message:
 ```
@@ -153,13 +236,17 @@ If Yes, execute `/jira:start {issueKey}`.
 
 Summary: {summary}
 Type: {type}
+Parent: {epic_key} ({epic_summary})  # if Epic selected
 Priority: {priority}
-URL: https://{cloudId}/browse/{issueKey}
+Due Date: {due_date}  # if set
+Assignee: {current_user_name}
+URL: https://{jira.siteUrl}/browse/{issueKey}
 
 {if notion synced}
 ✓ Notion TODO item created
-
+  └── Epic: {epic_key}: {epic_summary}
 {/if}
+
 Next steps:
 - /jira:start {issueKey} - Start working on this issue
 - /jira:view {issueKey} - View issue details
