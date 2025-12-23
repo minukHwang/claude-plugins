@@ -165,7 +165,7 @@ If `confluence.enabled: true`:
 
 ### If Yes:
 
-Run `/devlog:jira` to sync this entry to Confluence.
+Run `/devlog:confluence` to sync this entry to Confluence.
 
 ## Output
 

@@ -212,7 +212,7 @@ Project decision and design logging with Confluence sync.
 | `/devlog:log` | Record implementation decision to DEVLOG.md |
 | `/devlog:plan` | Record design decision to PLANS.md |
 | `/devlog:review` | Analyze and summarize decision history |
-| `/devlog:jira` | Sync devlog to Confluence (NEW) |
+| `/devlog:confluence` | Sync devlog to Confluence (NEW) |
 
 | Skill | Description |
 |-------|-------------|
@@ -339,7 +339,7 @@ Project decision and design logging with Confluence sync.
 | GitLab CLI (`glab`) | `/notion:til` (GitLab PR/MR) |
 | Node.js | `/git:init` |
 | macOS or Linux | All plugins |
-| Atlassian MCP | `/workflow:init`, `/jira:*`, `/devlog:jira` |
+| Atlassian MCP | `/workflow:init`, `/jira:*`, `/devlog:confluence` |
 | Notion MCP | `/notion:til`, `/jira:create` (TODO sync) |
 
 ### Atlassian MCP Setup

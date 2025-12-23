@@ -22,7 +22,7 @@ Record implementation decisions and design choices to prevent context loss acros
 | `/devlog:log` | Record implementation decision to DEVLOG.md |
 | `/devlog:plan` | Record design decision to PLANS.md |
 | `/devlog:review` | Analyze and summarize decision history |
-| `/devlog:jira` | Sync devlog entries to Confluence (New in 1.2.0) |
+| `/devlog:confluence` | Sync devlog entries to Confluence (New in 1.2.0) |
 
 ## Skills
 
@@ -46,7 +46,7 @@ Record implementation decisions and design choices to prevent context loss acros
 /devlog:review
 
 # Sync to Confluence (requires workflow.json)
-/devlog:jira
+/devlog:confluence
 ```
 
 ## Confluence Integration (New in 1.2.0)
@@ -65,7 +65,7 @@ When `.claude/workflow.json` has Confluence enabled, devlog commands offer autom
 
 **Manual sync:**
 ```bash
-/devlog:jira
+/devlog:confluence
 # Syncs DEVLOG.md and PLANS.md to "[Project] Development Log" page
 ```
 
