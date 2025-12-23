@@ -82,6 +82,7 @@ Jira issue management and Git integration automation.
 | `/jira:start` | Start working on issue (creates branch) |
 | `/jira:done` | Complete issue (creates PR, updates status) |
 | `/jira:view` | View issue details |
+| `/jira:sync` | Sync Notion TODO → Jira (NEW) |
 
 **Features:**
 - Full Jira workflow: create → start → done
@@ -91,6 +92,7 @@ Jira issue management and Git integration automation.
 - Automatic status transitions with **Start Date** (v1.1.0)
 - Notion TODO sync (create, update status, add links)
 - **Epic field**: Syncs Epic info to Notion TODO (v1.1.0)
+- **Reverse sync**: Notion TODO → Jira via `/jira:sync` (v1.2.0)
 - Seamless integration with git plugin
 
 ⚠️ Requires [Atlassian MCP](#atlassian-mcp-setup) and `/workflow:init`

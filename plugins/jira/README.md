@@ -4,7 +4,7 @@ Jira issue management and Git integration automation.
 
 ## Version
 
-1.1.0
+1.2.0
 
 ## Prerequisites
 
@@ -20,6 +20,7 @@ Jira issue management and Git integration automation.
 | `/jira:start` | Start working on an issue (creates branch) |
 | `/jira:done` | Complete issue (creates PR, updates status) |
 | `/jira:view` | View issue details |
+| `/jira:sync` | Sync Notion TODO → Jira (v1.2.0) |
 
 ## Features
 
@@ -42,6 +43,7 @@ Jira issue management and Git integration automation.
 - Update Notion status and Start Date when starting issues
 - **Jira Start Date**: Set start date field when starting (v1.1.0)
 - Add commit and PR links on completion
+- **Reverse sync**: Notion TODO → Jira via `/jira:sync` (v1.2.0)
 
 ## Workflow Example
 
