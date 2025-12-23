@@ -139,13 +139,14 @@ If `notion.enabled` is true:
 2. If found, update status and start date:
    Call `mcp__notion__notion-update-page`:
    ```
-   page_id: {found_page_id}
-   properties: {
-     "Status": {
-       "status": {"name": "In Progress"}
-     },
-     "date:Start Date:start": "{today_date}",
-     "date:Start Date:is_datetime": 0
+   data: {
+     "page_id": "{found_page_id}",
+     "command": "update_properties",
+     "properties": {
+       "Status": "In Progress",
+       "date:Start Date:start": "{today_date}",
+       "date:Start Date:is_datetime": 0
+     }
    }
    ```
 

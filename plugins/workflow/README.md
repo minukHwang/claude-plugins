@@ -39,6 +39,11 @@ Project workflow configuration for Git strategy, Jira integration, and Notion sy
 
 ### Project Config: `.claude/workflow.json`
 
+**⚠️ Add to `.gitignore`** - contains personal Atlassian/project settings:
+```
+.claude/workflow.json
+```
+
 ```json
 {
   "version": "1.0",
@@ -50,7 +55,8 @@ Project workflow configuration for Git strategy, Jira integration, and Notion sy
   },
   "jira": {
     "enabled": true,
-    "cloudId": "your-site.atlassian.net",
+    "cloudId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+    "siteUrl": "yoursite.atlassian.net",
     "projectKey": "PROJ",
     "includeInBranch": true,
     "includeInCommit": true

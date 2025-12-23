@@ -70,11 +70,14 @@ Updates Notion (status + commit link + PR link)
 
 ### Project Config: `.claude/workflow.json`
 
+**⚠️ Add to `.gitignore`** - contains personal settings
+
 ```json
 {
   "jira": {
     "enabled": true,
-    "cloudId": "your-site.atlassian.net",
+    "cloudId": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+    "siteUrl": "yoursite.atlassian.net",
     "projectKey": "PROJ",
     "includeInBranch": true,
     "includeInCommit": true

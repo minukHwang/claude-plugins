@@ -19,5 +19,6 @@ Thumbs.db
 *.tmp
 *.temp
 
-# Devlog (private mode)
+# Claude Code (project-level config with personal settings)
 .claude/devlog/
+.claude/workflow.json

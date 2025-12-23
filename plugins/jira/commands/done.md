@@ -155,16 +155,13 @@ If `notion.enabled` is true:
 4. Update Notion page:
    Call `mcp__notion__notion-update-page`:
    ```
-   page_id: {found_page_id}
-   properties: {
-     "Status": {
-       "status": {"name": "{selected_status}"}
-     },
-     "Commit": {
-       "url": "{repo_url}/commit/{commit_hash}"
-     },
-     "PR": {
-       "url": "{pr_url}"
+   data: {
+     "page_id": "{found_page_id}",
+     "command": "update_properties",
+     "properties": {
+       "Status": "{selected_status}",
+       "Commit": "{repo_url}/commit/{commit_hash}",
+       "PR": "{pr_url}"
      }
    }
    ```

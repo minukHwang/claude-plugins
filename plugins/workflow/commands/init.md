@@ -57,7 +57,16 @@ If "Keep existing", exit with message: "Existing configuration preserved."
 
 ### Step 2.1: Select Jira Project (if Yes)
 
-Call `mcp__atlassian__getVisibleJiraProjects` to get project list.
+First, get Atlassian cloud info:
+```
+mcp__atlassian__getAccessibleAtlassianResources
+```
+
+Extract from response:
+- `{cloud_id}`: The `id` field (UUID)
+- `{site_url}`: The `url` field without `https://` (e.g., `yoursite.atlassian.net`)
+
+Then call `mcp__atlassian__getVisibleJiraProjects` with the cloudId to get project list.
 
 Display projects using **Cascading Selection** (4-option limit):
 
@@ -248,6 +257,7 @@ Write `.claude/workflow.json` with collected settings:
   "jira": {
     "enabled": {jira_enabled},
     "cloudId": "{cloud_id}",
+    "siteUrl": "{site_url}",
     "projectKey": "{project_key}",
     "includeInBranch": {include_in_branch},
     "includeInCommit": {include_in_commit}

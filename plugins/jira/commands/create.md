@@ -22,6 +22,7 @@ Run /workflow:init to set up Jira integration.
 
 Extract:
 - `jira.cloudId` - Cloud ID for API calls
+- `jira.siteUrl` - Atlassian site URL (e.g., yoursite.atlassian.net)
 - `jira.projectKey` - Project key for issue creation
 - `notion.enabled` - Whether to sync to Notion
 
@@ -34,17 +35,28 @@ cat ~/.claude/notion.json 2>/dev/null
 Extract:
 - `todo.id` - TODO database ID (user-level config)
 
-## Step 1: Select Issue Type
+## Step 1: Get Issue Types from Project
+
+First, fetch available issue types:
+```
+mcp__atlassian__getJiraProjectIssueTypesMetadata:
+  cloudId: {jira.cloudId}
+  projectIdOrKey: {jira.projectKey}
+```
+
+**Note:** Issue type names may be localized (e.g., Korean: 작업, 버그, 스토리, 에픽).
+Use the `name` field from the API response, not hardcoded English names.
 
 **Ask user (AskUserQuestion):**
 "Select issue type:"
 
+Present options from API response (common types):
 | Option | Description |
 |--------|-------------|
-| Task | Small individual work item |
-| Bug | Problem or error to fix |
-| Story | User story or feature |
-| Epic | Collection of related issues |
+| Task (작업) | Small individual work item |
+| Bug (버그) | Problem or error to fix |
+| Story (스토리) | User story or feature |
+| Epic (에픽) | Collection of related issues |
 
 ## Step 2: Enter Summary
 
@@ -53,17 +65,12 @@ Extract:
 
 User enters the summary text.
 
-## Step 3: Enter Description (Optional)
+## Step 3: Enter Description
 
 **Ask user (AskUserQuestion):**
-"Would you like to add a description?"
+"Enter issue description (or leave empty):"
 
-| Option | Description |
-|--------|-------------|
-| Yes | Add detailed description |
-| No | Create without description |
-
-If Yes, prompt for description text.
+**Note:** Description field is required by Jira API. If user skips, use empty string "".
 
 ## Step 4: Select Priority
 
@@ -82,43 +89,42 @@ Call `mcp__atlassian__createJiraIssue`:
 ```
 cloudId: {jira.cloudId}
 projectKey: {jira.projectKey}
-issueTypeName: {selected_type}
+issueTypeName: {selected_type}  # Use localized name from Step 1
 summary: {entered_summary}
-description: {entered_description} (if provided)
-additional_fields: {
-  "priority": {"name": "{selected_priority}"}
-}
+description: {entered_description}  # Required, use "" if empty
 ```
+
+**Note:** Priority via additional_fields may cause "Input data should be a String" error.
+Set priority separately via `mcp__atlassian__editJiraIssue` if needed.
 
 ## Step 6: Sync to Notion TODO (if enabled)
 
 If `notion.enabled` is true (from workflow.json) and `todo.id` exists (from ~/.claude/notion.json):
 
-1. Get current project name:
+1. Get git remote info:
    ```bash
-   basename $(pwd)
+   git remote get-url origin
    ```
 
-2. Create Notion TODO item via `mcp__notion__notion-create-page`:
+   Parse the URL to extract:
+   - `{host}`: github.com or gitlab.com
+   - `{namespace}`: owner/org name
+   - `{project}`: repository name
+
+   Format project as markdown link: `[{project}](https://{host}/{namespace}/{project})`
+
+2. Create Notion TODO item via `mcp__notion__notion-create-pages`:
    ```
-   database_id: {todo.id}  # from ~/.claude/notion.json
-   properties: {
-     "Title": {
-       "title": [{"text": {"content": "{summary}"}}]
-     },
-     "Status": {
-       "status": {"name": "Todo"}
-     },
-     "Project": {
-       "select": {"name": "{project_name}"}
-     },
-     "Jira Link": {
-       "url": "https://{cloudId}/browse/{issueKey}"
-     },
-     "Priority": {
-       "select": {"name": "{priority}"}
+   parent: {"type": "data_source_id", "data_source_id": "{todo.id}"}
+   pages: [{
+     "properties": {
+       "Title": "{summary}",
+       "Status": "Todo",
+       "Project": "[{project}](https://{host}/{namespace}/{project})",
+       "Jira Link": "https://{jira.siteUrl}/browse/{issueKey}",
+       "Priority": "{priority}"
      }
-   }
+   }]
    ```
 
 **Note:** If `todo.id` not found in user config, skip Notion sync with message:
