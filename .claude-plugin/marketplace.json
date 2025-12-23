@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "Claude Code plugins by Minuk Hwang",
-    "version": "1.6.0"
+    "version": "1.7.0"
   },
   "plugins": [
     {
@@ -78,6 +78,20 @@
       "license": "MIT",
       "keywords": ["util", "search", "web", "date", "automation"],
       "category": "utility"
+    },
+    {
+      "name": "devlog",
+      "source": "./plugins/devlog",
+      "description": "Project decision and design logging with auto-trigger hooks",
+      "version": "1.0.0",
+      "author": {
+        "name": "Minuk Hwang"
+      },
+      "homepage": "https://github.com/minukHwang/claude-plugins",
+      "repository": "https://github.com/minukHwang/claude-plugins",
+      "license": "MIT",
+      "keywords": ["devlog", "decision", "logging", "context", "planning", "documentation"],
+      "category": "productivity"
     }
   ]
 }

@@ -14,6 +14,7 @@ A Claude Code plugin marketplace for development workflow automation.
   - [readme](#readme) - Documentation generation
   - [notion](#notion) - Notion workspace automation
   - [util](#util) - Utility tools
+  - [devlog](#devlog) - Decision logging
 - [Workflow Examples](#workflow-examples)
 - [Requirements](#requirements)
 - [Contributing](#contributing)
@@ -32,6 +33,7 @@ A Claude Code plugin marketplace for development workflow automation.
 /plugin install readme@minukHwang-plugins
 /plugin install notion@minukHwang-plugins
 /plugin install util@minukHwang-plugins
+/plugin install devlog@minukHwang-plugins
 ```
 
 ---
@@ -144,6 +146,29 @@ Utility tools for Claude Code.
 
 ---
 
+### devlog
+
+Project decision and design logging with auto-trigger hooks.
+
+| Command | Description |
+|---------|-------------|
+| `/devlog:init` | Initialize devlog files + optional hooks |
+| `/devlog:log` | Record implementation decision to DEVLOG.md |
+| `/devlog:plan` | Record design decision to PLANS.md |
+| `/devlog:review` | Analyze and summarize decision history |
+
+**Features:**
+- Deep analysis of git diff and changed files
+- Auto-extract problem/options/decision from conversation
+- Git integration: public-safe or private mode
+- Sensitive info filtering (API keys, passwords)
+- Auto-trigger hooks (Stop + PreCompact)
+- Context recovery for new sessions
+
+📄 [Full documentation](./plugins/devlog/README.md)
+
+---
+
 ## Workflow Examples
 
 ### Git Workflow
@@ -202,6 +227,25 @@ Utility tools for Claude Code.
 # → "📝 Expand to blog post?"
 # → Yes
 /notion:blog
+```
+
+### Devlog Workflow
+
+```bash
+# Initialize in new project
+/devlog:init         # Set up files + optional hooks
+
+# After Plan mode design
+# → Auto-suggested via Stop hook
+/devlog:plan         # Record design decision
+
+# After implementation decisions
+# → Auto-suggested via Stop hook
+/devlog:log          # Record implementation decision
+
+# Before compact or new session
+# → Auto-reminded via PreCompact hook
+/devlog:review       # Review decision history
 ```
 
 ---
