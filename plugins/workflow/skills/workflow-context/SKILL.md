@@ -9,7 +9,7 @@ Automatically load and apply workflow settings when working in a project.
 
 ## When to Use
 
-This skill should be used implicitly by other plugins (git, jira, devlog, notion) when they need to read workflow configuration.
+This skill should be used implicitly by other plugins (git, jira, confluence, notion) when they need to read workflow configuration.
 
 ## Loading Configuration
 
@@ -79,16 +79,16 @@ Use jira.projectKey for issue queries
 Use notion.databases.todo.id for Notion sync
 ```
 
-### devlog plugin
+### confluence plugin
 
 ```markdown
-# In devlog:log, devlog:plan, devlog:sync
+# In confluence:sync
 
 ## Step 0: Load Workflow Context
 cat .claude/workflow.json 2>/dev/null
 
 If confluence.enabled:
-  - Offer to sync to Confluence
+  - Sync files to Confluence
   - Use confluence.spaceKey for page creation
 ```
 

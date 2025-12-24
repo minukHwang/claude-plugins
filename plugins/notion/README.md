@@ -4,7 +4,7 @@ Notion workspace automation tools.
 
 ## Version
 
-1.6.0
+1.6.1
 
 ## Commands
 
@@ -62,7 +62,7 @@ Records a TIL (Today I Learned) entry to a Notion database.
 - **Multi-commit Support**: Select multiple commits → merged into 1 TIL
 - **PR/MR Support**: Analyze entire PR/MR changes (GitHub & GitLab)
 - **Git Links**: Repo name + commit/PR links (markdown format)
-- **Devlog Integration**: "📋 Enhance with devlog context?" prompt (DEVLOG.md + PLANS.md)
+- **File Reference**: "📁 Reference other files?" prompt for additional context
 
 ### TIL Database
 

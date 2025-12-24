@@ -1,7 +1,7 @@
 {
-  "name": "devlog",
-  "version": "1.3.0",
-  "description": "Project decision and design logging with Confluence sync",
+  "name": "confluence",
+  "version": "1.0.0",
+  "description": "Sync files to Confluence",
   "author": {
     "name": "Minuk Hwang",
     "email": "minuk.lucas.hwang@gmail.com"

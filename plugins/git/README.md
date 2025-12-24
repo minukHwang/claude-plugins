@@ -4,7 +4,7 @@ GitHub commit, PR, branch, and CI automation plugin for Claude Code with optiona
 
 ## Version
 
-1.5.0
+1.5.1
 
 ## Jira Integration (New in 1.4.0)
 
@@ -70,9 +70,9 @@ commitlint not found → Uses defaults (emoji + 100 chars + standard types)
 # If no staged changes, will prompt to add files
 ```
 
-**Devlog integration:**
-- After commit, updates DEVLOG.md entries with commit hash (if Related Files match)
-- Offers "📋 Enhance with devlog context?" before TIL prompt
+**File reference:**
+- Offers "📁 Reference other files?" before TIL prompt
+- Useful for referencing plan files, decision logs, etc.
 
 **Example output:**
 ```
@@ -153,8 +153,8 @@ Analyzes all changes and creates a comprehensive PR using `gh` CLI.
 /git:pr
 ```
 
-**Devlog integration:**
-- Offers "📋 Enhance with devlog context?" to reference DEVLOG.md + PLANS.md
+**File reference:**
+- Offers "📁 Reference other files?" to enhance PR description
 
 **Example output:**
 ```

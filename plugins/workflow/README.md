@@ -4,7 +4,7 @@ Project workflow configuration for Git strategy, Jira integration, and Notion sy
 
 ## Version
 
-1.2.1
+1.2.2
 
 ## Commands
 
@@ -143,7 +143,7 @@ Change individual settings without re-initializing.
 The workflow configuration is read by:
 - **git plugin**: Uses Jira settings for branch/commit naming
 - **jira plugin**: Uses project settings for issue management
-- **devlog plugin**: Uses Confluence settings for sync
+- **confluence plugin**: Uses Confluence settings for file sync
 - **notion plugin**: Uses database IDs for TIL/Blog
 
 ## Requirements

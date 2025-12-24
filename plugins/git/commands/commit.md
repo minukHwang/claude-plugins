@@ -338,52 +338,26 @@ git commit -m "<emoji> <type>: <description>" -m "- Detail 1
 - Detail 3"
 ```
 
-## Step 4.5: Update DEVLOG.md with Commit Hash
-
-After successful commit, update related devlog entries:
-
-```bash
-# Get new commit hash
-git rev-parse --short HEAD
-
-# Get changed files
-git diff HEAD~1 --name-only
-```
-
-### Update Logic:
-
-1. Read DEVLOG.md (or `.claude/devlog/DEVLOG.md`)
-2. Find entries where:
-   - **Commit** field is empty (contains "empty")
-   - **Related Files** matches any of the changed files
-3. Update matching entries: `**Commit**: {hash} - "{commit message}"`
-
-**Note:** Only update entries with matching Related Files to ensure correct association.
-
-## Step 5: Devlog Enhancement Prompt (Optional)
+## Step 5: File Reference Prompt (Optional)
 
 After commit, before TIL prompt:
 
 **Ask user (AskUserQuestion):**
-"📋 Enhance with devlog context?"
+"📁 Reference other files?"
 
 | Option | Description |
 |--------|-------------|
-| Yes | Find related entries from DEVLOG.md |
-| No | Proceed without devlog |
+| Yes | Enter file path |
+| No | Skip |
 
 ### If "Yes":
 
-Run devlog lookup (cascade filtering):
+User enters file path → Read file with Read tool → Use content as additional context.
 
-1. **Match by commit hash**: Current commit hash in DEVLOG.md **Commit** field
-2. **Match by Related Files**: Compare changed files with entry's **Related Files**
-3. **Fallback by branch**: Match current branch, show recent 3 entries, ask user to confirm
-
-If found: Use entry context to enhance commit message if needed.
-If not found: "No related devlog found" → proceed.
-
-**Reference:** DEVLOG.md only
+Example paths:
+- `docs/plans/PLAN_feature.md` - Plan file
+- `DECISIONS.md` - Decision log
+- Any relevant documentation file
 
 ## Step 6: TIL Suggestion (Optional)
 

@@ -312,30 +312,26 @@ git rev-parse HEAD
 
 → `{host}`, `{namespace}`, `{project}` 추출
 
-## Step 4.5: Devlog Enhancement Prompt (Optional)
+## Step 4.5: File Reference Prompt (Optional)
 
 After content analysis, before creating TIL entry:
 
 **Ask user (AskUserQuestion):**
-"📋 Enhance with devlog context?"
+"📁 Reference other files?"
 
 | Option | Description |
 |--------|-------------|
-| Yes | Find related entries from devlog |
-| No | Proceed without devlog |
+| Yes | Enter file path |
+| No | Skip |
 
 ### If "Yes":
 
-Run devlog lookup (cascade filtering):
+User enters file path → Read file with Read tool → Use content to enhance TIL content (especially Problem/Solution sections).
 
-1. **Match by commit hash**: Current commit(s) in DEVLOG.md/PLANS.md **Commit** field
-2. **Match by Related Files**: Compare changed files with entry's **Related Files**
-3. **Fallback by branch**: Match current branch, show recent 3 entries, ask user to confirm
-
-If found: Use entry context to enhance TIL content (especially Problem/Solution sections).
-If not found: "No related devlog found" → proceed.
-
-**Reference:** DEVLOG.md + PLANS.md
+Example paths:
+- `docs/plans/PLAN_feature.md` - Plan file
+- `DECISIONS.md` - Decision log
+- Any relevant documentation file
 
 ## Step 5: Create TIL Entry (Korean)
 

@@ -9,14 +9,14 @@ A Claude Code plugin marketplace for development workflow automation.
 
 - [Quick Start](#quick-start)
 - [Plugins](#plugins)
-  - [workflow](#workflow) - Project workflow configuration (NEW)
-  - [jira](#jira) - Jira issue management (NEW)
+  - [workflow](#workflow) - Project workflow configuration
+  - [jira](#jira) - Jira issue management
   - [git](#git) - Git workflow automation
   - [react](#react) - React/Next.js development
   - [readme](#readme) - Documentation generation
   - [notion](#notion) - Notion workspace automation
   - [util](#util) - Utility tools
-  - [devlog](#devlog) - Decision logging
+  - [confluence](#confluence) - File sync to Confluence
 - [Workflow Examples](#workflow-examples)
 - [Requirements](#requirements)
 - [Contributing](#contributing)
@@ -37,7 +37,7 @@ A Claude Code plugin marketplace for development workflow automation.
 /plugin install readme@minukHwang-plugins
 /plugin install notion@minukHwang-plugins
 /plugin install util@minukHwang-plugins
-/plugin install devlog@minukHwang-plugins
+/plugin install confluence@minukHwang-plugins
 ```
 
 ---
@@ -216,33 +216,23 @@ Utility tools for Claude Code.
 
 ---
 
-### devlog
+### confluence
 
-Project decision and design logging with Confluence sync.
+Sync files to Confluence pages.
 
 | Command | Description |
 |---------|-------------|
-| `/devlog:init` | Initialize devlog files + optional hooks |
-| `/devlog:log` | Record implementation decision to DEVLOG.md |
-| `/devlog:plan` | Record design decision to PLANS.md |
-| `/devlog:review` | Analyze and summarize decision history |
-| `/devlog:confluence` | Sync devlog to Confluence (NEW) |
-
-| Skill | Description |
-|-------|-------------|
-| `devlog-reminder` | MANDATORY - Auto-suggests devlog after significant work |
+| `/confluence:sync` | Sync a file to Confluence |
 
 **Features:**
-- Deep analysis of git diff and changed files
-- Auto-extract problem/options/decision from conversation
-- Git integration: public-safe or private mode
-- Sensitive info filtering (API keys, passwords)
-- Skill-based auto-reminder (devlog-reminder)
-- Context recovery for new sessions
-- Integration with `/git:commit`, `/git:pr`, `/notion:til`, `/notion:blog`
-- **Confluence sync** (v1.2.0): Sync entries to Confluence page
+- Direct file path input (argument or prompt)
+- Creates page if not exists, updates if found
+- Page naming: `[{Project}] {filename}`
+- Full content sync (replaces entire page)
 
-📄 [Full documentation](./plugins/devlog/README.md)
+⚠️ Requires [Atlassian MCP](#atlassian-mcp-setup) and `/workflow:init` with Confluence enabled
+
+📄 [Full documentation](./plugins/confluence/README.md)
 
 ---
 
@@ -324,24 +314,6 @@ Project decision and design logging with Confluence sync.
 /notion:blog
 ```
 
-### Devlog Workflow
-
-```bash
-# Initialize in new project
-/devlog:init         # Set up files + install devlog-reminder skill
-
-# After Plan mode design
-# → Auto-suggested via devlog-reminder skill
-/devlog:plan         # Record design decision
-
-# After implementation decisions
-# → Auto-suggested via devlog-reminder skill
-/devlog:log          # Record implementation decision
-
-# Before compact or new session
-/devlog:review       # Review decision history
-```
-
 ---
 
 ## Requirements
@@ -353,7 +325,7 @@ Project decision and design logging with Confluence sync.
 | GitLab CLI (`glab`) | `/notion:til` (GitLab PR/MR) |
 | Node.js | `/git:init` |
 | macOS or Linux | All plugins |
-| Atlassian MCP | `/workflow:init`, `/jira:*`, `/devlog:confluence` |
+| Atlassian MCP | `/workflow:init`, `/jira:*`, `/confluence:sync` |
 | Notion MCP | `/notion:til`, `/jira:create` (TODO sync) |
 
 ### Atlassian MCP Setup
@@ -369,7 +341,7 @@ claude mcp add atlassian -- npx -y @anthropic-ai/atlassian-mcp
 
 Required permissions:
 - Jira: Read/write issues, transitions
-- Confluence: Read/write pages (for devlog sync)
+- Confluence: Read/write pages (for file sync)
 
 ### Notion MCP Setup
 
