@@ -23,7 +23,43 @@ Create a new branch following the naming convention and automatically checkout.
 <accountName>/<type>/<description>
 ```
 
-## Step 0: Load Workflow Configuration (Optional)
+## Step 0: Handle Uncommitted Changes
+
+Check for uncommitted changes before branch operations:
+
+```bash
+git diff --stat
+git diff --cached --stat
+```
+
+**If changes detected:**
+
+**Ask user (AskUserQuestion):**
+"📝 Uncommitted changes detected"
+
+| Option | Description |
+|--------|-------------|
+| Commit | Commit changes before switching → `/git:commit` |
+| Stash | Temporarily save changes → `git stash` |
+| Discard | Discard all changes → `git checkout .` |
+| Cancel | Abort branch creation |
+
+**Actions:**
+- **Commit**: Run `/git:commit`, then continue
+- **Stash**:
+  ```bash
+  git stash push -m "WIP: before switching to new branch"
+  ```
+  Show: `✓ Changes stashed. Restore later with: git stash pop`
+- **Discard**:
+  ```bash
+  git checkout .
+  git clean -fd
+  ```
+  ⚠️ Confirm before discarding: "Are you sure? This cannot be undone."
+- **Cancel**: Stop and exit
+
+## Step 0.5: Load Workflow Configuration (Optional)
 
 ```bash
 cat .claude/workflow.json 2>/dev/null

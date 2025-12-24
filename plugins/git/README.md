@@ -4,7 +4,11 @@ GitHub commit, PR, branch, and CI automation plugin for Claude Code with optiona
 
 ## Version
 
-1.5.1
+1.6.0
+
+## What's New in v1.6.0
+
+- **Uncommitted changes handling**: `/git:branch` now detects uncommitted changes and offers options (Commit/Stash/Discard/Cancel) before switching branches
 
 ## Jira Integration (New in 1.4.0)
 
@@ -104,6 +108,16 @@ Same as `/git:commit` but **saves tokens** by skipping deep analysis.
 ### `/git:branch` - Create Branch
 
 Creates a new branch with proper naming convention and checks it out.
+
+**Uncommitted changes handling (v1.6.0):**
+
+Before branch operations, checks for uncommitted changes:
+| Option | Description |
+|--------|-------------|
+| Commit | Run `/git:commit` first |
+| Stash | Save changes temporarily (`git stash`) |
+| Discard | Discard all changes (with confirmation) |
+| Cancel | Abort branch creation |
 
 **Branch naming formats:**
 - Personal: `<type>/<description>`
