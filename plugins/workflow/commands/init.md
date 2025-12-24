@@ -290,6 +290,42 @@ Write `.claude/workflow.json` with collected settings:
 
 **Note:** Notion DB IDs are stored in `~/.claude/notion.json` (user-level), not in project workflow.json.
 
+## Step 6.5: Configure .gitignore for .claude/
+
+**Ask user (AskUserQuestion):**
+"Add .claude/ to .gitignore?"
+
+| Option | Description |
+|--------|-------------|
+| Yes | Add `.claude/` to .gitignore (private config) |
+| No | Keep in git (team-shared config) |
+
+### If Yes:
+
+Check if .gitignore exists:
+```bash
+cat .gitignore 2>/dev/null
+```
+
+If .gitignore exists and doesn't contain `.claude/`:
+```bash
+echo "" >> .gitignore
+echo "# Claude Code local config" >> .gitignore
+echo ".claude/" >> .gitignore
+```
+
+If .gitignore doesn't exist:
+```bash
+echo "# Claude Code local config" > .gitignore
+echo ".claude/" >> .gitignore
+```
+
+Display: "✓ Added .claude/ to .gitignore"
+
+### If No:
+
+Display: "ℹ️ .claude/ will be tracked in git (team-shared)"
+
 ## Step 7: Add Jira Workflow Rules to CLAUDE.md (if Jira enabled)
 
 If Jira integration is enabled, append workflow rules to project's CLAUDE.md:
@@ -319,6 +355,7 @@ If CLAUDE.md doesn't exist, create it with the rules above.
 
 Project Config: .claude/workflow.json
 User Config: ~/.claude/notion.json
+.gitignore: {.claude/ added / tracked in git}
 
 Git Strategy: {strategy}
 ├─ Main branch: {main}

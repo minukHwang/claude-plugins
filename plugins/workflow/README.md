@@ -4,7 +4,11 @@ Project workflow configuration for Git strategy, Jira integration, and Notion sy
 
 ## Version
 
-1.2.2
+1.3.0
+
+## What's New in v1.3.0
+
+- **`.gitignore` configuration**: `/workflow:init` now asks whether to add `.claude/` to `.gitignore`
 
 ## Commands
 
