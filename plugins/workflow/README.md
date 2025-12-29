@@ -4,7 +4,11 @@ Project workflow configuration for Git strategy, Jira integration, and Notion sy
 
 ## Version
 
-1.3.0
+1.4.0
+
+## What's New in v1.4.0
+
+- **Carryover field**: TODO DB now includes Carryover number field for tracking postponements
 
 ## What's New in v1.3.0
 
@@ -40,6 +44,7 @@ Project workflow configuration for Git strategy, Jira integration, and Notion sy
 - Connect [CLAUDE] TODO DB for task tracking
 - **Type field**: Epic/Story/Task/Bug/Todo select (v1.2.0)
 - **Period field**: Date range (start → end) for calendar view (v1.2.1)
+- **Carryover field**: Number tracking postponement count (v1.2.2)
 - **TODO DB with Epic field**: Links Jira Epic info to Notion (v1.1.0)
 - **PR field**: Rich text format `[#number](url)` (v1.2.0)
 - TODO DB stored in user-level config (`~/.claude/notion.json`)

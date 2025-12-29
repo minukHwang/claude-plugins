@@ -210,7 +210,8 @@ properties: {
       ]
     }
   },
-  "Period": { "date": {} }
+  "Period": { "date": {} },
+  "Carryover": { "number": {} }
 }
 ```
 

@@ -91,10 +91,12 @@ From Step 2, display items where Status != Done:
 ```
 Incomplete Items (since last planning):
 
-- [ ] API development (2 days ago)
+- [ ] API development (2 days ago) 🔄 x2
 - [ ] Grocery shopping (2 days ago)
-- [ ] Bug fix (3 days ago)
+- [ ] Bug fix (3 days ago) 🔄 x1
 ```
+
+Note: 🔄 shows Carryover count (how many times postponed).
 
 ### 3.2 Select Items to Carry Over
 
@@ -183,6 +185,7 @@ mcp__notion__notion-create-pages:
 ### 5.2 Update Carryover Items
 
 Only update Period (for calendar view). Jira Start Date stays unchanged (historical).
+Increment Carryover count (+1) each time item is carried over.
 
 ```
 mcp__notion__notion-update-page:
@@ -192,7 +195,8 @@ mcp__notion__notion-update-page:
     "properties": {
       "date:Period:start": "{today}T{start_time}",
       "date:Period:end": "{today}T{end_time}",
-      "date:Period:is_datetime": 1
+      "date:Period:is_datetime": 1,
+      "Carryover": {current_carryover + 1}
     }
   }
 ```
@@ -237,3 +241,4 @@ Check your schedule in Notion Calendar!
 4. AskUserQuestion options max 4
 5. Period = today's schedule (changes on carryover)
 6. Jira Start Date = when work began (never changes on carryover)
+7. Carryover field (number) tracks postponement count

@@ -4,7 +4,12 @@ Morning daily planning with Notion TODO and Jira integration.
 
 ## Version
 
-1.0.0
+1.1.0
+
+## What's New in v1.1.0
+
+- **Carryover tracking**: Shows 🔄 indicator with postponement count
+- Items carried over increment Carryover field (+1)
 
 ## Prerequisites
 
@@ -39,8 +44,10 @@ Morning daily planning with Notion TODO and Jira integration.
 ### Carryover
 
 - Lists incomplete tasks since last planning
+- Shows 🔄 indicator with postponement count
 - Multi-select items to bring to today
 - Updates Period to today
+- Increments Carryover count (+1)
 
 ### Time Blocking
 
@@ -68,6 +75,7 @@ Uses existing TODO database from `/workflow:init`.
 | Type | select | Todo/Task/Story/Bug/Epic |
 | Status | status | Todo/In Progress/Done |
 | Period | date | Start → End (datetime for calendar) |
+| Carryover | number | Postponement count (0 = never postponed) |
 
 ## Configuration
 
@@ -98,7 +106,7 @@ Yesterday Review:
     |
     v
 Incomplete items:
-- [ ] Bug fix (yesterday)
+- [ ] Bug fix (yesterday) 🔄 x1
 → Select to carry over
     |
     v
