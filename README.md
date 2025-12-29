@@ -11,6 +11,7 @@ A Claude Code plugin marketplace for development workflow automation.
 - [Plugins](#plugins)
   - [workflow](#workflow) - Project workflow configuration
   - [jira](#jira) - Jira issue management
+  - [daily](#daily) - Daily planning (NEW)
   - [git](#git) - Git workflow automation
   - [react](#react) - React/Next.js development
   - [readme](#readme) - Documentation generation
@@ -32,6 +33,7 @@ A Claude Code plugin marketplace for development workflow automation.
 # 2. Install plugins you need
 /plugin install workflow@minukHwang-plugins  # NEW: Project config
 /plugin install jira@minukHwang-plugins      # NEW: Jira integration
+/plugin install daily@minukHwang-plugins     # NEW: Daily planning
 /plugin install git@minukHwang-plugins
 /plugin install react@minukHwang-plugins
 /plugin install readme@minukHwang-plugins
@@ -103,6 +105,28 @@ Jira issue management and Git integration automation.
 ⚠️ Requires [Atlassian MCP](#atlassian-mcp-setup) and `/workflow:init`
 
 📄 [Full documentation](./plugins/jira/README.md)
+
+---
+
+### daily
+
+Morning daily planning with Notion TODO and Jira integration.
+
+| Command | Description |
+|---------|-------------|
+| `/daily:plan` | Morning daily planning |
+
+**Features:**
+- Ask today's tasks (free input)
+- Review yesterday's completion
+- Carry over incomplete tasks
+- AI time blocking recommendation
+- Save to Notion TODO with Period (Calendar view)
+- Optional Jira sync at the end
+
+⚠️ Requires [Notion MCP](#notion-mcp-setup) and `/workflow:init`
+
+📄 [Full documentation](./plugins/daily/README.md)
 
 ---
 

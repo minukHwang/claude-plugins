@@ -1,0 +1,11 @@
+{
+  "name": "daily",
+  "version": "1.0.0",
+  "description": "Daily planning with Notion TODO and Jira integration",
+  "author": {
+    "name": "Minuk Hwang",
+    "email": "minuk.lucas.hwang@gmail.com"
+  },
+  "homepage": "https://github.com/minukHwang/claude-plugins",
+  "license": "MIT"
+}
