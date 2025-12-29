@@ -8,6 +8,24 @@ Plan your day in the morning. Review yesterday, carry over incomplete tasks, and
 
 ## Step 0: Load Configuration
 
+### 0.0 Get Current Date and Time
+
+```bash
+date "+%Y-%m-%d %H:%M %A"
+```
+
+Example output: `2025-01-15 09:30 Wednesday`
+
+Store:
+- `{today}` - Current date (YYYY-MM-DD)
+- `{current_time}` - Current time (HH:MM)
+- `{day_of_week}` - Day of week
+
+Use this to:
+- Filter items since last planning
+- Suggest realistic time blocks (skip past hours)
+- Show remaining hours in the day
+
 ### 0.1 Workflow Config
 
 ```bash
