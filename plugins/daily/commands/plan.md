@@ -11,7 +11,7 @@ Plan your day in the morning. Review yesterday, carry over incomplete tasks, and
 ### 0.0 Get Current Date and Time
 
 ```bash
-date "+%Y-%m-%d %H:%M %A"
+TZ=Asia/Seoul date "+%Y-%m-%d %H:%M %A"
 ```
 
 Example output: `2025-01-15 09:30 Wednesday`
@@ -182,6 +182,8 @@ mcp__notion__notion-create-pages:
 
 ### 5.2 Update Carryover Items
 
+Only update Period (for calendar view). Jira Start Date stays unchanged (historical).
+
 ```
 mcp__notion__notion-update-page:
   data: {
@@ -194,6 +196,8 @@ mcp__notion__notion-update-page:
     }
   }
 ```
+
+Note: `/jira:sync` syncs Status but preserves original Jira Start Date.
 
 ## Step 6: Jira Sync
 
@@ -231,3 +235,5 @@ Check your schedule in Notion Calendar!
 2. Check notion.enabled=true in workflow.json
 3. Period saved as datetime (shows time in Calendar)
 4. AskUserQuestion options max 4
+5. Period = today's schedule (changes on carryover)
+6. Jira Start Date = when work began (never changes on carryover)
