@@ -118,8 +118,8 @@ Morning daily planning with Notion TODO and Jira integration.
 
 **Features:**
 - Ask today's tasks (free input)
-- Review yesterday's completion
-- Carry over incomplete tasks
+- Review since last planning (completion check)
+- Carry over incomplete tasks with 🔄 tracking (v1.1.0)
 - AI time blocking recommendation
 - Save to Notion TODO with Period (Calendar view)
 - Optional Jira sync at the end
