@@ -268,6 +268,55 @@ Update with BLOG DB info and write:
 
 **Note:** Merge with existing config (preserve todo, til fields if present)
 
+## Step 5.6: Validate & Add Tech Stack Options (CRITICAL)
+
+**⚠️ 반드시 블로그 생성 전에 수행! 이 단계를 건너뛰면 에러 발생**
+
+### 5.6.1 Get Current DB Options
+
+```
+mcp__notion__notion-fetch
+id: {blog.pageId from ~/.claude/notion.json}
+```
+
+→ 응답에서 `기술 스택` 옵션 목록 추출
+
+### 5.6.2 Compare with Detected Tech
+
+```
+감지된 기술: [React, Bash, Lighthouse, TypeScript]
+DB 옵션: [React, TypeScript, Next.js, ...]
+
+없는 기술: [Bash, Lighthouse]
+```
+
+### 5.6.3 Add Missing Options (if any)
+
+없는 기술이 있으면 DB에 추가:
+
+```
+mcp__notion__notion-update-database
+database_id: {blog.pageId}
+properties: {
+  "기술 스택": {
+    "type": "multi_select",
+    "multi_select": {
+      "options": [
+        ...기존 옵션들,
+        {"name": "Bash", "color": "default"},
+        {"name": "Lighthouse", "color": "default"}
+      ]
+    }
+  }
+}
+```
+
+**Note:** 기존 옵션 + 새 옵션 모두 포함해야 함 (덮어쓰기됨)
+
+### 5.6.4 Continue to Step 6
+
+옵션 추가 완료 후 블로그 생성 진행
+
 ## Step 6: Create Blog Entry
 
 ### Page Properties

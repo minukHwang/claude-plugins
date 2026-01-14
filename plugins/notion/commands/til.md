@@ -333,6 +333,55 @@ Example paths:
 - `DECISIONS.md` - Decision log
 - Any relevant documentation file
 
+## Step 4.6: Validate & Add Tech Stack Options (CRITICAL)
+
+**⚠️ 반드시 TIL 생성 전에 수행! 이 단계를 건너뛰면 에러 발생**
+
+### 4.6.1 Get Current DB Options
+
+```
+mcp__notion__notion-fetch
+id: {til.pageId from ~/.claude/notion.json}
+```
+
+→ 응답에서 `기술 스택` 옵션 목록 추출
+
+### 4.6.2 Compare with Detected Tech
+
+```
+감지된 기술: [React, Bash, Lighthouse, TypeScript]
+DB 옵션: [React, TypeScript, Next.js, ...]
+
+없는 기술: [Bash, Lighthouse]
+```
+
+### 4.6.3 Add Missing Options (if any)
+
+없는 기술이 있으면 DB에 추가:
+
+```
+mcp__notion__notion-update-database
+database_id: {til.pageId}
+properties: {
+  "기술 스택": {
+    "type": "multi_select",
+    "multi_select": {
+      "options": [
+        ...기존 옵션들,
+        {"name": "Bash", "color": "default"},
+        {"name": "Lighthouse", "color": "default"}
+      ]
+    }
+  }
+}
+```
+
+**Note:** 기존 옵션 + 새 옵션 모두 포함해야 함 (덮어쓰기됨)
+
+### 4.6.4 Continue to Step 5
+
+옵션 추가 완료 후 TIL 생성 진행
+
 ## Step 5: Create TIL Entry (Korean)
 
 ### Page Properties
